@@ -1,0 +1,447 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mostafa Unlocker Hub</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+    header {
+      width: 100%;
+      padding: 20px;
+      background-color: #1f1f1f;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    header img {
+      max-height: 120px;
+    }
+    h1 {
+      margin: 10px 0 5px;
+      font-size: 2em;
+    }
+    h2 {
+      font-weight: normal;
+      font-size: 1.2em;
+      color: #bbbbbb;
+    }
+    section {
+      max-width: 800px;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .contact, .live-tools, .coming-soon, .downloads {
+      margin-top: 20px;
+      background: #1f1f1f;
+      padding: 20px;
+      border-radius: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .contact h3, .live-tools h3, .coming-soon h3, .downloads h3 {
+      margin-bottom: 10px;
+    }
+    a {
+      display: block;
+      color: #4fc3f7;
+      text-decoration: none;
+      margin: 5px 0;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    .live-tools a.button, .downloads a.button {
+      display: inline-block;
+      background: #2e7d32;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin: 5px 5px 10px 0;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    /* Tabs styling */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      width: 100%;
+    }
+    .tab-btn {
+      padding: 10px 20px;
+      background-color: #1f1f1f;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px 5px 0 0;
+      margin: 0 5px;
+    }
+    .tab-btn.active {
+      background-color: #2e7d32;
+    }
+    .tab-content {
+      display: none;
+      width: 100%;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Services page styling */
+    .services-page {
+      direction: rtl;
+      text-align: right;
+    }
+    .services-page h1 {
+      color: #00d9ff;
+      margin-bottom: 10px;
+    }
+    .services-page p {
+      font-size: 18px;
+    }
+    .services-page table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse;
+    }
+    .services-page th, .services-page td {
+      border: 1px solid #444;
+      padding: 12px;
+      font-size: 16px;
+    }
+    .services-page th {
+      background-color: #1f1f1f;
+    }
+    .services-page tr:nth-child(even) {
+      background-color: #1a1a1a;
+    }
+    .services-page .contact {
+      margin-top: 40px;
+      font-size: 18px;
+    }
+    .services-page a {
+      color: #00d9ff;
+      text-decoration: none;
+    }
+    .services-page a:hover {
+      text-decoration: underline;
+    }
+    .services-page .notice {
+      margin-top: 40px;
+      font-size: 15px;
+      color: #bbbbbb;
+      border-top: 1px solid #333;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Mostafa Unlocker Logo" />
+    <button id="language-toggle" style="background: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">English / العربية</button>
+    <h1 id="main-title">Mostafa Unlocker Hub</h1>
+    <h2 id="main-subtitle">Your All-in-One Software Solution</h2>
+  </header>
+  
+  <div class="tabs">
+    <button class="tab-btn active" onclick="openTab('home')" id="home-tab">Home</button>
+    <button class="tab-btn" onclick="openTab('services')" id="services-tab">Services</button>
+  </div>
+  
+  <div id="home" class="tab-content active">
+    <section>
+      <p id="welcome-text">
+        Welcome to Mostafa Unlocker Hub -- your trusted source for software solutions, tools, scripts, and online services for iPhone and Android devices.
+      </p>
+
+      <div class="live-tools">
+        <h3 id="online-tools-title">🧪 Online Tools (Direct from Website)</h3>
+        <a class="button" href="intent://com.google.android.youtube/#Intent;scheme=android-app;end" target="_blank" id="btn-youtube">📺 Open YouTube</a>
+        <a class="button" href="intent://com.android.settings/#Intent;scheme=android-app;end" target="_blank" id="btn-settings">⚙️ Open Settings</a>
+        <a class="button" href="intent://com.sec.android.app.samsungapps/#Intent;scheme=android-app;end" target="_blank" id="btn-galaxy">🛒 Open Galaxy Store</a>
+        <a class="button" href="intent://com.android.chrome/#Intent;scheme=android-app;end" target="_blank" id="btn-chrome">🌐 Open Chrome Browser</a>
+        <a class="button" href="intent://com.google.android.gm/#Intent;scheme=android-app;end" target="_blank" id="btn-gmail">📧 Open Gmail</a>
+        <a class="button" href="intent://android.settings.SECURITY_SETTINGS/#Intent;scheme=android-app;end" target="_blank" id="btn-pincode">🔑 Open Pin Code (Smart Lock)</a>
+      </div>
+
+      <div class="downloads">
+        <h3 id="downloads-title">⬇️ Downloads</h3>
+        <ul>
+          <li><a class="button" href="#" id="btn-unlocker">📥 Mostafa Unlocker v1.0 Beta</a></li>
+          <li><a class="button" href="#" id="btn-scripts">📚 Scripts & Tools Collection (ZIP)</a></li>
+        </ul>
+      </div>
+
+      <div class="coming-soon">
+        <h3 id="coming-soon-title">🚧 Coming Soon in Mostafa Unlocker Tool</h3>
+        <ul>
+          <li id="feature-1">📱 iPhone Ramdisk (A7-A11)</li>
+          <li id="feature-2">🔓 FRP Removal for Android (ADB/FASTBOOT/SPD)</li>
+          <li id="feature-3">🛠️ Samsung T509 MDM Unlock</li>
+          <li id="feature-4">📂 Flash Custom Partitions (userdata, etc.)</li>
+          <li id="feature-5">☁️ iCloud Bypass (Passcode / Hello)</li>
+          <li id="feature-6">📶 Network Unlock / Fix Handshake (SPD Devices)</li>
+          <li id="feature-7">🚫 Remove Ads / Viruses from Android</li>
+          <li id="feature-8">🧠 Backup & Restore iPhone Passcode Data</li>
+          <li id="feature-9">📴 Skip Setup / Disable OTA Updates</li>
+        </ul>
+      </div>
+
+      <div class="contact">
+        <h3 id="contact-title">📞 Contact</h3>
+        <a href="https://wa.me/201129729147" target="_blank" id="link-whatsapp">📱 WhatsApp</a>
+        <a href="https://t.me/MostafaUnlocker" target="_blank" id="link-telegram">💬 Telegram</a>
+        <a href="https://www.facebook.com/share/1AyBCdPEDM/" target="_blank" id="link-facebook">🌐 Facebook</a>
+        <a href="https://www.instagram.com/far0k6799/profilecard/?igsh=c2gxb3gyM25xOW1l" target="_blank" id="link-instagram">📸 Instagram</a>
+        <p>📞 +20 112 972 9147</p>
+      </div>
+    </section>
+  </div>
+  
+  <div id="services" class="tab-content services-page">
+    <section>
+      <h1 id="services-main-title">📱 خدمات مصطفى - Mostafa Unlocker Hub</h1>
+      <p id="services-description">جميع خدمات السوفت وير متاحة أونلاين أو حضوري حسب الاتفاق، بدقة واحترافية.</p>
+
+      <table>
+        <tr>
+          <th id="service-header">الخدمة</th>
+          <th id="description-header">الوصف</th>
+        </tr>
+
+        <tr>
+          <td id="icloud-bypass-title">تخطي iCloud - iPhone</td>
+          <td id="icloud-bypass-desc">
+            ✅ مدعوم من <strong>iPhone 6s حتى iPhone 16 Pro Max</strong><br><br>
+            - <strong>6s إلى X:</strong> تخطي بشبكة (Passcode / Hello)<br>
+            - <strong>XS إلى 16 Pro Max:</strong> تخطي بدون شبكة (Hello فقط)<br><br>
+            ⚠️ تأكد من الدعم قبل تنفيذ العملية، التواصل معنا لمعرفة هل الجهاز مدعوم حالياً أم لا، وهل التخطي متاح بشبكة أو بدون أو موقوف.
+          </td>
+        </tr>
+
+        <tr>
+          <td id="official-icloud-title">فك iCloud رسمي</td>
+          <td id="official-icloud-desc">متوفر فك iCloud رسمي للأجهزة المؤهلة عبر سيرفر Apple، حسب الشروط.</td>
+        </tr>
+
+        <tr>
+          <td id="mdm-removal-title">إزالة MDM - تابلت المدارس</td>
+          <td id="mdm-removal-desc">
+            ✅ إزالة MDM بالكامل للتابلتات التالية:<br><br>
+            - Galaxy Tab A9+: <strong>SM-X216B</strong><br>
+            - Galaxy Tab A7 (2024): <strong>SM-T509</strong><br>
+            - Galaxy Tab A7 LTE: <strong>SM-T505N</strong><br>
+            - Galaxy Tab A 2016: <strong>SM-T585</strong> (القديم بزرار الهوم)
+          </td>
+        </tr>
+
+        <tr>
+          <td id="frp-removal-title">إزالة FRP</td>
+          <td id="frp-removal-desc">
+            متاح إزالة FRP لجميع الشركات: Samsung، Huawei، Xiaomi، Oppo، Vivo، Realme، Infinix، Tecno، Nokia، وغيرها.
+          </td>
+        </tr>
+
+        <tr>
+          <td id="imei-repair-title">إصلاح IMEI / Serial</td>
+          <td id="imei-repair-desc">
+            إصلاح الرقم التسلسلي أو IMEI في الأجهزة المدعومة (مثل أجهزة MTK و SPD) في حالة وجود عطل أو فقد في الرقم.<br>
+            ⚠️ لا يتم تغيير الهوية الأصلية للجهاز.
+          </td>
+        </tr>
+      </table>
+
+      <div class="contact">
+        <p id="services-contact-text">📞 للتواصل وطلب الخدمة:</p>
+        <p><a href="https://wa.me/201129729147" target="_blank" id="services-whatsapp">راسلنا على واتساب</a></p>
+        <p><a href="https://t.me/MostafaUnlocker" target="_blank" id="services-telegram">تليجرام</a> | <a href="https://www.facebook.com/share/1AyBCdPEDM/" target="_blank" id="services-facebook">فيسبوك</a> | <a href="https://www.instagram.com/far0k6799" target="_blank" id="services-instagram">إنستجرام</a></p>
+        <p id="services-pricing">💬 الأسعار حسب نوع الجهاز ونوع الخدمة، يُفضل التواصل للتأكيد أولاً.</p>
+      </div>
+
+      <div class="notice">
+        <span id="legal-notice">⚠️ <strong>تنويه قانوني:</strong><br>
+        جميع الخدمات المقدمة مخصصة فقط للأجهزة المملوكة شرعيًا من قبل العميل، ولا يتم التعامل مع أي أجهزة مجهولة الهوية أو مخالفة للقوانين.<br>
+        نحن نلتزم بالقوانين الدولية والمحلية في تقديم خدمات السوفت وير، وأي إساءة استخدام تقع على مسؤولية المستخدم.</span>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function openTab(tabName) {
+      // Hide all tab contents
+      const tabContents = document.getElementsByClassName('tab-content');
+      for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove('active');
+      }
+      
+      // Remove active class from all buttons
+      const tabButtons = document.getElementsByClassName('tab-btn');
+      for (let i = 0; i < tabButtons.length; i++) {
+        tabButtons[i].classList.remove('active');
+      }
+      
+      // Show the selected tab and mark its button as active
+      document.getElementById(tabName).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const languageToggle = document.getElementById('language-toggle');
+      let isEnglish = true;
+
+      const translations = {
+        en: {
+          'main-title': 'Mostafa Unlocker Hub',
+          'main-subtitle': 'Your All-in-One Software Solution',
+          'home-tab': 'Home',
+          'services-tab': 'Services',
+          'welcome-text': 'Welcome to Mostafa Unlocker Hub -- your trusted source for software solutions, tools, scripts, and online services for iPhone and Android devices.',
+          'online-tools-title': '🧪 Online Tools (Direct from Website)',
+          'btn-youtube': '📺 Open YouTube',
+          'btn-settings': '⚙️ Open Settings',
+          'btn-galaxy': '🛒 Open Galaxy Store',
+          'btn-chrome': '🌐 Open Chrome Browser',
+          'btn-gmail': '📧 Open Gmail',
+          'btn-pincode': '🔑 Open Pin Code (Smart Lock)',
+          'downloads-title': '⬇️ Downloads',
+          'btn-unlocker': '📥 Mostafa Unlocker v1.0 Beta',
+          'btn-scripts': '📚 Scripts & Tools Collection (ZIP)',
+          'coming-soon-title': '🚧 Coming Soon in Mostafa Unlocker Tool',
+          'feature-1': '📱 iPhone Ramdisk (A7-A11)',
+          'feature-2': '🔓 FRP Removal for Android (ADB/FASTBOOT/SPD)',
+          'feature-3': '🛠️ Samsung T509 MDM Unlock',
+          'feature-4': '📂 Flash Custom Partitions (userdata, etc.)',
+          'feature-5': '☁️ iCloud Bypass (Passcode / Hello)',
+          'feature-6': '📶 Network Unlock / Fix Handshake (SPD Devices)',
+          'feature-7': '🚫 Remove Ads / Viruses from Android',
+          'feature-8': '🧠 Backup & Restore iPhone Passcode Data',
+          'feature-9': '📴 Skip Setup / Disable OTA Updates',
+          'contact-title': '📞 Contact',
+          'link-whatsapp': '📱 WhatsApp',
+          'link-telegram': '💬 Telegram',
+          'link-facebook': '🌐 Facebook',
+          'link-instagram': '📸 Instagram',
+          'services-main-title': '📱 Mostafa Services - Mostafa Unlocker Hub',
+          'services-description': 'All software services are available online or in-person as agreed, with precision and professionalism.',
+          'service-header': 'Service',
+          'description-header': 'Description',
+          'icloud-bypass-title': 'iCloud Bypass - iPhone',
+          'icloud-bypass-desc': '✅ Supported from <strong>iPhone 6s to iPhone 16 Pro Max</strong><br><br>- <strong>6s to X:</strong> Bypass with network (Passcode / Hello)<br>- <strong>XS to 16 Pro Max:</strong> Bypass without network (Hello only)<br><br>⚠️ Make sure of support before performing the operation, contact us to know if the device is currently supported or not, and whether the bypass is available with network or without or stopped.',
+          'official-icloud-title': 'Official iCloud Unlock',
+          'official-icloud-desc': 'Official iCloud unlock available for eligible devices via Apple server, according to conditions.',
+          'mdm-removal-title': 'MDM Removal - School Tablets',
+          'mdm-removal-desc': '✅ Complete MDM removal for the following tablets:<br><br>- Galaxy Tab A9+: <strong>SM-X216B</strong><br>- Galaxy Tab A7 (2024): <strong>SM-T509</strong><br>- Galaxy Tab A7 LTE: <strong>SM-T505N</strong><br>- Galaxy Tab A 2016: <strong>SM-T585</strong> (old with home button)',
+          'frp-removal-title': 'FRP Removal',
+          'frp-removal-desc': 'FRP removal available for all brands: Samsung, Huawei, Xiaomi, Oppo, Vivo, Realme, Infinix, Tecno, Nokia, and others.',
+          'imei-repair-title': 'IMEI / Serial Repair',
+          'imei-repair-desc': 'Repair serial number or IMEI in supported devices (such as MTK and SPD devices) in case of malfunction or loss of number.<br>⚠️ The original identity of the device is not changed.',
+          'services-contact-text': '📞 For contact and service request:',
+          'services-whatsapp': 'Message us on WhatsApp',
+          'services-telegram': 'Telegram',
+          'services-facebook': 'Facebook',
+          'services-instagram': 'Instagram',
+          'services-pricing': '💬 Prices according to device type and service type, it is preferable to contact for confirmation first.',
+          'legal-notice': '⚠️ <strong>Legal Notice:</strong><br>All services provided are intended only for devices legally owned by the client, and we do not deal with any devices of unknown identity or violating laws.<br>We comply with international and local laws in providing software services, and any misuse is the responsibility of the user.'
+        },
+        ar: {
+          'main-title': 'مركز مصطفى لفك القفل',
+          'main-subtitle': 'الحل البرمجي الشامل',
+          'home-tab': 'الرئيسية',
+          'services-tab': 'الخدمات',
+          'welcome-text': 'مرحبًا بك في مركز مصطفى لفك القفل -- المكان الموثوق لحلول السوفت وير، الأدوات، السكربتات، والخدمات المباشرة لأجهزة iPhone و Android.',
+          'online-tools-title': '🧪 أدوات عبر الإنترنت (مباشرة من الموقع)',
+          'btn-youtube': '📺 فتح يوتيوب',
+          'btn-settings': '⚙️ فتح الإعدادات',
+          'btn-galaxy': '🛒 فتح متجر Galaxy',
+          'btn-chrome': '🌐 فتح متصفح كروم',
+          'btn-gmail': '📧 فتح Gmail',
+          'btn-pincode': '🔑 فتح رمز PIN (القفل الذكي)',
+          'downloads-title': '⬇️ التنزيلات',
+          'btn-unlocker': '📥 مصطفى أونلوكر v1.0 بيتا',
+          'btn-scripts': '📚 مجموعة البرامج النصية والأدوات (ZIP)',
+          'coming-soon-title': '🚧 قريباً في أداة مصطفى لفك القفل',
+          'feature-1': '📱 iPhone Ramdisk (A7-A11)',
+          'feature-2': '🔓 إزالة FRP لنظام Android (ADB/FASTBOOT/SPD)',
+          'feature-3': '🛠️ فتح MDM لجهاز Samsung T509',
+          'feature-4': '📂 فلاش أقسام مخصصة (بيانات المستخدم، إلخ.)',
+          'feature-5': '☁️ تجاوز iCloud (رمز المرور / مرحبًا)',
+          'feature-6': '📶 فتح الشبكة / إصلاح المصافحة (أجهزة SPD)',
+          'feature-7': '🚫 إزالة الإعلانات / الفيروسات من Android',
+          'feature-8': '🧠 النسخ الاحتياطي واستعادة بيانات رمز مرور iPhone',
+          'feature-9': '📴 تخطي الإعداد / تعطيل تحديثات OTA',
+          'contact-title': '📞 تواصل معنا',
+          'link-whatsapp': '📱 واتساب',
+          'link-telegram': '💬 تيليجرام',
+          'link-facebook': '🌐 فيسبوك',
+          'link-instagram': '📸 انستغرام',
+          'services-main-title': '📱 خدمات مصطفى - Mostafa Unlocker Hub',
+          'services-description': 'جميع خدمات السوفت وير متاحة أونلاين أو حضوري حسب الاتفاق، بدقة واحترافية.',
+          'service-header': 'الخدمة',
+          'description-header': 'الوصف',
+          'icloud-bypass-title': 'تخطي iCloud - iPhone',
+          'icloud-bypass-desc': '✅ مدعوم من <strong>iPhone 6s حتى iPhone 16 Pro Max</strong><br><br>- <strong>6s إلى X:</strong> تخطي بشبكة (Passcode / Hello)<br>- <strong>XS إلى 16 Pro Max:</strong> تخطي بدون شبكة (Hello فقط)<br><br>⚠️ تأكد من الدعم قبل تنفيذ العملية، التواصل معنا لمعرفة هل الجهاز مدعوم حالياً أم لا، وهل التخطي متاح بشبكة أو بدون أو موقوف.',
+          'official-icloud-title': 'فك iCloud رسمي',
+          'official-icloud-desc': 'متوفر فك iCloud رسمي للأجهزة المؤهلة عبر سيرفر Apple، حسب الشروط.',
+          'mdm-removal-title': 'إزالة MDM - تابلت المدارس',
+          'mdm-removal-desc': '✅ إزالة MDM بالكامل للتابلتات التالية:<br><br>- Galaxy Tab A9+: <strong>SM-X216B</strong><br>- Galaxy Tab A7 (2024): <strong>SM-T509</strong><br>- Galaxy Tab A7 LTE: <strong>SM-T505N</strong><br>- Galaxy Tab A 2016: <strong>SM-T585</strong> (القديم بزرار الهوم)',
+          'frp-removal-title': 'إزالة FRP',
+          'frp-removal-desc': 'متاح إزالة FRP لجميع الشركات: Samsung، Huawei، Xiaomi، Oppo، Vivo، Realme، Infinix، Tecno، Nokia، وغيرها.',
+          'imei-repair-title': 'إصلاح IMEI / Serial',
+          'imei-repair-desc': 'إصلاح الرقم التسلسلي أو IMEI في الأجهزة المدعومة (مثل أجهزة MTK و SPD) في حالة وجود عطل أو فقد في الرقم.<br>⚠️ لا يتم تغيير الهوية الأصلية للجهاز.',
+          'services-contact-text': '📞 للتواصل وطلب الخدمة:',
+          'services-whatsapp': 'راسلنا على واتساب',
+          'services-telegram': 'تليجرام',
+          'services-facebook': 'فيسبوك',
+          'services-instagram': 'إنستجرام',
+          'services-pricing': '💬 الأسعار حسب نوع الجهاز ونوع الخدمة، يُفضل التواصل للتأكيد أولاً.',
+          'legal-notice': '⚠️ <strong>تنويه قانوني:</strong><br>جميع الخدمات المقدمة مخصصة فقط للأجهزة المملوكة شرعيًا من قبل العميل، ولا يتم التعامل مع أي أجهزة مجهولة الهوية أو مخالفة للقوانين.<br>نحن نلتزم بالقوانين الدولية والمحلية في تقديم خدمات السوفت وير، وأي إساءة استخدام تقع على مسؤولية المستخدم.'
+        }
+      };
+
+      const updateContent = () => {
+        const lang = isEnglish ? 'en' : 'ar';
+        const t = translations[lang];
+
+        // Update all elements with their IDs
+        Object.keys(t).forEach(id => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.innerHTML = t[id];
+          }
+        });
+
+        // Update language toggle button
+        languageToggle.textContent = isEnglish ? 'العربية' : 'English';
+        
+        // Update page direction for Arabic
+        document.documentElement.dir = isEnglish ? 'ltr' : 'rtl';
+      };
+
+      languageToggle.addEventListener('click', () => {
+        isEnglish = !isEnglish;
+        updateContent();
+      });
+
+      // Initial content load
+      updateContent();
+    });
+  </script>
+</body>
+</html>
