@@ -68,8 +68,8 @@
     }
     .live-tools a.button, .downloads a.button {
       display: inline-block;
-      background: #3efff2c8;
-      color: white;
+      background: #3efff2c8; /* Light cyan background */
+      color: #000000; /* Black text color */
       padding: 10px 15px;
       border-radius: 6px;
       margin: 5px 5px 10px 0;
@@ -118,7 +118,8 @@
       margin-bottom: 10px;
     }
     .tab-btn.active {
-      background-color:  #3efff2c8;
+      background-color: #3efff2c8; /* Light cyan background for active tab */
+      color: #000000; /* Black text color for active tab */
     }
     .tab-content {
       display: none;
@@ -188,7 +189,7 @@
       <button class="tab-btn active" onclick="openTab('home', event)" id="home-tab">Home</button>
       <button class="tab-btn" onclick="openTab('services', event)" id="services-tab">Services</button>
     </div>
-    <button id="language-toggle" style="background: #3efff2c8; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">English / العربية</button>    
+    <button id="language-toggle" style="background: #3efff2c8; color: #000000; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">English / العربية</button>    
   </div>
   
   <div id="home" class="tab-content active">
