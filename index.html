@@ -67,7 +67,7 @@
     }
     .live-tools a.button, .downloads a.button {
       display: inline-block;
-      background: #2e7d32;
+      background: #3efff2c8;
       color: white;
       padding: 10px 15px;
       border-radius: 6px;
@@ -79,13 +79,15 @@
     /* Tabs styling */
     .tabs {
       display: flex;
-      justify-content: center;
+      flex-direction: column; /* Stack items vertically */
+      align-items: center;    /* Center items horizontally */
       margin: 20px 0;
       width: 100%;
     }
     .tab-btn {
       padding: 10px 20px;
       background-color: #1f1f1f;
+      flex-grow: 1; /* Make tab buttons share space */
       border: none;
       color: white;
       cursor: pointer;
@@ -93,8 +95,15 @@
       border-radius: 5px 5px 0 0;
       margin: 0 5px;
     }
+    .tab-buttons-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      max-width: 400px; /* Adjust as needed */
+      margin-bottom: 10px;
+    }
     .tab-btn.active {
-      background-color: #2e7d32;
+      background-color:  #3efff2c8;
     }
     .tab-content {
       display: none;
@@ -155,14 +164,16 @@
 <body>
   <header>
     <img src="logo.png" alt="Mostafa Unlocker Logo" />
-    <button id="language-toggle" style="background: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">English / العربية</button>
     <h1 id="main-title">Mostafa Unlocker Hub</h1>
     <h2 id="main-subtitle">Your All-in-One Software Solution</h2>
   </header>
   
   <div class="tabs">
-    <button class="tab-btn active" onclick="openTab('home')" id="home-tab">Home</button>
-    <button class="tab-btn" onclick="openTab('services')" id="services-tab">Services</button>
+    <div class="tab-buttons-container">
+      <button class="tab-btn active" onclick="openTab('home')" id="home-tab">Home</button>
+      <button class="tab-btn" onclick="openTab('services')" id="services-tab">Services</button>
+    </div>
+    <button id="language-toggle" style="background: #3efff2c8; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">English / العربية</button>    
   </div>
   
   <div id="home" class="tab-content active">
@@ -179,13 +190,59 @@
         <a class="button" href="intent://com.android.chrome/#Intent;scheme=android-app;end" target="_blank" id="btn-chrome">🌐 Open Chrome Browser</a>
         <a class="button" href="intent://com.google.android.gm/#Intent;scheme=android-app;end" target="_blank" id="btn-gmail">📧 Open Gmail</a>
         <a class="button" href="intent://com.google.android.gms/#Intent;scheme=promote_smartlock_scheme;end" target="_blank" id="btn-pincode">🔑 Open Pin Code (Smart Lock)</a>
+        <a class="button" href="intent://com.secuso.privacyFriendlyCodeScanner.QrScanActivity/#Intent;scheme=android-app;end" target="_blank" id="btn-open-qr-scanner"> ⛶ Open QR scanner</a>
+        <a class="button" href="intent://com.sec.android.app.myfiles/#Intent;scheme=android-app;end" target="_blank" id="btn-my-files">📁 Open My Files (Samsung)</a>
+        <a class="button" href="intent://com.google.android.apps.maps/#Intent;scheme=android-app;end" target="_blank" id="btn-maps">📍 Open Maps</a>
+        <a class="button" href="intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end" target="_blank" id="btn-accessibility">♿ Accessibility Settings</a>
+        <a class="button" href="intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;data=package:com.google.android.gms;end" target="_blank" id="btn-play-services">🔧 Google Play Services</a>
+        <a class="button" href="intent:#Intent;action=android.app.action.SET_NEW_PASSWORD;end" target="_blank" id="btn-set-lock">#️⃣ Set Screen Lock</a>
+        <a class="button" href="intent:#Intent;action=com.google.android.gsf.login.LOGIN_ACTIVITY;package=com.google.android.gsf.login;end" target="_blank" id="btn-google-login">👤 Google Login</a>
+        <a class="button" href="intent://com.google.android.googlequicksearchbox/#Intent;scheme=android-app;end" target="_blank" id="btn-google-search">🔍 Open Google Search</a>
+        <a class="button" href="intent://com.android.vending/#Intent;scheme=android-app;end" target="_blank" id="btn-play-store">▶️ Open Play Store</a>
+        <a class="button" href="intent://com.rrivenllc.shieldx/#Intent;scheme=android-app;end" target="_blank" id="btn-alliance-shield">🛡️ Open Alliance Shield</a>
+        <a class="button" href="samsungapps://ProductDetail/com.rrivenllc.shieldx" target="_blank" id="btn-alliance-shield-store">🛒 Alliance Shield (Galaxy Store)</a>
+        <a class="button" href="intent://com.samsung.android.dialer/#Intent;scheme=android-app;end" target="_blank" id="btn-samsung-dialer">📞 Open Samsung Dialer</a>
+        <a class="button" href="intent://com.sec.android.app.servicemodeapp/#Intent;scheme=promote_USBSettings_scheme;end" target="_blank" id="btn-usb-settings">🔌 Open USB Settings</a>
+        <a class="button" href="intent://com.activitymanager/#Intent;scheme=android-app;end" target="_blank" id="btn-activity-manager">🚀 Open Activity Manager</a>
+        <a class="button" href="samsungapps://ProductDetail/com.activitymanager" target="_blank" id="btn-activity-manager-store">🛒 Activity Manager (Galaxy Store)</a>
+        <a class="button" href="intent://org.aospstudio.files/#Intent;scheme=android-app;end" target="_blank" id="btn-files-shortcut">📂 Open Files Shortcut</a>
+        <a class="button" href="samsungapps://ProductDetail/org.aospstudio.files" target="_blank" id="btn-files-shortcut-store">🛒 Files Shortcut (Galaxy Store)</a>
+        <a class="button" href="intent://com.infinix.xshare/#Intent;scheme=android-app;end" target="_blank" id="btn-xshare">🔄 Open XShare</a>
+        <a class="button" href="samsungapps://ProductDetail/com.infinix.xshare" target="_blank" id="btn-xshare-store">🛒 XShare (Galaxy Store)</a>
+        <a class="button" href="tel:*#85#" target="_blank" id="btn-adb-tecno">#️⃣ Enable ADB (Tecno/Infinix)</a>
+        <a class="button" href="intent://com.school.optimize/#Intent;scheme=android-app;end" target="_blank" id="btn-package-disabler">🚫 Open Package Disabler</a>
+        <a class="button" href="intent://com.sec.android.app.popupcalculator/#Intent;scheme=android-app;end" target="_blank" id="btn-calculator">🧮 Open Calculator</a>
+        <a class="button" href="intent://com.sec.android.app.hwmoduletest/#Intent;scheme=android-app;end" target="_blank" id="btn-hw-test">🔬 HWModuleTest</a>
+        <a class="button" href="intent://com.cloudmdm.tools.cloud/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-mdm">☁️ Open Knox Cloud MDM</a>
+        <a class="button" href="intent://com.knox.verification.gettingstarted/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-verify">✔️ Knox Verification</a>
+        <a class="button" href="intent://com.sec.android.easyMover/#Intent;scheme=android-app;end" target="_blank" id="btn-smart-switch">🔄 Open Smart Switch</a>
+      </div>
       </div>
 
       <div class="downloads">
         <h3 id="downloads-title">⬇️ Downloads</h3>
         <ul>
+          <li id="main-downloads-title" style="font-weight: bold; margin-bottom: 10px;">Main Tools:</li>
           <li><a class="button" href="#" id="btn-unlocker">📥 Mostafa Unlocker v1.0 Beta</a></li>
           <li><a class="button" href="#" id="btn-scripts">📚 Scripts & Tools Collection (ZIP)</a></li>
+          <li id="apk-downloads-title" style="font-weight: bold; margin-top: 20px; margin-bottom: 10px;">APK & FRP Files:</li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/QRScanner.apk" target="_blank" id="btn-dl-qr">QR Scanner</a></li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Android_8-9_GAM.apk" target="_blank" id="btn-dl-gam89">Google Account Manager 8-9</a></li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/GoogleAccountManger5.apk" target="_blank" id="btn-dl-gam5">Google Account Manager 5</a></li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/GoogleAccountManger6.apk" target="_blank" id="btn-dl-gam6">Google Account Manager 6</a></li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/GooglePlayService.apk" target="_blank" id="btn-dl-gps">Google Play Service</a></li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Test_DPC.apk" target="_blank" id="btn-dl-dpc">Test DPC</a></li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/hushsms.apk" target="_blank" id="btn-dl-hush">HushSMS</a></li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/FRP_Android_7.apk" target="_blank" id="btn-dl-frp7">FRP Android 7</a></li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/FRP_addROM.apk" target="_blank" id="btn-dl-addrom">FRP addROM</a></li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Phone_Clone.apk" target="_blank" id="btn-dl-clone">Phone Clone</a></li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/PackageDisabler.apk" target="_blank" id="btn-dl-pd">Package Disabler</a></li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/QuickShortcutMaker.apk" target="_blank" id="btn-dl-qsm">Quick Shortcut Maker</a></li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Smart_Switch_Mobile.apk" target="_blank" id="btn-dl-ssm">Smart Switch Mobile</a></li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/shieldx_install.apk" target="_blank" id="btn-dl-shieldx">Alliance Shield (APK)</a></li>
+          <li id="xml-downloads-title" style="font-weight: bold; margin-top: 20px; margin-bottom: 10px;">Package Disabler XML:</li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/xml/pd_disable_apps_disable_systemUI.xml" target="_blank" id="btn-dl-xml-ui">Disable System UI (XML)</a></li>
+          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/xml/pd_disable_apps_disable_googleservice.xml" target="_blank" id="btn-dl-xml-gs">Disable Google Service (XML)</a></li>
         </ul>
       </div>
 
@@ -320,9 +377,54 @@
           'btn-chrome': '🌐 Open Chrome Browser',
           'btn-gmail': '📧 Open Gmail',
           'btn-pincode': '🔑 Open Pin Code (Smart Lock)',
+          'btn-open-qr-scanner': ' ⛶ Open QR scanner',
+          'btn-my-files': '📁 Open My Files (Samsung)',
+          'btn-maps': '📍 Open Maps',
+          'btn-accessibility': '♿ Accessibility Settings',
+          'btn-play-services': '🔧 Google Play Services',
+          'btn-set-lock': '#️⃣ Set Screen Lock',
+          'btn-google-login': '👤 Google Login',
+          'btn-google-search': '🔍 Open Google Search',
+          'btn-play-store': '▶️ Open Play Store',
+          'btn-alliance-shield': '🛡️ Open Alliance Shield',
+          'btn-alliance-shield-store': '🛒 Alliance Shield (Galaxy Store)',
+          'btn-samsung-dialer': '📞 Open Samsung Dialer',
+          'btn-usb-settings': '🔌 Open USB Settings',
+          'btn-activity-manager': '🚀 Open Activity Manager',
+          'btn-activity-manager-store': '🛒 Activity Manager (Galaxy Store)',
+          'btn-files-shortcut': '📂 Open Files Shortcut',
+          'btn-files-shortcut-store': '🛒 Files Shortcut (Galaxy Store)',
+          'btn-xshare': '🔄 Open XShare',
+          'btn-xshare-store': '🛒 XShare (Galaxy Store)',
+          'btn-adb-tecno': '#️⃣ Enable ADB (Tecno/Infinix)',
+          'btn-package-disabler': '🚫 Open Package Disabler',
+          'btn-calculator': '🧮 Open Calculator',
+          'btn-hw-test': '🔬 HWModuleTest',
+          'btn-knox-mdm': '☁️ Open Knox Cloud MDM',
+          'btn-knox-verify': '✔️ Knox Verification',
+          'btn-smart-switch': '🔄 Open Smart Switch',
           'downloads-title': '⬇️ Downloads',
           'btn-unlocker': '📥 Mostafa Unlocker v1.0 Beta',
           'btn-scripts': '📚 Scripts & Tools Collection (ZIP)',
+          'main-downloads-title': 'Main Tools:',
+          'apk-downloads-title': 'APK & FRP Files:',
+          'btn-dl-qr': 'QR Scanner',
+          'btn-dl-gam89': 'Google Account Manager 8-9',
+          'btn-dl-gam5': 'Google Account Manager 5',
+          'btn-dl-gam6': 'Google Account Manager 6',
+          'btn-dl-gps': 'Google Play Service',
+          'btn-dl-dpc': 'Test DPC',
+          'btn-dl-hush': 'HushSMS',
+          'btn-dl-frp7': 'FRP Android 7',
+          'btn-dl-addrom': 'FRP addROM',
+          'btn-dl-clone': 'Phone Clone',
+          'btn-dl-pd': 'Package Disabler',
+          'btn-dl-qsm': 'Quick Shortcut Maker',
+          'btn-dl-ssm': 'Smart Switch Mobile',
+          'btn-dl-shieldx': 'Alliance Shield (APK)',
+          'xml-downloads-title': 'Package Disabler XML:',
+          'btn-dl-xml-ui': 'Disable System UI (XML)',
+          'btn-dl-xml-gs': 'Disable Google Service (XML)',
           'coming-soon-title': '🚧 Coming Soon in Mostafa Unlocker Tool',
           'feature-1': '📱 iPhone Ramdisk (A7-A11)',
           'feature-2': '🔓 FRP Removal for Android (ADB/FASTBOOT/SPD)',
@@ -373,9 +475,54 @@
           'btn-chrome': '🌐 فتح متصفح كروم',
           'btn-gmail': '📧 فتح Gmail',
           'btn-pincode': '🔑 فتح رمز PIN (القفل الذكي)',
+          'btn-open-qr-scanner': ' ⛶ فتح ماسح QR',
+          'btn-my-files': '📁 فتح ملفاتي (سامسونج)',
+          'btn-maps': '📍 فتح الخرائط',
+          'btn-accessibility': '♿ إعدادات إمكانية الوصول',
+          'btn-play-services': '🔧 خدمات جوجل بلاي',
+          'btn-set-lock': '#️⃣ تعيين قفل الشاشة',
+          'btn-google-login': '👤 تسجيل دخول جوجل',
+          'btn-google-search': '🔍 فتح بحث جوجل',
+          'btn-play-store': '▶️ فتح متجر بلاي',
+          'btn-alliance-shield': '🛡️ فتح Alliance Shield',
+          'btn-alliance-shield-store': '🛒 Alliance Shield (متجر Galaxy)',
+          'btn-samsung-dialer': '📞 فتح هاتف سامسونج',
+          'btn-usb-settings': '🔌 فتح إعدادات USB',
+          'btn-activity-manager': '🚀 فتح مدير الأنشطة',
+          'btn-activity-manager-store': '🛒 مدير الأنشطة (متجر Galaxy)',
+          'btn-files-shortcut': '📂 فتح اختصار الملفات',
+          'btn-files-shortcut-store': '🛒 اختصار الملفات (متجر Galaxy)',
+          'btn-xshare': '🔄 فتح XShare',
+          'btn-xshare-store': '🛒 XShare (متجر Galaxy)',
+          'btn-adb-tecno': '#️⃣ تفعيل ADB (Tecno/Infinix)',
+          'btn-package-disabler': '🚫 فتح Package Disabler',
+          'btn-calculator': '🧮 فتح الآلة الحاسبة',
+          'btn-hw-test': '🔬 اختبار المكونات',
+          'btn-knox-mdm': '☁️ فتح Knox Cloud MDM',
+          'btn-knox-verify': '✔️ تحقق Knox',
+          'btn-smart-switch': '🔄 فتح Smart Switch',
           'downloads-title': '⬇️ التنزيلات',
           'btn-unlocker': '📥 مصطفى أونلوكر v1.0 بيتا',
           'btn-scripts': '📚 مجموعة البرامج النصية والأدوات (ZIP)',
+          'main-downloads-title': 'الأدوات الرئيسية:',
+          'apk-downloads-title': 'ملفات APK و FRP:',
+          'btn-dl-qr': 'ماسح QR',
+          'btn-dl-gam89': 'مدير حساب جوجل 8-9',
+          'btn-dl-gam5': 'مدير حساب جوجل 5',
+          'btn-dl-gam6': 'مدير حساب جوجل 6',
+          'btn-dl-gps': 'خدمة جوجل بلاي',
+          'btn-dl-dpc': 'Test DPC',
+          'btn-dl-hush': 'HushSMS',
+          'btn-dl-frp7': 'FRP أندرويد 7',
+          'btn-dl-addrom': 'FRP addROM',
+          'btn-dl-clone': 'Phone Clone',
+          'btn-dl-pd': 'Package Disabler',
+          'btn-dl-qsm': 'Quick Shortcut Maker',
+          'btn-dl-ssm': 'Smart Switch Mobile',
+          'btn-dl-shieldx': 'Alliance Shield (APK)',
+          'xml-downloads-title': 'ملفات XML لـ Package Disabler:',
+          'btn-dl-xml-ui': 'تعطيل واجهة النظام (XML)',
+          'btn-dl-xml-gs': 'تعطيل خدمة جوجل (XML)',
           'coming-soon-title': '🚧 قريباً في أداة مصطفى لفك القفل',
           'feature-1': '📱 iPhone Ramdisk (A7-A11)',
           'feature-2': '🔓 إزالة FRP لنظام Android (ADB/FASTBOOT/SPD)',
@@ -444,5 +591,4 @@
     });
   </script>
 </body>
-
 </html>
