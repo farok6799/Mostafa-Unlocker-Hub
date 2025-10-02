@@ -1,9 +1,10 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mostafa Unlocker Hub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     body {
       margin: 0;
@@ -74,6 +75,20 @@
       margin: 5px 5px 10px 0;
       text-decoration: none;
       font-weight: bold;
+    }
+    .live-tools a.button i, .downloads a.button i, .contact a i {
+        margin-right: 8px; /* Add space between icon and text */
+        width: 1.1em;      /* Helps align icons of different widths */
+        text-align: center;
+    }
+    .coming-soon ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    .coming-soon li i {
+        margin-right: 8px;
+        width: 1.2em;
+        color: #4fc3f7; /* Give icons a color */
     }
     
     /* Tabs styling */
@@ -170,8 +185,8 @@
   
   <div class="tabs">
     <div class="tab-buttons-container">
-      <button class="tab-btn active" onclick="openTab('home')" id="home-tab">Home</button>
-      <button class="tab-btn" onclick="openTab('services')" id="services-tab">Services</button>
+      <button class="tab-btn active" onclick="openTab('home', event)" id="home-tab">Home</button>
+      <button class="tab-btn" onclick="openTab('services', event)" id="services-tab">Services</button>
     </div>
     <button id="language-toggle" style="background: #3efff2c8; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">English / العربية</button>    
   </div>
@@ -184,46 +199,46 @@
 
       <div class="live-tools">
         <h3 id="online-tools-title">🧪 Online Tools (Direct from Website)</h3>
-        <a class="button" href="intent://com.google.android.youtube/#Intent;scheme=android-app;end" target="_blank" id="btn-youtube">📺 Open YouTube</a>
-        <a class="button" href="intent://com.android.settings/#Intent;scheme=android-app;end" target="_blank" id="btn-settings">⚙️ Open Settings</a>
-        <a class="button" href="intent://com.sec.android.app.samsungapps/#Intent;scheme=android-app;end" target="_blank" id="btn-galaxy">🛒 Open Galaxy Store</a>
-        <a class="button" href="intent://com.android.chrome/#Intent;scheme=android-app;end" target="_blank" id="btn-chrome">🌐 Open Chrome Browser</a>
-        <a class="button" href="intent://com.google.android.gm/#Intent;scheme=android-app;end" target="_blank" id="btn-gmail">📧 Open Gmail</a>
-        <a class="button" href="intent://com.google.android.gms/#Intent;scheme=promote_smartlock_scheme;end" target="_blank" id="btn-pincode">🔑 Open Pin Code (Smart Lock)</a>
-        <a class="button" href="intent://com.secuso.privacyFriendlyCodeScanner.QrScanActivity/#Intent;scheme=android-app;end" target="_blank" id="btn-open-qr-scanner"> ⛶ Open QR scanner</a>
-        <a class="button" href="intent://com.sec.android.app.myfiles/#Intent;scheme=android-app;end" target="_blank" id="btn-my-files">📁 Open My Files (Samsung)</a>
-        <a class="button" href="intent://com.google.android.apps.maps/#Intent;scheme=android-app;end" target="_blank" id="btn-maps">📍 Open Maps</a>
-        <a class="button" href="intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end" target="_blank" id="btn-accessibility">♿ Accessibility Settings</a>
-        <a class="button" href="intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;data=package:com.google.android.gms;end" target="_blank" id="btn-play-services">🔧 Google Play Services</a>
-        <a class="button" href="intent:#Intent;action=android.app.action.SET_NEW_PASSWORD;end" target="_blank" id="btn-set-lock">#️⃣ Set Screen Lock</a>
-        <a class="button" href="intent:#Intent;action=com.google.android.gsf.login.LOGIN_ACTIVITY;package=com.google.android.gsf.login;end" target="_blank" id="btn-google-login">👤 Google Login</a>
-        <a class="button" href="intent://com.google.android.googlequicksearchbox/#Intent;scheme=android-app;end" target="_blank" id="btn-google-search">🔍 Open Google Search</a>
-        <a class="button" href="intent://com.android.vending/#Intent;scheme=android-app;end" target="_blank" id="btn-play-store">▶️ Open Play Store</a>
-        <a class="button" href="intent://com.rrivenllc.shieldx/#Intent;scheme=android-app;end" target="_blank" id="btn-alliance-shield">🛡️ Open Alliance Shield</a>
-        <a class="button" href="samsungapps://ProductDetail/com.rrivenllc.shieldx" target="_blank" id="btn-alliance-shield-store">🛒 Alliance Shield (Galaxy Store)</a>
-        <a class="button" href="intent://com.samsung.android.dialer/#Intent;scheme=android-app;end" target="_blank" id="btn-samsung-dialer">📞 Open Samsung Dialer</a>
-        <a class="button" href="intent://com.sec.android.app.servicemodeapp/#Intent;scheme=promote_USBSettings_scheme;end" target="_blank" id="btn-usb-settings">🔌 Open USB Settings</a>
-        <a class="button" href="intent://com.activitymanager/#Intent;scheme=android-app;end" target="_blank" id="btn-activity-manager">🚀 Open Activity Manager</a>
-        <a class="button" href="samsungapps://ProductDetail/com.activitymanager" target="_blank" id="btn-activity-manager-store">🛒 Activity Manager (Galaxy Store)</a>
-        <a class="button" href="intent://org.aospstudio.files/#Intent;scheme=android-app;end" target="_blank" id="btn-files-shortcut">📂 Open Files Shortcut</a>
-        <a class="button" href="samsungapps://ProductDetail/org.aospstudio.files" target="_blank" id="btn-files-shortcut-store">🛒 Files Shortcut (Galaxy Store)</a>
-        <a class="button" href="intent://com.infinix.xshare/#Intent;scheme=android-app;end" target="_blank" id="btn-xshare">🔄 Open XShare</a>
-        <a class="button" href="samsungapps://ProductDetail/com.infinix.xshare" target="_blank" id="btn-xshare-store">🛒 XShare (Galaxy Store)</a>
-        <a class="button" href="tel:*#85#" target="_blank" id="btn-adb-tecno">#️⃣ Enable ADB (Tecno/Infinix)</a>
-        <a class="button" href="intent://com.school.optimize/#Intent;scheme=android-app;end" target="_blank" id="btn-package-disabler">🚫 Open Package Disabler</a>
-        <a class="button" href="intent://com.sec.android.app.popupcalculator/#Intent;scheme=android-app;end" target="_blank" id="btn-calculator">🧮 Open Calculator</a>
-        <a class="button" href="intent://com.sec.android.app.hwmoduletest/#Intent;scheme=android-app;end" target="_blank" id="btn-hw-test">🔬 HWModuleTest</a>
-        <a class="button" href="intent://com.cloudmdm.tools.cloud/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-mdm">☁️ Open Knox Cloud MDM</a>
-        <a class="button" href="intent://com.knox.verification.gettingstarted/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-verify">✔️ Knox Verification</a>
-        <a class="button" href="intent://com.sec.android.easyMover/#Intent;scheme=android-app;end" target="_blank" id="btn-smart-switch">🔄 Open Smart Switch</a>
+        <a class="button" href="intent://com.google.android.youtube/#Intent;scheme=android-app;end" target="_blank" id="btn-youtube"><i class="fa-brands fa-youtube"></i> Open YouTube</a>
+        <a class="button" href="intent://com.android.settings/#Intent;scheme=android-app;end" target="_blank" id="btn-settings"><i class="fa-solid fa-gear"></i> Open Settings</a>
+        <a class="button" href="intent://com.sec.android.app.samsungapps/#Intent;scheme=android-app;end" target="_blank" id="btn-galaxy"><i class="fa-solid fa-store"></i> Open Galaxy Store</a>
+        <a class="button" href="intent://com.android.chrome/#Intent;scheme=android-app;end" target="_blank" id="btn-chrome"><i class="fa-brands fa-chrome"></i> Open Chrome Browser</a>
+        <a class="button" href="intent://com.google.android.gm/#Intent;scheme=android-app;end" target="_blank" id="btn-gmail"><i class="fa-solid fa-envelope"></i> Open Gmail</a>
+        <a class="button" href="intent://com.google.android.gms/#Intent;scheme=promote_smartlock_scheme;end" target="_blank" id="btn-pincode"><i class="fa-solid fa-key"></i> Open Pin Code (Smart Lock)</a>
+        <a class="button" href="intent://com.secuso.privacyFriendlyCodeScanner.QrScanActivity/#Intent;scheme=android-app;end" target="_blank" id="btn-open-qr-scanner"><i class="fa-solid fa-qrcode"></i> Open QR scanner</a>
+        <a class="button" href="intent://com.sec.android.app.myfiles/#Intent;scheme=android-app;end" target="_blank" id="btn-my-files"><i class="fa-solid fa-folder-open"></i> Open My Files (Samsung)</a>
+        <a class="button" href="intent://com.google.android.apps.maps/#Intent;scheme=android-app;end" target="_blank" id="btn-maps"><i class="fa-solid fa-map-location-dot"></i> Open Maps</a>
+        <a class="button" href="intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end" target="_blank" id="btn-accessibility"><i class="fa-solid fa-universal-access"></i> Accessibility Settings</a>
+        <a class="button" href="intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;data=package:com.google.android.gms;end" target="_blank" id="btn-play-services"><i class="fa-solid fa-gears"></i> Google Play Services</a>
+        <a class="button" href="intent:#Intent;action=android.app.action.SET_NEW_PASSWORD;end" target="_blank" id="btn-set-lock"><i class="fa-solid fa-lock"></i> Set Screen Lock</a>
+        <a class="button" href="intent:#Intent;action=com.google.android.gsf.login.LOGIN_ACTIVITY;package=com.google.android.gsf.login;end" target="_blank" id="btn-google-login"><i class="fa-brands fa-google"></i> Google Login</a>
+        <a class="button" href="intent://com.google.android.googlequicksearchbox/#Intent;scheme=android-app;end" target="_blank" id="btn-google-search"><i class="fa-solid fa-magnifying-glass"></i> Open Google Search</a>
+        <a class="button" href="intent://com.android.vending/#Intent;scheme=android-app;end" target="_blank" id="btn-play-store"><i class="fa-brands fa-google-play"></i> Open Play Store</a>
+        <a class="button" href="intent://com.rrivenllc.shieldx/#Intent;scheme=android-app;end" target="_blank" id="btn-alliance-shield"><i class="fa-solid fa-shield-halved"></i> Open Alliance Shield</a>
+        <a class="button" href="samsungapps://ProductDetail/com.rrivenllc.shieldx" target="_blank" id="btn-alliance-shield-store"><i class="fa-solid fa-store"></i> Alliance Shield (Galaxy Store)</a>
+        <a class="button" href="intent://com.samsung.android.dialer/#Intent;scheme=android-app;end" target="_blank" id="btn-samsung-dialer"><i class="fa-solid fa-phone"></i> Open Samsung Dialer</a>
+        <a class="button" href="intent://com.sec.android.app.servicemodeapp/#Intent;scheme=promote_USBSettings_scheme;end" target="_blank" id="btn-usb-settings"><i class="fa-brands fa-usb"></i> Open USB Settings</a>
+        <a class="button" href="intent://com.activitymanager/#Intent;scheme=android-app;end" target="_blank" id="btn-activity-manager"><i class="fa-solid fa-rocket"></i> Open Activity Manager</a>
+        <a class="button" href="samsungapps://ProductDetail/com.activitymanager" target="_blank" id="btn-activity-manager-store"><i class="fa-solid fa-store"></i> Activity Manager (Galaxy Store)</a>
+        <a class="button" href="intent://org.aospstudio.files/#Intent;scheme=android-app;end" target="_blank" id="btn-files-shortcut"><i class="fa-solid fa-folder"></i> Open Files Shortcut</a>
+        <a class="button" href="samsungapps://ProductDetail/org.aospstudio.files" target="_blank" id="btn-files-shortcut-store"><i class="fa-solid fa-store"></i> Files Shortcut (Galaxy Store)</a>
+        <a class="button" href="intent://com.infinix.xshare/#Intent;scheme=android-app;end" target="_blank" id="btn-xshare"><i class="fa-solid fa-share-nodes"></i> Open XShare</a>
+        <a class="button" href="samsungapps://ProductDetail/com.infinix.xshare" target="_blank" id="btn-xshare-store"><i class="fa-solid fa-store"></i> XShare (Galaxy Store)</a>
+        <a class="button" href="tel:*#85#" target="_blank" id="btn-adb-tecno"><i class="fa-solid fa-terminal"></i> Enable ADB (Tecno/Infinix)</a>
+        <a class="button" href="intent://com.school.optimize/#Intent;scheme=android-app;end" target="_blank" id="btn-package-disabler"><i class="fa-solid fa-ban"></i> Open Package Disabler</a>
+        <a class="button" href="intent://com.sec.android.app.popupcalculator/#Intent;scheme=android-app;end" target="_blank" id="btn-calculator"><i class="fa-solid fa-calculator"></i> Open Calculator</a>
+        <a class="button" href="intent://com.sec.android.app.hwmoduletest/#Intent;scheme=android-app;end" target="_blank" id="btn-hw-test"><i class="fa-solid fa-microscope"></i> HWModuleTest</a>
+        <a class="button" href="intent://com.cloudmdm.tools.cloud/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-mdm"><i class="fa-solid fa-cloud"></i> Open Knox Cloud MDM</a>
+        <a class="button" href="intent://com.knox.verification.gettingstarted/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-verify"><i class="fa-solid fa-check-double"></i> Knox Verification</a>
+        <a class="button" href="intent://com.sec.android.easyMover/#Intent;scheme=android-app;end" target="_blank" id="btn-smart-switch"><i class="fa-solid fa-repeat"></i> Open Smart Switch</a>
       </div>
 
       <div class="downloads">
         <h3 id="downloads-title">⬇️ Downloads</h3>
         <ul>
           <li id="main-downloads-title" style="font-weight: bold; margin-bottom: 10px;">Main Tools:</li>
-          <li><a class="button" href="#" id="btn-unlocker">📥 Mostafa Unlocker v1.0 Beta</a></li>
-          <li><a class="button" href="#" id="btn-scripts">📚 Scripts & Tools Collection (ZIP)</a></li>
+          <li><a class="button" href="#" id="btn-unlocker"><i class="fa-solid fa-download"></i> Mostafa Unlocker v1.0 Beta</a></li>
+          <li><a class="button" href="#" id="btn-scripts"><i class="fa-solid fa-file-zipper"></i> Scripts & Tools Collection (ZIP)</a></li>
           <li id="apk-downloads-title" style="font-weight: bold; margin-top: 20px; margin-bottom: 10px;">APK & FRP Files:</li>
           <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/QRScanner.apk" target="_blank" id="btn-dl-qr" download>QR Scanner</a></li>
           <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Android_8-9_GAM.apk" target="_blank" id="btn-dl-gam89" download>Google Account Manager 8-9</a></li>
@@ -240,7 +255,7 @@
           <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Smart_Switch_Mobile.apk" target="_blank" id="btn-dl-ssm" download>Smart Switch Mobile</a></li>
           <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/shieldx_install.apk" target="_blank" id="btn-dl-shieldx" download>Alliance Shield (APK)</a></li>
           <li id="xml-downloads-title" style="font-weight: bold; margin-top: 20px; margin-bottom: 10px;">Package Disabler XML:</li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/xml/pd_disable_apps_disable_systemUI.xml" target="_blank" id="btn-dl-xml-ui" download>Disable System UI (XML)</a></li>
+          <li><a class="button" href="https://raw.githubusercontent.com/reindex-ot/frp_bypass/main/frp/xml/pd_disable_apps_disable_systemUI.xml" target="_blank" id="btn-dl-xml-ui" download>Disable System UI (XML)</a></li>
           <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/xml/pd_disable_apps_disable_googleservice.xml" target="_blank" id="btn-dl-xml-gs" download>Disable Google Service (XML)</a></li>
         </ul>
       </div>
@@ -248,24 +263,24 @@
       <div class="coming-soon">
         <h3 id="coming-soon-title">🚧 Coming Soon in Mostafa Unlocker Tool</h3>
         <ul>
-          <li id="feature-1">📱 iPhone Ramdisk (A7-A11)</li>
-          <li id="feature-2">🔓 FRP Removal for Android (ADB/FASTBOOT/SPD)</li>
-          <li id="feature-3">🛠️ Samsung T509 MDM Unlock</li>
-          <li id="feature-4">📂 Flash Custom Partitions (userdata, etc.)</li>
-          <li id="feature-5">☁️ iCloud Bypass (Passcode / Hello)</li>
-          <li id="feature-6">📶 Network Unlock / Fix Handshake (SPD Devices)</li>
-          <li id="feature-7">🚫 Remove Ads / Viruses from Android</li>
-          <li id="feature-8">🧠 Backup & Restore iPhone Passcode Data</li>
-          <li id="feature-9">📴 Skip Setup / Disable OTA Updates</li>
+          <li id="feature-1"><i class="fa-brands fa-apple"></i> iPhone Ramdisk (A7-A11)</li>
+          <li id="feature-2"><i class="fa-solid fa-unlock-keyhole"></i> FRP Removal for Android (ADB/FASTBOOT/SPD)</li>
+          <li id="feature-3"><i class="fa-solid fa-tablet-screen-button"></i> Samsung T509 MDM Unlock</li>
+          <li id="feature-4"><i class="fa-solid fa-sd-card"></i> Flash Custom Partitions (userdata, etc.)</li>
+          <li id="feature-5"><i class="fa-solid fa-cloud-arrow-up"></i> iCloud Bypass (Passcode / Hello)</li>
+          <li id="feature-6"><i class="fa-solid fa-signal"></i> Network Unlock / Fix Handshake (SPD Devices)</li>
+          <li id="feature-7"><i class="fa-solid fa-shield-virus"></i> Remove Ads / Viruses from Android</li>
+          <li id="feature-8"><i class="fa-solid fa-brain"></i> Backup & Restore iPhone Passcode Data</li>
+          <li id="feature-9"><i class="fa-solid fa-forward"></i> Skip Setup / Disable OTA Updates</li>
         </ul>
       </div>
 
       <div class="contact">
         <h3 id="contact-title">📞 Contact</h3>
-        <a href="https://wa.me/201129729147" target="_blank" id="link-whatsapp">📱 WhatsApp</a>
-        <a href="https://t.me/MostafaUnlocker" target="_blank" id="link-telegram">💬 Telegram</a>
-        <a href="https://www.facebook.com/share/1AyBCdPEDM/" target="_blank" id="link-facebook">🌐 Facebook</a>
-        <a href="https://www.instagram.com/far0k6799/profilecard/?igsh=c2gxb3gyM25xOW1l" target="_blank" id="link-instagram">📸 Instagram</a>
+        <a href="https://wa.me/201129729147" target="_blank" id="link-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+        <a href="https://t.me/MostafaUnlocker" target="_blank" id="link-telegram"><i class="fa-brands fa-telegram"></i> Telegram</a>
+        <a href="https://www.facebook.com/share/1AyBCdPEDM/" target="_blank" id="link-facebook"><i class="fa-brands fa-facebook"></i> Facebook</a>
+        <a href="https://www.instagram.com/far0k6799/profilecard/?igsh=c2gxb3gyM25xOW1l" target="_blank" id="link-instagram"><i class="fa-brands fa-instagram"></i> Instagram</a>
         <p>📞 +20 112 972 9147</p>
       </div>
     </section>
@@ -325,14 +340,16 @@
       </table>
 
       <div class="contact">
-        <p id="services-contact-text">📞 للتواصل وطلب الخدمة:</p>
-        <p><a href="https://wa.me/201129729147" target="_blank" id="services-whatsapp">راسلنا على واتساب</a></p>
-        <p><a href="https://t.me/MostafaUnlocker" target="_blank" id="services-telegram">تليجرام</a> | <a href="https://www.facebook.com/share/1AyBCdPEDM/" target="_blank" id="services-facebook">فيسبوك</a> | <a href="https://www.instagram.com/far0k6799" target="_blank" id="services-instagram">إنستجرام</a></p>
-        <p id="services-pricing">💬 الأسعار حسب نوع الجهاز ونوع الخدمة، يُفضل التواصل للتأكيد أولاً.</p>
+        <p id="services-contact-text"><i class="fa-solid fa-headset"></i> للتواصل وطلب الخدمة:</p>
+        <a href="https://wa.me/201129729147" target="_blank" id="services-whatsapp"><i class="fa-brands fa-whatsapp"></i> راسلنا على واتساب</a>
+        <a href="https://t.me/MostafaUnlocker" target="_blank" id="services-telegram"><i class="fa-brands fa-telegram"></i> تليجرام</a>
+        <a href="https://www.facebook.com/share/1AyBCdPEDM/" target="_blank" id="services-facebook"><i class="fa-brands fa-facebook"></i> فيسبوك</a>
+        <a href="https://www.instagram.com/far0k6799" target="_blank" id="services-instagram"><i class="fa-brands fa-instagram"></i> إنستجرام</a>
+        <p id="services-pricing" style="margin-top: 15px;"><i class="fa-solid fa-comment-dollar"></i> الأسعار حسب نوع الجهاز ونوع الخدمة، يُفضل التواصل للتأكيد أولاً.</p>
       </div>
 
       <div class="notice">
-        <span id="legal-notice">⚠️ <strong>تنويه قانوني:</strong><br>
+        <span id="legal-notice"><i class="fa-solid fa-gavel"></i> <strong>تنويه قانوني:</strong><br>
         جميع الخدمات المقدمة مخصصة فقط للأجهزة المملوكة شرعيًا من قبل العميل، ولا يتم التعامل مع أي أجهزة مجهولة الهوية أو مخالفة للقوانين.<br>
         نحن نلتزم بالقوانين الدولية والمحلية في تقديم خدمات السوفت وير، وأي إساءة استخدام تقع على مسؤولية المستخدم.</span>
       </div>
@@ -340,7 +357,7 @@
   </div>
 
   <script>
-    function openTab(tabName) {
+    function openTab(tabName, event) {
       // Hide all tab contents
       const tabContents = document.getElementsByClassName('tab-content');
       for (let i = 0; i < tabContents.length; i++) {
@@ -370,41 +387,41 @@
           'services-tab': 'Services',
           'welcome-text': 'Welcome to Mostafa Unlocker Hub -- your trusted source for software solutions, tools, scripts, and online services for iPhone and Android devices.',
           'online-tools-title': '🧪 Online Tools (Direct from Website)',
-          'btn-youtube': '📺 Open YouTube',
-          'btn-settings': '⚙️ Open Settings',
-          'btn-galaxy': '🛒 Open Galaxy Store',
-          'btn-chrome': '🌐 Open Chrome Browser',
-          'btn-gmail': '📧 Open Gmail',
-          'btn-pincode': '🔑 Open Pin Code (Smart Lock)',
-          'btn-open-qr-scanner': ' ⛶ Open QR scanner',
-          'btn-my-files': '📁 Open My Files (Samsung)',
-          'btn-maps': '📍 Open Maps',
-          'btn-accessibility': '♿ Accessibility Settings',
-          'btn-play-services': '🔧 Google Play Services',
-          'btn-set-lock': '#️⃣ Set Screen Lock',
-          'btn-google-login': '👤 Google Login',
-          'btn-google-search': '🔍 Open Google Search',
-          'btn-play-store': '▶️ Open Play Store',
-          'btn-alliance-shield': '🛡️ Open Alliance Shield',
-          'btn-alliance-shield-store': '🛒 Alliance Shield (Galaxy Store)',
-          'btn-samsung-dialer': '📞 Open Samsung Dialer',
-          'btn-usb-settings': '🔌 Open USB Settings',
-          'btn-activity-manager': '🚀 Open Activity Manager',
-          'btn-activity-manager-store': '🛒 Activity Manager (Galaxy Store)',
-          'btn-files-shortcut': '📂 Open Files Shortcut',
-          'btn-files-shortcut-store': '🛒 Files Shortcut (Galaxy Store)',
-          'btn-xshare': '🔄 Open XShare',
-          'btn-xshare-store': '🛒 XShare (Galaxy Store)',
-          'btn-adb-tecno': '#️⃣ Enable ADB (Tecno/Infinix)',
-          'btn-package-disabler': '🚫 Open Package Disabler',
-          'btn-calculator': '🧮 Open Calculator',
-          'btn-hw-test': '🔬 HWModuleTest',
-          'btn-knox-mdm': '☁️ Open Knox Cloud MDM',
-          'btn-knox-verify': '✔️ Knox Verification',
-          'btn-smart-switch': '🔄 Open Smart Switch',
+          'btn-youtube': '<i class="fa-brands fa-youtube"></i> Open YouTube',
+          'btn-settings': '<i class="fa-solid fa-gear"></i> Open Settings',
+          'btn-galaxy': '<i class="fa-solid fa-store"></i> Open Galaxy Store',
+          'btn-chrome': '<i class="fa-brands fa-chrome"></i> Open Chrome Browser',
+          'btn-gmail': '<i class="fa-solid fa-envelope"></i> Open Gmail',
+          'btn-pincode': '<i class="fa-solid fa-key"></i> Open Pin Code (Smart Lock)',
+          'btn-open-qr-scanner': '<i class="fa-solid fa-qrcode"></i> Open QR scanner',
+          'btn-my-files': '<i class="fa-solid fa-folder-open"></i> Open My Files (Samsung)',
+          'btn-maps': '<i class="fa-solid fa-map-location-dot"></i> Open Maps',
+          'btn-accessibility': '<i class="fa-solid fa-universal-access"></i> Accessibility Settings',
+          'btn-play-services': '<i class="fa-solid fa-gears"></i> Google Play Services',
+          'btn-set-lock': '<i class="fa-solid fa-lock"></i> Set Screen Lock',
+          'btn-google-login': '<i class="fa-brands fa-google"></i> Google Login',
+          'btn-google-search': '<i class="fa-solid fa-magnifying-glass"></i> Open Google Search',
+          'btn-play-store': '<i class="fa-brands fa-google-play"></i> Open Play Store',
+          'btn-alliance-shield': '<i class="fa-solid fa-shield-halved"></i> Open Alliance Shield',
+          'btn-alliance-shield-store': '<i class="fa-solid fa-store"></i> Alliance Shield (Galaxy Store)',
+          'btn-samsung-dialer': '<i class="fa-solid fa-phone"></i> Open Samsung Dialer',
+          'btn-usb-settings': '<i class="fa-brands fa-usb"></i> Open USB Settings',
+          'btn-activity-manager': '<i class="fa-solid fa-rocket"></i> Open Activity Manager',
+          'btn-activity-manager-store': '<i class="fa-solid fa-store"></i> Activity Manager (Galaxy Store)',
+          'btn-files-shortcut': '<i class="fa-solid fa-folder"></i> Open Files Shortcut',
+          'btn-files-shortcut-store': '<i class="fa-solid fa-store"></i> Files Shortcut (Galaxy Store)',
+          'btn-xshare': '<i class="fa-solid fa-share-nodes"></i> Open XShare',
+          'btn-xshare-store': '<i class="fa-solid fa-store"></i> XShare (Galaxy Store)',
+          'btn-adb-tecno': '<i class="fa-solid fa-terminal"></i> Enable ADB (Tecno/Infinix)',
+          'btn-package-disabler': '<i class="fa-solid fa-ban"></i> Open Package Disabler',
+          'btn-calculator': '<i class="fa-solid fa-calculator"></i> Open Calculator',
+          'btn-hw-test': '<i class="fa-solid fa-microscope"></i> HWModuleTest',
+          'btn-knox-mdm': '<i class="fa-solid fa-cloud"></i> Open Knox Cloud MDM',
+          'btn-knox-verify': '<i class="fa-solid fa-check-double"></i> Knox Verification',
+          'btn-smart-switch': '<i class="fa-solid fa-repeat"></i> Open Smart Switch',
           'downloads-title': '⬇️ Downloads',
-          'btn-unlocker': '📥 Mostafa Unlocker v1.0 Beta',
-          'btn-scripts': '📚 Scripts & Tools Collection (ZIP)',
+          'btn-unlocker': '<i class="fa-solid fa-download"></i> Mostafa Unlocker v1.0 Beta',
+          'btn-scripts': '<i class="fa-solid fa-file-zipper"></i> Scripts & Tools Collection (ZIP)',
           'main-downloads-title': 'Main Tools:',
           'apk-downloads-title': 'APK & FRP Files:',
           'btn-dl-qr': 'QR Scanner',
@@ -425,20 +442,20 @@
           'btn-dl-xml-ui': 'Disable System UI (XML)',
           'btn-dl-xml-gs': 'Disable Google Service (XML)',
           'coming-soon-title': '🚧 Coming Soon in Mostafa Unlocker Tool',
-          'feature-1': '📱 iPhone Ramdisk (A7-A11)',
-          'feature-2': '🔓 FRP Removal for Android (ADB/FASTBOOT/SPD)',
-          'feature-3': '🛠️ Samsung T509 MDM Unlock',
-          'feature-4': '📂 Flash Custom Partitions (userdata, etc.)',
-          'feature-5': '☁️ iCloud Bypass (Passcode / Hello)',
-          'feature-6': '📶 Network Unlock / Fix Handshake (SPD Devices)',
-          'feature-7': '🚫 Remove Ads / Viruses from Android',
-          'feature-8': '🧠 Backup & Restore iPhone Passcode Data',
-          'feature-9': '📴 Skip Setup / Disable OTA Updates',
+          'feature-1': '<i class="fa-brands fa-apple"></i> iPhone Ramdisk (A7-A11)',
+          'feature-2': '<i class="fa-solid fa-unlock-keyhole"></i> FRP Removal for Android (ADB/FASTBOOT/SPD)',
+          'feature-3': '<i class="fa-solid fa-tablet-screen-button"></i> Samsung T509 MDM Unlock',
+          'feature-4': '<i class="fa-solid fa-sd-card"></i> Flash Custom Partitions (userdata, etc.)',
+          'feature-5': '<i class="fa-solid fa-cloud-arrow-up"></i> iCloud Bypass (Passcode / Hello)',
+          'feature-6': '<i class="fa-solid fa-signal"></i> Network Unlock / Fix Handshake (SPD Devices)',
+          'feature-7': '<i class="fa-solid fa-shield-virus"></i> Remove Ads / Viruses from Android',
+          'feature-8': '<i class="fa-solid fa-brain"></i> Backup & Restore iPhone Passcode Data',
+          'feature-9': '<i class="fa-solid fa-forward"></i> Skip Setup / Disable OTA Updates',
           'contact-title': '📞 Contact',
-          'link-whatsapp': '📱 WhatsApp',
-          'link-telegram': '💬 Telegram',
-          'link-facebook': '🌐 Facebook',
-          'link-instagram': '📸 Instagram',
+          'link-whatsapp': '<i class="fa-brands fa-whatsapp"></i> WhatsApp',
+          'link-telegram': '<i class="fa-brands fa-telegram"></i> Telegram',
+          'link-facebook': '<i class="fa-brands fa-facebook"></i> Facebook',
+          'link-instagram': '<i class="fa-brands fa-instagram"></i> Instagram',
           'services-main-title': '📱 Mostafa Services - Mostafa Unlocker Hub',
           'services-description': 'All software services are available online or in-person as agreed, with precision and professionalism.',
           'service-header': 'Service',
@@ -453,13 +470,13 @@
           'frp-removal-desc': 'FRP removal available for all brands: Samsung, Huawei, Xiaomi, Oppo, Vivo, Realme, Infinix, Tecno, Nokia, and others.',
           'imei-repair-title': 'IMEI / Serial Repair',
           'imei-repair-desc': 'Repair serial number or IMEI in supported devices (such as MTK and SPD devices) in case of malfunction or loss of number.<br>⚠️ The original identity of the device is not changed.',
-          'services-contact-text': '📞 For contact and service request:',
-          'services-whatsapp': 'Message us on WhatsApp',
-          'services-telegram': 'Telegram',
-          'services-facebook': 'Facebook',
-          'services-instagram': 'Instagram',
-          'services-pricing': '💬 Prices according to device type and service type, it is preferable to contact for confirmation first.',
-          'legal-notice': '⚠️ <strong>Legal Notice:</strong><br>All services provided are intended only for devices legally owned by the client, and we do not deal with any devices of unknown identity or violating laws.<br>We comply with international and local laws in providing software services, and any misuse is the responsibility of the user.'
+          'services-contact-text': '<i class="fa-solid fa-headset"></i> For contact and service request:',
+          'services-whatsapp': '<i class="fa-brands fa-whatsapp"></i> Message us on WhatsApp',
+          'services-telegram': '<i class="fa-brands fa-telegram"></i> Telegram',
+          'services-facebook': '<i class="fa-brands fa-facebook"></i> Facebook',
+          'services-instagram': '<i class="fa-brands fa-instagram"></i> Instagram',
+          'services-pricing': '<i class="fa-solid fa-comment-dollar"></i> Prices according to device type and service type, it is preferable to contact for confirmation first.',
+          'legal-notice': '<i class="fa-solid fa-gavel"></i> <strong>Legal Notice:</strong><br>All services provided are intended only for devices legally owned by the client, and we do not deal with any devices of unknown identity or violating laws.<br>We comply with international and local laws in providing software services, and any misuse is the responsibility of the user.'
         },
         ar: {
           'main-title': 'مركز مصطفى لفك القفل',
@@ -468,41 +485,41 @@
           'services-tab': 'الخدمات',
           'welcome-text': 'مرحبًا بك في مركز مصطفى لفك القفل -- المكان الموثوق لحلول السوفت وير، الأدوات، السكربتات، والخدمات المباشرة لأجهزة iPhone و Android.',
           'online-tools-title': '🧪 أدوات عبر الإنترنت (مباشرة من الموقع)',
-          'btn-youtube': '📺 فتح يوتيوب',
-          'btn-settings': '⚙️ فتح الإعدادات',
-          'btn-galaxy': '🛒 فتح متجر Galaxy',
-          'btn-chrome': '🌐 فتح متصفح كروم',
-          'btn-gmail': '📧 فتح Gmail',
-          'btn-pincode': '🔑 فتح رمز PIN (القفل الذكي)',
-          'btn-open-qr-scanner': ' ⛶ فتح ماسح QR',
-          'btn-my-files': '📁 فتح ملفاتي (سامسونج)',
-          'btn-maps': '📍 فتح الخرائط',
-          'btn-accessibility': '♿ إعدادات إمكانية الوصول',
-          'btn-play-services': '🔧 خدمات جوجل بلاي',
-          'btn-set-lock': '#️⃣ تعيين قفل الشاشة',
-          'btn-google-login': '👤 تسجيل دخول جوجل',
-          'btn-google-search': '🔍 فتح بحث جوجل',
-          'btn-play-store': '▶️ فتح متجر بلاي',
-          'btn-alliance-shield': '🛡️ فتح Alliance Shield',
-          'btn-alliance-shield-store': '🛒 Alliance Shield (متجر Galaxy)',
-          'btn-samsung-dialer': '📞 فتح هاتف سامسونج',
-          'btn-usb-settings': '🔌 فتح إعدادات USB',
-          'btn-activity-manager': '🚀 فتح مدير الأنشطة',
-          'btn-activity-manager-store': '🛒 مدير الأنشطة (متجر Galaxy)',
-          'btn-files-shortcut': '📂 فتح اختصار الملفات',
-          'btn-files-shortcut-store': '🛒 اختصار الملفات (متجر Galaxy)',
-          'btn-xshare': '🔄 فتح XShare',
-          'btn-xshare-store': '🛒 XShare (متجر Galaxy)',
-          'btn-adb-tecno': '#️⃣ تفعيل ADB (Tecno/Infinix)',
-          'btn-package-disabler': '🚫 فتح Package Disabler',
-          'btn-calculator': '🧮 فتح الآلة الحاسبة',
-          'btn-hw-test': '🔬 اختبار المكونات',
-          'btn-knox-mdm': '☁️ فتح Knox Cloud MDM',
-          'btn-knox-verify': '✔️ تحقق Knox',
-          'btn-smart-switch': '🔄 فتح Smart Switch',
+          'btn-youtube': '<i class="fa-brands fa-youtube"></i> فتح يوتيوب',
+          'btn-settings': '<i class="fa-solid fa-gear"></i> فتح الإعدادات',
+          'btn-galaxy': '<i class="fa-solid fa-store"></i> فتح متجر Galaxy',
+          'btn-chrome': '<i class="fa-brands fa-chrome"></i> فتح متصفح كروم',
+          'btn-gmail': '<i class="fa-solid fa-envelope"></i> فتح Gmail',
+          'btn-pincode': '<i class="fa-solid fa-key"></i> فتح رمز PIN (القفل الذكي)',
+          'btn-open-qr-scanner': '<i class="fa-solid fa-qrcode"></i> فتح ماسح QR',
+          'btn-my-files': '<i class="fa-solid fa-folder-open"></i> فتح ملفاتي (سامسونج)',
+          'btn-maps': '<i class="fa-solid fa-map-location-dot"></i> فتح الخرائط',
+          'btn-accessibility': '<i class="fa-solid fa-universal-access"></i> إعدادات إمكانية الوصول',
+          'btn-play-services': '<i class="fa-solid fa-gears"></i> خدمات جوجل بلاي',
+          'btn-set-lock': '<i class="fa-solid fa-lock"></i> تعيين قفل الشاشة',
+          'btn-google-login': '<i class="fa-brands fa-google"></i> تسجيل دخول جوجل',
+          'btn-google-search': '<i class="fa-solid fa-magnifying-glass"></i> فتح بحث جوجل',
+          'btn-play-store': '<i class="fa-brands fa-google-play"></i> فتح متجر بلاي',
+          'btn-alliance-shield': '<i class="fa-solid fa-shield-halved"></i> فتح Alliance Shield',
+          'btn-alliance-shield-store': '<i class="fa-solid fa-store"></i> Alliance Shield (متجر Galaxy)',
+          'btn-samsung-dialer': '<i class="fa-solid fa-phone"></i> فتح هاتف سامسونج',
+          'btn-usb-settings': '<i class="fa-brands fa-usb"></i> فتح إعدادات USB',
+          'btn-activity-manager': '<i class="fa-solid fa-rocket"></i> فتح مدير الأنشطة',
+          'btn-activity-manager-store': '<i class="fa-solid fa-store"></i> مدير الأنشطة (متجر Galaxy)',
+          'btn-files-shortcut': '<i class="fa-solid fa-folder"></i> فتح اختصار الملفات',
+          'btn-files-shortcut-store': '<i class="fa-solid fa-store"></i> اختصار الملفات (متجر Galaxy)',
+          'btn-xshare': '<i class="fa-solid fa-share-nodes"></i> فتح XShare',
+          'btn-xshare-store': '<i class="fa-solid fa-store"></i> XShare (متجر Galaxy)',
+          'btn-adb-tecno': '<i class="fa-solid fa-terminal"></i> تفعيل ADB (Tecno/Infinix)',
+          'btn-package-disabler': '<i class="fa-solid fa-ban"></i> فتح Package Disabler',
+          'btn-calculator': '<i class="fa-solid fa-calculator"></i> فتح الآلة الحاسبة',
+          'btn-hw-test': '<i class="fa-solid fa-microscope"></i> اختبار المكونات',
+          'btn-knox-mdm': '<i class="fa-solid fa-cloud"></i> فتح Knox Cloud MDM',
+          'btn-knox-verify': '<i class="fa-solid fa-check-double"></i> تحقق Knox',
+          'btn-smart-switch': '<i class="fa-solid fa-repeat"></i> فتح Smart Switch',
           'downloads-title': '⬇️ التنزيلات',
-          'btn-unlocker': '📥 مصطفى أونلوكر v1.0 بيتا',
-          'btn-scripts': '📚 مجموعة البرامج النصية والأدوات (ZIP)',
+          'btn-unlocker': '<i class="fa-solid fa-download"></i> مصطفى أونلوكر v1.0 بيتا',
+          'btn-scripts': '<i class="fa-solid fa-file-zipper"></i> مجموعة البرامج النصية والأدوات (ZIP)',
           'main-downloads-title': 'الأدوات الرئيسية:',
           'apk-downloads-title': 'ملفات APK و FRP:',
           'btn-dl-qr': 'ماسح QR',
@@ -523,20 +540,20 @@
           'btn-dl-xml-ui': 'تعطيل واجهة النظام (XML)',
           'btn-dl-xml-gs': 'تعطيل خدمة جوجل (XML)',
           'coming-soon-title': '🚧 قريباً في أداة مصطفى لفك القفل',
-          'feature-1': '📱 iPhone Ramdisk (A7-A11)',
-          'feature-2': '🔓 إزالة FRP لنظام Android (ADB/FASTBOOT/SPD)',
-          'feature-3': '🛠️ فتح MDM لجهاز Samsung T509',
-          'feature-4': '📂 فلاش أقسام مخصصة (بيانات المستخدم، إلخ.)',
-          'feature-5': '☁️ تجاوز iCloud (رمز المرور / مرحبًا)',
-          'feature-6': '📶 فتح الشبكة / إصلاح المصافحة (أجهزة SPD)',
-          'feature-7': '🚫 إزالة الإعلانات / الفيروسات من Android',
-          'feature-8': '🧠 النسخ الاحتياطي واستعادة بيانات رمز مرور iPhone',
-          'feature-9': '📴 تخطي الإعداد / تعطيل تحديثات OTA',
+          'feature-1': '<i class="fa-brands fa-apple"></i> iPhone Ramdisk (A7-A11)',
+          'feature-2': '<i class="fa-solid fa-unlock-keyhole"></i> إزالة FRP لنظام Android (ADB/FASTBOOT/SPD)',
+          'feature-3': '<i class="fa-solid fa-tablet-screen-button"></i> فتح MDM لجهاز Samsung T509',
+          'feature-4': '<i class="fa-solid fa-sd-card"></i> فلاش أقسام مخصصة (بيانات المستخدم، إلخ.)',
+          'feature-5': '<i class="fa-solid fa-cloud-arrow-up"></i> تجاوز iCloud (رمز المرور / مرحبًا)',
+          'feature-6': '<i class="fa-solid fa-signal"></i> فتح الشبكة / إصلاح المصافحة (أجهزة SPD)',
+          'feature-7': '<i class="fa-solid fa-shield-virus"></i> إزالة الإعلانات / الفيروسات من Android',
+          'feature-8': '<i class="fa-solid fa-brain"></i> النسخ الاحتياطي واستعادة بيانات رمز مرور iPhone',
+          'feature-9': '<i class="fa-solid fa-forward"></i> تخطي الإعداد / تعطيل تحديثات OTA',
           'contact-title': '📞 تواصل معنا',
-          'link-whatsapp': '📱 واتساب',
-          'link-telegram': '💬 تيليجرام',
-          'link-facebook': '🌐 فيسبوك',
-          'link-instagram': '📸 انستغرام',
+          'link-whatsapp': '<i class="fa-brands fa-whatsapp"></i> واتساب',
+          'link-telegram': '<i class="fa-brands fa-telegram"></i> تيليجرام',
+          'link-facebook': '<i class="fa-brands fa-facebook"></i> فيسبوك',
+          'link-instagram': '<i class="fa-brands fa-instagram"></i> انستغرام',
           'services-main-title': '📱 خدمات مصطفى - Mostafa Unlocker Hub',
           'services-description': 'جميع خدمات السوفت وير متاحة أونلاين أو حضوري حسب الاتفاق، بدقة واحترافية.',
           'service-header': 'الخدمة',
@@ -551,13 +568,13 @@
           'frp-removal-desc': 'متاح إزالة FRP لجميع الشركات: Samsung، Huawei، Xiaomi، Oppo، Vivo، Realme، Infinix، Tecno، Nokia، وغيرها.',
           'imei-repair-title': 'إصلاح IMEI / Serial',
           'imei-repair-desc': 'إصلاح الرقم التسلسلي أو IMEI في الأجهزة المدعومة (مثل أجهزة MTK و SPD) في حالة وجود عطل أو فقد في الرقم.<br>⚠️ لا يتم تغيير الهوية الأصلية للجهاز.',
-          'services-contact-text': '📞 للتواصل وطلب الخدمة:',
-          'services-whatsapp': 'راسلنا على واتساب',
-          'services-telegram': 'تليجرام',
-          'services-facebook': 'فيسبوك',
-          'services-instagram': 'إنستجرام',
-          'services-pricing': '💬 الأسعار حسب نوع الجهاز ونوع الخدمة، يُفضل التواصل للتأكيد أولاً.',
-          'legal-notice': '⚠️ <strong>تنويه قانوني:</strong><br>جميع الخدمات المقدمة مخصصة فقط للأجهزة المملوكة شرعيًا من قبل العميل، ولا يتم التعامل مع أي أجهزة مجهولة الهوية أو مخالفة للقوانين.<br>نحن نلتزم بالقوانين الدولية والمحلية في تقديم خدمات السوفت وير، وأي إساءة استخدام تقع على مسؤولية المستخدم.'
+          'services-contact-text': '<i class="fa-solid fa-headset"></i> للتواصل وطلب الخدمة:',
+          'services-whatsapp': '<i class="fa-brands fa-whatsapp"></i> راسلنا على واتساب',
+          'services-telegram': '<i class="fa-brands fa-telegram"></i> تليجرام',
+          'services-facebook': '<i class="fa-brands fa-facebook"></i> فيسبوك',
+          'services-instagram': '<i class="fa-brands fa-instagram"></i> إنستجرام',
+          'services-pricing': '<i class="fa-solid fa-comment-dollar"></i> الأسعار حسب نوع الجهاز ونوع الخدمة، يُفضل التواصل للتأكيد أولاً.',
+          'legal-notice': '<i class="fa-solid fa-gavel"></i> <strong>تنويه قانوني:</strong><br>جميع الخدمات المقدمة مخصصة فقط للأجهزة المملوكة شرعيًا من قبل العميل، ولا يتم التعامل مع أي أجهزة مجهولة الهوية أو مخالفة للقوانين.<br>نحن نلتزم بالقوانين الدولية والمحلية في تقديم خدمات السوفت وير، وأي إساءة استخدام تقع على مسؤولية المستخدم.'
         }
       };
 
