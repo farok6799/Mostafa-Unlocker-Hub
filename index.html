@@ -66,19 +66,30 @@
     li {
       margin-bottom: 10px;
     }
-    .live-tools a.button, .downloads a.button {
+    .live-tools a.button, .downloads a.button, #language-toggle {
       display: inline-block;
-      background: #3efff2c8; /* Light cyan background */
-      color: #000000; /* Black text color */
-      padding: 10px 15px;
-      border-radius: 6px;
-      margin: 5px 5px 10px 0;
+      margin: 5px;
+      padding: 10px 20px;
+      background-color: #1f1f1f;
+      border: 1px solid #00ffc3;
+      color: #00ffc3;
+      border-radius: 8px;
       text-decoration: none;
-      font-weight: bold;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .live-tools a.button:hover, .downloads a.button:hover, #language-toggle:hover {
+      background-color: #00ffc3;
+      color: #000;
     }
     .live-tools a.button i, .downloads a.button i, .contact a i {
         margin-right: 8px; /* Add space between icon and text */
         width: 1.1em;      /* Helps align icons of different widths */
+        text-align: center;
+    }
+    .live-tools a.button img, .downloads a.button img {
+        margin-right: 8px;
+        width: 1.2em; height: 1.2em;
+        vertical-align: middle; /* Align icon with text */
         text-align: center;
     }
     .coming-soon ul {
@@ -99,27 +110,28 @@
       margin: 20px 0;
       width: 100%;
     }
-    .tab-btn {
+    .tab-btn, .tab-btn.active {
       padding: 10px 20px;
       background-color: #1f1f1f;
-      flex-grow: 1; /* Make tab buttons share space */
-      border: none;
-      color: white;
+      border: 1px solid #00ffc3;
+      color: #00ffc3;
       cursor: pointer;
       font-size: 16px;
-      border-radius: 5px 5px 0 0;
+      border-radius: 8px;
       margin: 0 5px;
+      font-weight: bold;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .tab-btn:hover, .tab-btn.active {
+      background-color: #00ffc3;
+      color: #000;
     }
     .tab-buttons-container {
       display: flex;
       justify-content: center;
       width: 100%;
-      max-width: 400px; /* Adjust as needed */
-      margin-bottom: 10px;
-    }
-    .tab-btn.active {
-      background-color: #3efff2c8; /* Light cyan background for active tab */
-      color: #000000; /* Black text color for active tab */
+      max-width: 400px;
+      margin-bottom: 20px; /* Increased margin */
     }
     .tab-content {
       display: none;
@@ -175,6 +187,18 @@
       border-top: 1px solid #333;
       padding-top: 20px;
     }
+    
+    /* Tool Categories Styling */
+    .tool-category {
+      margin-top: 25px;
+      border-top: 1px solid #333;
+      padding-top: 20px;
+    }
+    .tool-category h4 {
+      color: #4fc3f7;
+      margin-bottom: 15px;
+      font-size: 1.1em;
+    }
   </style>
 </head>
 <body>
@@ -189,7 +213,7 @@
       <button class="tab-btn active" onclick="openTab('home', event)" id="home-tab">Home</button>
       <button class="tab-btn" onclick="openTab('services', event)" id="services-tab">Services</button>
     </div>
-    <button id="language-toggle" style="background: #3efff2c8; color: #000000; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">English / العربية</button>    
+    <button id="language-toggle" style="cursor: pointer; font-weight: bold;">English / العربية</button>    
   </div>
   
   <div id="home" class="tab-content active">
@@ -200,38 +224,71 @@
 
       <div class="live-tools">
         <h3 id="online-tools-title">🧪 Online Tools (Direct from Website)</h3>
-        <a class="button" href="intent://com.google.android.youtube/#Intent;scheme=android-app;end" target="_blank" id="btn-youtube"><i class="fa-brands fa-youtube"></i> Open YouTube</a>
-        <a class="button" href="intent://com.android.settings/#Intent;scheme=android-app;end" target="_blank" id="btn-settings"><i class="fa-solid fa-gear"></i> Open Settings</a>
-        <a class="button" href="intent://com.sec.android.app.samsungapps/#Intent;scheme=android-app;end" target="_blank" id="btn-galaxy"><i class="fa-solid fa-store"></i> Open Galaxy Store</a>
-        <a class="button" href="intent://com.android.chrome/#Intent;scheme=android-app;end" target="_blank" id="btn-chrome"><i class="fa-brands fa-chrome"></i> Open Chrome Browser</a>
-        <a class="button" href="intent://com.google.android.gm/#Intent;scheme=android-app;end" target="_blank" id="btn-gmail"><i class="fa-solid fa-envelope"></i> Open Gmail</a>
-        <a class="button" href="intent://com.google.android.gms/#Intent;scheme=promote_smartlock_scheme;end" target="_blank" id="btn-pincode"><i class="fa-solid fa-key"></i> Open Pin Code (Smart Lock)</a>
-        <a class="button" href="intent://com.secuso.privacyFriendlyCodeScanner.QrScanActivity/#Intent;scheme=android-app;end" target="_blank" id="btn-open-qr-scanner"><i class="fa-solid fa-qrcode"></i> Open QR scanner</a>
-        <a class="button" href="intent://com.sec.android.app.myfiles/#Intent;scheme=android-app;end" target="_blank" id="btn-my-files"><i class="fa-solid fa-folder-open"></i> Open My Files (Samsung)</a>
-        <a class="button" href="intent://com.google.android.apps.maps/#Intent;scheme=android-app;end" target="_blank" id="btn-maps"><i class="fa-solid fa-map-location-dot"></i> Open Maps</a>
-        <a class="button" href="intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end" target="_blank" id="btn-accessibility"><i class="fa-solid fa-universal-access"></i> Accessibility Settings</a>
-        <a class="button" href="intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;data=package:com.google.android.gms;end" target="_blank" id="btn-play-services"><i class="fa-solid fa-gears"></i> Google Play Services</a>
-        <a class="button" href="intent:#Intent;action=android.app.action.SET_NEW_PASSWORD;end" target="_blank" id="btn-set-lock"><i class="fa-solid fa-lock"></i> Set Screen Lock</a>
-        <a class="button" href="intent:#Intent;action=com.google.android.gsf.login.LOGIN_ACTIVITY;package=com.google.android.gsf.login;end" target="_blank" id="btn-google-login"><i class="fa-brands fa-google"></i> Google Login</a>
-        <a class="button" href="intent://com.google.android.googlequicksearchbox/#Intent;scheme=android-app;end" target="_blank" id="btn-google-search"><i class="fa-solid fa-magnifying-glass"></i> Open Google Search</a>
-        <a class="button" href="intent://com.android.vending/#Intent;scheme=android-app;end" target="_blank" id="btn-play-store"><i class="fa-brands fa-google-play"></i> Open Play Store</a>
-        <a class="button" href="intent://com.rrivenllc.shieldx/#Intent;scheme=android-app;end" target="_blank" id="btn-alliance-shield"><i class="fa-solid fa-shield-halved"></i> Open Alliance Shield</a>
-        <a class="button" href="samsungapps://ProductDetail/com.rrivenllc.shieldx" target="_blank" id="btn-alliance-shield-store"><i class="fa-solid fa-store"></i> Alliance Shield (Galaxy Store)</a>
-        <a class="button" href="intent://com.samsung.android.dialer/#Intent;scheme=android-app;end" target="_blank" id="btn-samsung-dialer"><i class="fa-solid fa-phone"></i> Open Samsung Dialer</a>
-        <a class="button" href="intent://com.sec.android.app.servicemodeapp/#Intent;scheme=promote_USBSettings_scheme;end" target="_blank" id="btn-usb-settings"><i class="fa-brands fa-usb"></i> Open USB Settings</a>
-        <a class="button" href="intent://com.activitymanager/#Intent;scheme=android-app;end" target="_blank" id="btn-activity-manager"><i class="fa-solid fa-rocket"></i> Open Activity Manager</a>
-        <a class="button" href="samsungapps://ProductDetail/com.activitymanager" target="_blank" id="btn-activity-manager-store"><i class="fa-solid fa-store"></i> Activity Manager (Galaxy Store)</a>
-        <a class="button" href="intent://org.aospstudio.files/#Intent;scheme=android-app;end" target="_blank" id="btn-files-shortcut"><i class="fa-solid fa-folder"></i> Open Files Shortcut</a>
-        <a class="button" href="samsungapps://ProductDetail/org.aospstudio.files" target="_blank" id="btn-files-shortcut-store"><i class="fa-solid fa-store"></i> Files Shortcut (Galaxy Store)</a>
-        <a class="button" href="intent://com.infinix.xshare/#Intent;scheme=android-app;end" target="_blank" id="btn-xshare"><i class="fa-solid fa-share-nodes"></i> Open XShare</a>
-        <a class="button" href="samsungapps://ProductDetail/com.infinix.xshare" target="_blank" id="btn-xshare-store"><i class="fa-solid fa-store"></i> XShare (Galaxy Store)</a>
-        <a class="button" href="tel:*#85#" target="_blank" id="btn-adb-tecno"><i class="fa-solid fa-terminal"></i> Enable ADB (Tecno/Infinix)</a>
-        <a class="button" href="intent://com.school.optimize/#Intent;scheme=android-app;end" target="_blank" id="btn-package-disabler"><i class="fa-solid fa-ban"></i> Open Package Disabler</a>
-        <a class="button" href="intent://com.sec.android.app.popupcalculator/#Intent;scheme=android-app;end" target="_blank" id="btn-calculator"><i class="fa-solid fa-calculator"></i> Open Calculator</a>
-        <a class="button" href="intent://com.sec.android.app.hwmoduletest/#Intent;scheme=android-app;end" target="_blank" id="btn-hw-test"><i class="fa-solid fa-microscope"></i> HWModuleTest</a>
-        <a class="button" href="intent://com.cloudmdm.tools.cloud/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-mdm"><i class="fa-solid fa-cloud"></i> Open Knox Cloud MDM</a>
-        <a class="button" href="intent://com.knox.verification.gettingstarted/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-verify"><i class="fa-solid fa-check-double"></i> Knox Verification</a>
-        <a class="button" href="intent://com.sec.android.easyMover/#Intent;scheme=android-app;end" target="_blank" id="btn-smart-switch"><i class="fa-solid fa-repeat"></i> Open Smart Switch</a>
+
+        <div class="tool-category">
+          <h4 id="category-stores">App Stores</h4>
+          <a class="button" href="intent://com.android.vending/#Intent;scheme=android-app;end" target="_blank" id="btn-play-store"><img src="playstore.png" alt="Play Store"> Open Play Store</a>
+          <a class="button" href="intent://com.sec.android.app.samsungapps/#Intent;scheme=android-app;end" target="_blank" id="btn-galaxy"><img src="samsung.png" alt="Galaxy Store"> Open Galaxy Store</a>
+          <a class="button" href="intent://com.heytap.market/#Intent;scheme=android-app;end" target="_blank" id="btn-oppo-market"><img src="oppo.png" alt="Oppo Market"> Open App Market (Oppo)</a>
+          <a class="button" href="intent://com.vivo.appstore/#Intent;scheme=android-app;end" target="_blank" id="btn-vivo-market"><img src="vivo.png" alt="Vivo Store"> Open App Store (Vivo)</a>
+          <a class="button" href="intent://com.xiaomi.mipicks/#Intent;scheme=android-app;end" target="_blank" id="btn-xiaomi-market"><img src="xiaomi.png" alt="Xiaomi Store"> Open App Store (Xiaomi)</a>
+        </div>
+
+        <div class="tool-category">
+          <h4 id="category-transfer">File Transfer & Backup</h4>
+          <a class="button" href="intent://com.sec.android.easyMover/#Intent;scheme=android-app;end" target="_blank" id="btn-smart-switch"><img src="smartswitch.png" alt="Smart Switch"> Open Smart Switch</a>
+          <a class="button" href="intent://com.coloros.backuprestore/#Intent;scheme=android-app;end" target="_blank" id="btn-oppo-clone-phone"><img src="clonephone_oppo.png" alt="Clone Phone"> Open Clone Phone (Oppo)</a>
+          <a class="button" href="intent://com.hicloud.android.clone/#Intent;scheme=android-app;end" target="_blank" id="btn-huawei-clone-phone"><img src="huawei.png" alt="Phone Clone"> Open Phone Clone (Huawei)</a>
+          <a class="button" href="intent://com.vivo.easyshare/#Intent;scheme=android-app;end" target="_blank" id="btn-easyshare"><img src="easyshare.png" alt="EasyShare"> Open EasyShare (Vivo)</a>
+          <a class="button" href="intent://com.infinix.xshare/#Intent;scheme=android-app;end" target="_blank" id="btn-xshare"><img src="infinix.png" alt="XShare"> Open XShare (Infinix)</a>
+          <a class="button" href="intent://com.xiaomi.midrop/#Intent;scheme=android-app;end" target="_blank" id="btn-shareme"><img src="shareme.png" alt="ShareMe"> Open ShareMe (Xiaomi)</a>
+          <a class="button" href="intent://com.miui.huanji/#Intent;scheme=android-app;end" target="_blank" id="btn-mi-mover"><img src="mimover.png" alt="Mi Mover"> Open Mi Mover (Xiaomi)</a>
+        </div>
+
+        <div class="tool-category">
+          <h4 id="category-google">Google Apps</h4>
+          <a class="button" href="intent://com.google.android.youtube/#Intent;scheme=android-app;end" target="_blank" id="btn-youtube"><img src="youtube.png" alt="YouTube"> Open YouTube</a>
+          <a class="button" href="intent://com.android.chrome/#Intent;scheme=android-app;end" target="_blank" id="btn-chrome"><img src="chrome.png" alt="Chrome"> Open Chrome Browser</a>
+          <a class="button" href="intent://com.google.android.gm/#Intent;scheme=android-app;end" target="_blank" id="btn-gmail"><img src="gmail.png" alt="Gmail"> Open Gmail</a>
+          <a class="button" href="intent://com.google.android.apps.maps/#Intent;scheme=android-app;end" target="_blank" id="btn-maps"><img src="maps.png" alt="Maps"> Open Maps</a>
+          <a class="button" href="intent://com.google.android.googlequicksearchbox/#Intent;scheme=android-app;end" target="_blank" id="btn-google-search"><img src="google.png" alt="Google Search"> Open Google Search</a>
+          <a class="button" href="intent:#Intent;action=com.google.android.gsf.login.LOGIN_ACTIVITY;package=com.google.android.gsf.login;end" target="_blank" id="btn-google-login"><img src="google.png" alt="Google Login"> Google Login</a>
+          <a class="button" href="intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;data=package:com.google.android.gms;end" target="_blank" id="btn-play-services"><img src="playstore.png" alt="Play Services"> Google Play Services</a>
+        </div>
+
+        <div class="tool-category">
+          <h4 id="category-system">System & Settings</h4>
+          <a class="button" href="intent://com.android.settings/#Intent;scheme=android-app;end" target="_blank" id="btn-settings"><i class="fa-solid fa-gear"></i> Open Settings</a>
+          <a class="button" href="intent://com.sec.android.app.myfiles/#Intent;scheme=android-app;end" target="_blank" id="btn-my-files"><i class="fa-solid fa-folder-open"></i> Open My Files (Samsung)</a>
+          <a class="button" href="intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end" target="_blank" id="btn-accessibility"><i class="fa-solid fa-universal-access"></i> Accessibility Settings</a>
+          <a class="button" href="intent:#Intent;action=android.app.action.SET_NEW_PASSWORD;end" target="_blank" id="btn-set-lock"><i class="fa-solid fa-lock"></i> Set Screen Lock</a>
+          <a class="button" href="intent://com.sec.android.app.popupcalculator/#Intent;scheme=android-app;end" target="_blank" id="btn-calculator"><i class="fa-solid fa-calculator"></i> Open Calculator</a>
+          <a class="button" href="intent://com.secuso.privacyFriendlyCodeScanner.QrScanActivity/#Intent;scheme=android-app;end" target="_blank" id="btn-open-qr-scanner"><i class="fa-solid fa-qrcode"></i> Open QR scanner</a>
+        </div>
+
+        <div class="tool-category">
+          <h4 id="category-frp">FRP & Unlocking Tools</h4>
+          <a class="button" href="intent://de.szalkowski.activitylauncher/#Intent;scheme=android-app;end" target="_blank" id="btn-activity-launcher"><i class="fa-solid fa-rocket"></i> Open Activity Launcher</a>
+          <a class="button" href="intent://com.google.android.gms/#Intent;scheme=promote_smartlock_scheme;end" target="_blank" id="btn-pincode"><i class="fa-solid fa-key"></i> Open Pin Code (Smart Lock)</a>
+          <a class="button" href="intent://com.rrivenllc.shieldx/#Intent;scheme=android-app;end" target="_blank" id="btn-alliance-shield"><img src="allianceshield.png" alt="Alliance Shield"> Open Alliance Shield</a>
+          <a class="button" href="samsungapps://ProductDetail/com.rrivenllc.shieldx" target="_blank" id="btn-alliance-shield-store"><img src="allianceshield.png" alt="Galaxy Store"> Alliance Shield (Galaxy Store)</a>
+          <a class="button" href="intent://com.activitymanager/#Intent;scheme=android-app;end" target="_blank" id="btn-activity-manager"><i class="fa-solid fa-rocket"></i> Open Activity Manager</a>
+          <a class="button" href="samsungapps://ProductDetail/com.activitymanager" target="_blank" id="btn-activity-manager-store"><img src="samsung.png" alt="Galaxy Store"> Activity Manager (Galaxy Store)</a>
+          <a class="button" href="intent://org.aospstudio.files/#Intent;scheme=android-app;end" target="_blank" id="btn-files-shortcut"><i class="fa-solid fa-folder"></i> Open Files Shortcut</a>
+          <a class="button" href="samsungapps://ProductDetail/org.aospstudio.files" target="_blank" id="btn-files-shortcut-store"><img src="samsung.png" alt="Galaxy Store"> Files Shortcut (Galaxy Store)</a>
+          <a class="button" href="intent://com.school.optimize/#Intent;scheme=android-app;end" target="_blank" id="btn-package-disabler"><i class="fa-solid fa-ban"></i> Open Package Disabler</a>
+          <a class="button" href="intent://com.cloudmdm.tools.cloud/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-mdm"><i class="fa-solid fa-cloud"></i> Open Knox Cloud MDM</a>
+          <a class="button" href="intent://com.knox.verification.gettingstarted/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-verify"><i class="fa-solid fa-check-double"></i> Knox Verification</a>
+          <a class="button" href="samsungapps://ProductDetail/com.infinix.xshare" target="_blank" id="btn-xshare-store"><img src="samsung.png" alt="Galaxy Store"> XShare (Galaxy Store)</a>
+        </div>
+
+        <div class="tool-category">
+          <h4 id="category-dev">Developer & Special Access</h4>
+          <a class="button" href="tel:*#85#" target="_blank" id="btn-adb-tecno"><i class="fa-solid fa-terminal"></i> Enable ADB (Tecno/Infinix)</a>
+          <a class="button" href="intent://com.samsung.android.dialer/#Intent;scheme=android-app;end" target="_blank" id="btn-samsung-dialer"><img src="samsung.png" alt="Dialer"> Open Samsung Dialer</a>
+          <a class="button" href="intent://com.sec.android.app.servicemodeapp/#Intent;scheme=promote_USBSettings_scheme;end" target="_blank" id="btn-usb-settings"><i class="fa-brands fa-usb"></i> Open USB Settings</a>
+          <a class="button" href="intent://com.sec.android.app.hwmoduletest/#Intent;scheme=android-app;end" target="_blank" id="btn-hw-test"><i class="fa-solid fa-microscope"></i> HWModuleTest</a>
+        </div>
       </div>
 
       <div class="downloads">
@@ -389,38 +446,53 @@
           'services-tab': 'Services',
           'welcome-text': 'Welcome to Mostafa Unlocker Hub -- your trusted source for software solutions, tools, scripts, and online services for iPhone and Android devices.',
           'online-tools-title': '🧪 Online Tools (Direct from Website)',
-          'btn-youtube': '<i class="fa-brands fa-youtube"></i> Open YouTube',
+          'btn-youtube': '<img src="youtube.png" alt="YouTube"> Open YouTube',
           'btn-settings': '<i class="fa-solid fa-gear"></i> Open Settings',
-          'btn-galaxy': '<i class="fa-solid fa-store"></i> Open Galaxy Store',
-          'btn-chrome': '<i class="fa-brands fa-chrome"></i> Open Chrome Browser',
-          'btn-gmail': '<i class="fa-solid fa-envelope"></i> Open Gmail',
+          'btn-galaxy': '<img src="samsung.png" alt="Galaxy Store"> Open Galaxy Store',
+          'btn-oppo-market': '<img src="oppo.png" alt="Oppo Market"> Open App Market (Oppo)', // Kept as is, it's the market
+          'btn-oppo-clone-phone': '<img src="clonephone_oppo.png" alt="Clone Phone"> Open Clone Phone (Oppo)',
+          'btn-huawei-clone-phone': '<img src="huawei.png" alt="Phone Clone"> Open Phone Clone (Huawei)',
+          'btn-vivo-market': '<img src="vivo.png" alt="Vivo Store"> Open App Store (Vivo)',
+          'btn-xiaomi-market': '<img src="xiaomi.png" alt="Xiaomi Store"> Open App Store (Xiaomi)',
+          'btn-easyshare': '<img src="easyshare.png" alt="EasyShare"> Open EasyShare (Vivo)',
+          'btn-chrome': '<img src="chrome.png" alt="Chrome"> Open Chrome Browser',
+          'btn-gmail': '<img src="gmail.png" alt="Gmail"> Open Gmail',
           'btn-pincode': '<i class="fa-solid fa-key"></i> Open Pin Code (Smart Lock)',
           'btn-open-qr-scanner': '<i class="fa-solid fa-qrcode"></i> Open QR scanner',
           'btn-my-files': '<i class="fa-solid fa-folder-open"></i> Open My Files (Samsung)',
-          'btn-maps': '<i class="fa-solid fa-map-location-dot"></i> Open Maps',
+          'btn-maps': '<img src="maps.png" alt="Maps"> Open Maps',
           'btn-accessibility': '<i class="fa-solid fa-universal-access"></i> Accessibility Settings',
-          'btn-play-services': '<i class="fa-solid fa-gears"></i> Google Play Services',
+          'btn-play-services': '<img src="playstore.png" alt="Play Services"> Google Play Services',
           'btn-set-lock': '<i class="fa-solid fa-lock"></i> Set Screen Lock',
-          'btn-google-login': '<i class="fa-brands fa-google"></i> Google Login',
-          'btn-google-search': '<i class="fa-solid fa-magnifying-glass"></i> Open Google Search',
-          'btn-play-store': '<i class="fa-brands fa-google-play"></i> Open Play Store',
-          'btn-alliance-shield': '<i class="fa-solid fa-shield-halved"></i> Open Alliance Shield',
-          'btn-alliance-shield-store': '<i class="fa-solid fa-store"></i> Alliance Shield (Galaxy Store)',
-          'btn-samsung-dialer': '<i class="fa-solid fa-phone"></i> Open Samsung Dialer',
+          'btn-google-login': '<img src="google.png" alt="Google Login"> Google Login',
+          'btn-google-search': '<img src="google.png" alt="Google Search"> Open Google Search',
+          'btn-play-store': '<img src="playstore.png" alt="Play Store"> Open Play Store',
+          'btn-alliance-shield': '<img src="allianceshield.png" alt="Alliance Shield"> Open Alliance Shield',
+          'btn-alliance-shield-store': '<img src="allianceshield.png" alt="Galaxy Store"> Alliance Shield (Galaxy Store)',
+          'btn-samsung-dialer': '<img src="samsung.png" alt="Dialer"> Open Samsung Dialer',
           'btn-usb-settings': '<i class="fa-brands fa-usb"></i> Open USB Settings',
+          'btn-activity-launcher': '<i class="fa-solid fa-rocket"></i> Open Activity Launcher',
           'btn-activity-manager': '<i class="fa-solid fa-rocket"></i> Open Activity Manager',
-          'btn-activity-manager-store': '<i class="fa-solid fa-store"></i> Activity Manager (Galaxy Store)',
+          'btn-activity-manager-store': '<img src="samsung.png" alt="Galaxy Store"> Activity Manager (Galaxy Store)',
           'btn-files-shortcut': '<i class="fa-solid fa-folder"></i> Open Files Shortcut',
-          'btn-files-shortcut-store': '<i class="fa-solid fa-store"></i> Files Shortcut (Galaxy Store)',
-          'btn-xshare': '<i class="fa-solid fa-share-nodes"></i> Open XShare',
-          'btn-xshare-store': '<i class="fa-solid fa-store"></i> XShare (Galaxy Store)',
+          'btn-files-shortcut-store': '<img src="samsung.png" alt="Galaxy Store"> Files Shortcut (Galaxy Store)',
+          'btn-xshare': '<img src="infinix.png" alt="XShare"> Open XShare (Infinix)',
+          'btn-shareme': '<img src="shareme.png" alt="ShareMe"> Open ShareMe (Xiaomi)',
+          'btn-mi-mover': '<img src="mimover.png" alt="Mi Mover"> Open Mi Mover (Xiaomi)',
+          'btn-xshare-store': '<img src="samsung.png" alt="Galaxy Store"> XShare (Galaxy Store)',
           'btn-adb-tecno': '<i class="fa-solid fa-terminal"></i> Enable ADB (Tecno/Infinix)',
           'btn-package-disabler': '<i class="fa-solid fa-ban"></i> Open Package Disabler',
           'btn-calculator': '<i class="fa-solid fa-calculator"></i> Open Calculator',
           'btn-hw-test': '<i class="fa-solid fa-microscope"></i> HWModuleTest',
           'btn-knox-mdm': '<i class="fa-solid fa-cloud"></i> Open Knox Cloud MDM',
           'btn-knox-verify': '<i class="fa-solid fa-check-double"></i> Knox Verification',
-          'btn-smart-switch': '<i class="fa-solid fa-repeat"></i> Open Smart Switch',
+          'btn-smart-switch': '<img src="smartswitch.png" alt="Smart Switch"> Open Smart Switch',
+          'category-stores': 'App Stores',
+          'category-transfer': 'File Transfer & Backup',
+          'category-google': 'Google Apps',
+          'category-system': 'System & Settings',
+          'category-frp': 'FRP & Unlocking Tools',
+          'category-dev': 'Developer & Special Access',
           'downloads-title': '⬇️ Downloads',
           'btn-unlocker': '<i class="fa-solid fa-download"></i> Mostafa Unlocker v1.0 Beta',
           'btn-scripts': '<i class="fa-solid fa-file-zipper"></i> Scripts & Tools Collection (ZIP)',
@@ -487,38 +559,53 @@
           'services-tab': 'الخدمات',
           'welcome-text': 'مرحبًا بك في مركز مصطفى لفك القفل -- المكان الموثوق لحلول السوفت وير، الأدوات، السكربتات، والخدمات المباشرة لأجهزة iPhone و Android.',
           'online-tools-title': '🧪 أدوات عبر الإنترنت (مباشرة من الموقع)',
-          'btn-youtube': '<i class="fa-brands fa-youtube"></i> فتح يوتيوب',
+          'btn-youtube': '<img src="youtube.png" alt="YouTube"> فتح يوتيوب',
           'btn-settings': '<i class="fa-solid fa-gear"></i> فتح الإعدادات',
-          'btn-galaxy': '<i class="fa-solid fa-store"></i> فتح متجر Galaxy',
-          'btn-chrome': '<i class="fa-brands fa-chrome"></i> فتح متصفح كروم',
-          'btn-gmail': '<i class="fa-solid fa-envelope"></i> فتح Gmail',
+          'btn-galaxy': '<img src="samsung.png" alt="Galaxy Store"> فتح متجر Galaxy',
+          'btn-oppo-market': '<img src="oppo.png" alt="Oppo Market"> فتح متجر تطبيقات اوبو', // Kept as is, it's the market
+          'btn-oppo-clone-phone': '<img src="clonephone_oppo.png" alt="Clone Phone"> فتح تطبيق استنساخ الهاتف (اوبو)',
+          'btn-huawei-clone-phone': '<img src="huawei.png" alt="Phone Clone"> فتح تطبيق استنساخ الهاتف (هواوي)',
+          'btn-vivo-market': '<img src="vivo.png" alt="Vivo Store"> فتح متجر تطبيقات فيفو',
+          'btn-xiaomi-market': '<img src="xiaomi.png" alt="Xiaomi Store"> فتح متجر تطبيقات شاومي',
+          'btn-easyshare': '<img src="easyshare.png" alt="EasyShare"> فتح EasyShare (فيفو)',
+          'btn-chrome': '<img src="chrome.png" alt="Chrome"> فتح متصفح كروم',
+          'btn-gmail': '<img src="gmail.png" alt="Gmail"> فتح Gmail',
           'btn-pincode': '<i class="fa-solid fa-key"></i> فتح رمز PIN (القفل الذكي)',
           'btn-open-qr-scanner': '<i class="fa-solid fa-qrcode"></i> فتح ماسح QR',
           'btn-my-files': '<i class="fa-solid fa-folder-open"></i> فتح ملفاتي (سامسونج)',
-          'btn-maps': '<i class="fa-solid fa-map-location-dot"></i> فتح الخرائط',
+          'btn-maps': '<img src="maps.png" alt="Maps"> فتح الخرائط',
           'btn-accessibility': '<i class="fa-solid fa-universal-access"></i> إعدادات إمكانية الوصول',
-          'btn-play-services': '<i class="fa-solid fa-gears"></i> خدمات جوجل بلاي',
+          'btn-play-services': '<img src="playstore.png" alt="Play Services"> خدمات جوجل بلاي',
           'btn-set-lock': '<i class="fa-solid fa-lock"></i> تعيين قفل الشاشة',
-          'btn-google-login': '<i class="fa-brands fa-google"></i> تسجيل دخول جوجل',
-          'btn-google-search': '<i class="fa-solid fa-magnifying-glass"></i> فتح بحث جوجل',
-          'btn-play-store': '<i class="fa-brands fa-google-play"></i> فتح متجر بلاي',
-          'btn-alliance-shield': '<i class="fa-solid fa-shield-halved"></i> فتح Alliance Shield',
-          'btn-alliance-shield-store': '<i class="fa-solid fa-store"></i> Alliance Shield (متجر Galaxy)',
-          'btn-samsung-dialer': '<i class="fa-solid fa-phone"></i> فتح هاتف سامسونج',
+          'btn-google-login': '<img src="google.png" alt="Google Login"> تسجيل دخول جوجل',
+          'btn-google-search': '<img src="google.png" alt="Google Search"> فتح بحث جوجل',
+          'btn-play-store': '<img src="playstore.png" alt="Play Store"> فتح متجر بلاي',
+          'btn-alliance-shield': '<img src="allianceshield.png" alt="Alliance Shield"> فتح Alliance Shield',
+          'btn-alliance-shield-store': '<img src="allianceshield.png" alt="Galaxy Store"> Alliance Shield (متجر Galaxy)',
+          'btn-samsung-dialer': '<img src="samsung.png" alt="Dialer"> فتح هاتف سامسونج',
           'btn-usb-settings': '<i class="fa-brands fa-usb"></i> فتح إعدادات USB',
+          'btn-activity-launcher': '<i class="fa-solid fa-rocket"></i> فتح Activity Launcher',
           'btn-activity-manager': '<i class="fa-solid fa-rocket"></i> فتح مدير الأنشطة',
-          'btn-activity-manager-store': '<i class="fa-solid fa-store"></i> مدير الأنشطة (متجر Galaxy)',
+          'btn-activity-manager-store': '<img src="samsung.png" alt="Galaxy Store"> مدير الأنشطة (متجر Galaxy)',
           'btn-files-shortcut': '<i class="fa-solid fa-folder"></i> فتح اختصار الملفات',
-          'btn-files-shortcut-store': '<i class="fa-solid fa-store"></i> اختصار الملفات (متجر Galaxy)',
-          'btn-xshare': '<i class="fa-solid fa-share-nodes"></i> فتح XShare',
-          'btn-xshare-store': '<i class="fa-solid fa-store"></i> XShare (متجر Galaxy)',
+          'btn-files-shortcut-store': '<img src="samsung.png" alt="Galaxy Store"> اختصار الملفات (متجر Galaxy)',
+          'btn-xshare': '<img src="infinix.png" alt="XShare"> فتح XShare (انفينكس)',
+          'btn-shareme': '<img src="shareme.png" alt="ShareMe"> فتح ShareMe (شاومي)',
+          'btn-mi-mover': '<img src="mimover.png" alt="Mi Mover"> فتح Mi Mover (شاومي)',
+          'btn-xshare-store': '<img src="samsung.png" alt="Galaxy Store"> XShare (متجر Galaxy)',
           'btn-adb-tecno': '<i class="fa-solid fa-terminal"></i> تفعيل ADB (Tecno/Infinix)',
           'btn-package-disabler': '<i class="fa-solid fa-ban"></i> فتح Package Disabler',
           'btn-calculator': '<i class="fa-solid fa-calculator"></i> فتح الآلة الحاسبة',
           'btn-hw-test': '<i class="fa-solid fa-microscope"></i> اختبار المكونات',
           'btn-knox-mdm': '<i class="fa-solid fa-cloud"></i> فتح Knox Cloud MDM',
           'btn-knox-verify': '<i class="fa-solid fa-check-double"></i> تحقق Knox',
-          'btn-smart-switch': '<i class="fa-solid fa-repeat"></i> فتح Smart Switch',
+          'btn-smart-switch': '<img src="smartswitch.png" alt="Smart Switch"> فتح Smart Switch',
+          'category-stores': 'متاجر التطبيقات',
+          'category-transfer': 'نقل الملفات والنسخ الاحتياطي',
+          'category-google': 'تطبيقات جوجل',
+          'category-system': 'النظام والإعدادات',
+          'category-frp': 'أدوات FRP والتخطي',
+          'category-dev': 'أدوات المطور والوصول الخاص',
           'downloads-title': '⬇️ التنزيلات',
           'btn-unlocker': '<i class="fa-solid fa-download"></i> مصطفى أونلوكر v1.0 بيتا',
           'btn-scripts': '<i class="fa-solid fa-file-zipper"></i> مجموعة البرامج النصية والأدوات (ZIP)',
@@ -611,5 +698,3 @@
 </body>
 
 </html>
-
-
