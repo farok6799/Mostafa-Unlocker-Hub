@@ -1,49 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" 
-"http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>PayloadType</key>
-    <string>Configuration</string>
-    <key>PayloadVersion</key>
-    <integer>1</integer>
-    <key>PayloadIdentifier</key>
-    <string>com.mostafa.icloud.fix</string>
-    <key>PayloadUUID</key>
-    <string>ABCDEF12-3456-7890-FFFF-112233445566</string>
-    <key>PayloadDisplayName</key>
-    <string>iCloud Network Fix</string>
-    <key>PayloadContent</key>
-    <array>
-        <dict>
-            <key>PayloadType</key>
-            <string>com.apple.system.configuration</string>
-            <key>PayloadVersion</key>
-            <integer>1</integer>
-            <key>PayloadIdentifier</key>
-            <string>com.mostafa.network.reset</string>
-            <key>PayloadUUID</key>
-            <string>12345678-ABCD-9999-FFFF-112233445566</string>
-
-            <!-- إعداد DNS صحيح لتفادي مشاكل الاتصال -->
-            <key>DNS</key>
-            <dict>
-                <key>Servers</key>
-                <array>
-                    <string>8.8.8.8</string>
-                    <string>1.1.1.1</string>
-                </array>
-            </dict>
-
-            <!-- إزالة أي Proxy -->
-            <key>Proxies</key>
-            <dict>
-                <key>HTTPEnable</key>
-                <integer>0</integer>
-                <key>HTTPSEnable</key>
-                <integer>0</integer>
-            </dict>
-        </dict>
-    </array>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>DNSSettings</key>
+			<dict>
+				<key>SupplementalMatchDomains</key>
+				<array>
+					<string>*</string>
+				</array>
+				<key>ServerAddresses</key>
+				<array>
+					<string>8.8.8.8</string>
+					<string>8.8.4.4</string>
+				</array>
+				<key>ServerURL</key>
+				<string>https://dns.google/dns-query</string>
+			</dict>
+			<key>PayloadDescription</key>
+			<string>Configures DNS-over-HTTPS using Google DNS to resolve server communication issues.</string>
+			<key>PayloadDisplayName</key>
+			<string>MostafaiCloudFix DNS-over-HTTPS</string>
+			<key>PayloadIdentifier</key>
+			<string>com.manus.MostafaiCloudFix.dns.A2B4C6D8-E0F2-1A3B-5C7D-9E1F3A5B7C9D</string>
+			<key>PayloadType</key>
+			<string>com.apple.dnsSettings</string>
+			<key>PayloadUUID</key>
+			<string>A2B4C6D8-E0F2-1A3B-5C7D-9E1F3A5B7C9D</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string>This profile configures a secure DNS-over-HTTPS connection to Google DNS to fix server communication errors on iOS devices.</string>
+	<key>PayloadDisplayName</key>
+	<string>MostafaiCloudFix</string>
+	<key>PayloadIdentifier</key>
+	<string>com.manus.MostafaiCloudFix.profile.F0E1D2C3-B4A5-6789-0123-456789ABCDEF</string>
+	<key>PayloadRemovalDisallowed</key>
+	<false/>
+	<key>PayloadScope</key>
+	<string>System</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>F0E1D2C3-B4A5-6789-0123-456789ABCDEF</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
 </dict>
 </plist>
