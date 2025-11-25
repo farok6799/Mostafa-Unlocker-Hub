@@ -322,7 +322,7 @@
           <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/xml/pd_disable_apps_disable_googleservice.xml" target="_blank" id="btn-dl-xml-gs" download>Disable Google Service (XML)</a></li>
           <li id="ios-downloads-title" style="font-weight: bold; margin-top: 20px; margin-bottom: 10px;">iOS Tools & Profiles:</li>
           <li><a class="button" href="https://raw.githubusercontent.com/farok6799/Mostafa-Unlocker-Hub/refs/heads/main/blockota-26.mobileconfig" target="_blank" id="btn-dl-ios-profile"><i class="fa-brands fa-apple"></i> Block iOS Updates (Profile)</a></li>
-          <li><a class="button" href="https://raw.githubusercontent.com/farok6799/Mostafa-Unlocker-Hub/main/Mostafa_Global_Family_DNS.mobileconfig" target="_blank" id="btn-dl-ios-dns"><i class="fa-solid fa-shield-halved"></i> Block Ads & Adult Content (Profile)</a></li>
+          <li><a class="button" href="javascript:void(0);" onclick="forceDownload('https://raw.githubusercontent.com/farok6799/Mostafa-Unlocker-Hub/main/Mostafa_Global_Family_DNS.mobileconfig', 'Mostafa_Global_Family_DNS.mobileconfig')" id="btn-dl-ios-dns"><i class="fa-solid fa-shield-halved"></i> Block Ads & Adult Content (Profile)</a></li>
         </ul>
       </div>
 
@@ -439,6 +439,22 @@
       // Show the selected tab and mark its button as active
       document.getElementById(tabName).classList.add('active');
       event.currentTarget.classList.add('active');
+    }
+
+    function forceDownload(url, fileName){
+      fetch(url).then(response => response.blob()).then(blob => {
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          // For Safari on iOS, a new tab might open. This is a known behavior.
+          // The download should still initiate in the background or prompt the user.
+      }).catch(e => {
+          console.error('Download failed:', e);
+          alert('Could not download the file. Please try again.');
+      });
     }
 
     document.addEventListener('DOMContentLoaded', () => {
