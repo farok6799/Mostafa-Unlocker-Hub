@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadDisplayName</key>
+    <string>Mostafa Global AdGuard Family DNS</string>
+    <key>PayloadIdentifier</key>
+    <string>com.mostafa.dns.dohfamily</string>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadUUID</key>
+    <string>2A4B7C9D-1234-4ABC-9DEF-998877665544</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+    <key>PayloadContent</key>
+    <array>
+        <dict>
+            <key>PayloadType</key>
+            <string>com.apple.dnsSettings.managed</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>PayloadIdentifier</key>
+            <string>com.mostafa.dns.dohfamily.inner</string>
+            <key>PayloadUUID</key>
+            <string>F1E2D3C4-5678-49AA-BBBB-112233445599</string>
+            <key>PayloadDisplayName</key>
+            <string>AdGuard Family DoH</string>
+            <key>DNSSettings</key>
+            <dict>
+                <key>DNSProtocol</key>
+                <string>HTTPS</string>
+                <key>ServerURL</key>
+                <string>https://dns-family.adguard.com/dns-query</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>
