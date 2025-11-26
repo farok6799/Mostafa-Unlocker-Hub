@@ -162,22 +162,6 @@
     .services-page p {
       font-size: 18px;
     }
-    .services-page table {
-      width: 100%;
-      margin-top: 30px;
-      border-collapse: collapse;
-    }
-    .services-page th, .services-page td {
-      border: 1px solid #444;
-      padding: 12px;
-      font-size: 16px;
-    }
-    .services-page th {
-      background-color: rgba(27, 38, 59, 0.7);
-    }
-    .services-page tr:nth-child(even) {
-      background-color: #1a1a1a;
-    }
     .services-page .contact {
       margin-top: 40px;
       font-size: 18px;
@@ -207,6 +191,26 @@
       color: #00D9FF;
       margin-bottom: 15px;
       font-size: 1.1em;
+    }
+
+    /* New Service Cards Styling */
+    .services-cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .service-card {
+      background: rgba(27, 38, 59, 0.7);
+      padding: 25px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      display: flex;
+      flex-direction: column;
+    }
+    .service-card h3 {
+      color: #00D9FF;
     }
   </style>
 </head>
@@ -366,53 +370,46 @@
       <h1 id="services-main-title">📱 خدمات مصطفى - Mostafa Unlocker Hub</h1>
       <p id="services-description">جميع خدمات السوفت وير متاحة أونلاين أو حضوري حسب الاتفاق، بدقة واحترافية.</p>
 
-      <table>
-        <tr>
-          <th id="service-header">الخدمة</th>
-          <th id="description-header">الوصف</th>
-        </tr>
-
-        <tr>
-          <td id="icloud-bypass-title">تخطي iCloud - iPhone</td>
-          <td id="icloud-bypass-desc">
+      <div class="services-cards-container">
+        <div class="service-card">
+          <h3 id="icloud-bypass-title">تخطي iCloud - iPhone</h3>
+          <p id="icloud-bypass-desc">
             ✅ مدعوم من <strong>iPhone 6s حتى iPhone 16 Pro Max</strong><br><br>
             - <strong>6s إلى X:</strong> تخطي بشبكة (Passcode / Hello)<br>
             - <strong>XS إلى 16 Pro Max:</strong> تخطي بدون شبكة<br><br>
             ⚠️ تأكد من الدعم قبل تنفيذ العملية، التواصل معنا لمعرفة هل الجهاز مدعوم حالياً أم لا، وهل التخطي متاح بشبكة أو بدون أو موقوف.
-          </td>
-        </tr>
+          </p>
+        </div>
 
-        <tr>
-          <td id="official-icloud-title">فك iCloud رسمي</td>
-          <td id="official-icloud-desc">متوفر فك iCloud رسمي للأجهزة المؤهلة عبر سيرفر Apple، حسب الشروط.</td>
-        </tr>
+        <div class="service-card">
+          <h3 id="official-icloud-title">فك iCloud رسمي</h3>
+          <p id="official-icloud-desc">متوفر فك iCloud رسمي للأجهزة المؤهلة عبر سيرفر Apple، حسب الشروط.</p>
+        </div>
 
-        <tr>
-          <td id="mdm-removal-title">إزالة MDM - تابلت المدارس</td>
-          <td id="mdm-removal-desc">
+        <div class="service-card">
+          <h3 id="mdm-removal-title">إزالة MDM - تابلت المدارس</h3>
+          <p id="mdm-removal-desc">
             ✅ إزالة MDM بالكامل للتابلتات التالية:<br><br>
             - Galaxy Tab A9+: <strong>SM-X216B</strong><br>
             - Galaxy Tab A7 (2024): <strong>SM-T509</strong><br>
             - Galaxy Tab A7 LTE: <strong>SM-T505N</strong><br>
             - Galaxy Tab A 2016: <strong>SM-T585</strong> (القديم بزرار الهوم)
-          </td>
-        </tr>
+          </p>
+        </div>
 
-        <tr>
-          <td id="frp-removal-title">إزالة FRP</td>
-          <td id="frp-removal-desc">
-            متاح إزالة FRP لجميع الشركات: Samsung، Huawei، Xiaomi، Oppo، Vivo، Realme، Infinix، Tecno، Nokia، وغيرها.
-          </td>
-        </tr>
+        <div class="service-card">
+          <h3 id="frp-removal-title">إزالة FRP</h3>
+          <p id="frp-removal-desc">متاح إزالة FRP لجميع الشركات: Samsung، Huawei، Xiaomi، Oppo، Vivo، Realme، Infinix، Tecno، Nokia، وغيرها.</p>
+        </div>
 
-        <tr>
-          <td id="imei-repair-title">إصلاح IMEI / Serial</td>
-          <td id="imei-repair-desc">
+        <div class="service-card">
+          <h3 id="imei-repair-title">إصلاح IMEI / Serial</h3>
+          <p id="imei-repair-desc">
             إصلاح الرقم التسلسلي أو IMEI في الأجهزة المدعومة (مثل أجهزة MTK و SPD) في حالة وجود عطل أو فقد في الرقم.<br>
             ⚠️ لا يتم تغيير الهوية الأصلية للجهاز.
-          </td>
-        </tr>
-      </table>
+          </p>
+        </div>
+      </div>
 
       <div class="contact">
         <p id="services-contact-text"><i class="fa-solid fa-headset"></i> للتواصل وطلب الخدمة:</p>
@@ -554,8 +551,6 @@
           'link-instagram': '<i class="fa-brands fa-instagram"></i> Instagram',
           'services-main-title': '📱 Mostafa Services - Mostafa Unlocker Hub',
           'services-description': 'All software services are available online or in-person as agreed, with precision and professionalism.',
-          'service-header': 'Service',
-          'description-header': 'Description',
           'icloud-bypass-title': 'iCloud Bypass - iPhone',
           'icloud-bypass-desc': '✅ Supported from <strong>iPhone 6s to iPhone 17 Pro Max</strong><br><br>- <strong>6s to X:</strong> Bypass with network (Passcode / Hello)<br>- <strong>XS to 17 Pro Max:</strong> Bypass without network<br><br>⚠️ Make sure of support before performing the operation, contact us to know if the device is currently supported or not, and whether the bypass is available with network or without or stopped.',
           'official-icloud-title': 'Official iCloud Unlock',
@@ -673,8 +668,6 @@
           'link-instagram': '<i class="fa-brands fa-instagram"></i> انستغرام',
           'services-main-title': '📱 خدمات مصطفى - Mostafa Unlocker Hub',
           'services-description': 'جميع خدمات السوفت وير متاحة أونلاين أو حضوري حسب الاتفاق، بدقة واحترافية.',
-          'service-header': 'الخدمة',
-          'description-header': 'الوصف',
           'icloud-bypass-title': 'تخطي iCloud - iPhone',
           'icloud-bypass-desc': '✅ مدعوم من <strong>iPhone 6s حتى iPhone 17 Pro Max</strong><br><br>- <strong>6s إلى X:</strong> تخطي بشبكة (Passcode / Hello)<br>- <strong>XS إلى 17 Pro Max:</strong> تخطي بدون شبكة<br><br>⚠️ تأكد من الدعم قبل تنفيذ العملية، التواصل معنا لمعرفة هل الجهاز مدعوم حالياً أم لا، وهل التخطي متاح بشبكة أو بدون أو موقوف.',
           'official-icloud-title': 'فك iCloud رسمي',
