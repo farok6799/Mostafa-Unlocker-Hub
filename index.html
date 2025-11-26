@@ -359,6 +359,125 @@
       font-size: 1em;
       box-sizing: border-box;
     }
+    
+    /* FAQ Section Styling */
+    .faq-section {
+      margin-top: 20px;
+      background: rgba(13, 27, 42, 0.6);
+      padding: 20px;
+      border-radius: 15px;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid rgba(38, 198, 218, 0.2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .faq-section h3 {
+      color: #4fc3f7;
+      margin-top: 0;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .faq-section details {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(38, 198, 218, 0.1);
+    }
+    .faq-section summary {
+      padding: 15px;
+      cursor: pointer;
+      font-weight: 600;
+      list-style: none; /* Remove default marker */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-section summary::-webkit-details-marker { display: none; } /* For Chrome/Safari */
+    .faq-section summary::after {
+      content: '+';
+      font-size: 1.4em;
+      color: #26c6da;
+    }
+    .faq-section details[open] summary::after { content: '−'; }
+    .faq-section details > div {
+      padding: 0 15px 15px 15px;
+    }
+
+    /* --- Mobile Responsiveness --- */
+    @media (max-width: 768px) {
+      .home-grid-container { 
+        grid-template-columns: 1fr; 
+      }
+      
+      body {
+        font-size: 95%; /* Slightly smaller base font on mobile */
+      }
+
+      header img {
+        max-height: 90px; /* Smaller logo */
+      }
+
+      h1 {
+        font-size: 1.8em; /* Smaller main title */
+      }
+
+      h2 {
+        font-size: 1.1em; /* Smaller subtitle */
+      }
+
+      section {
+        padding: 15px; /* Reduce padding on mobile */
+      }
+
+      .tab-buttons-container {
+        flex-wrap: wrap; /* Allow tab buttons to wrap */
+        gap: 10px;
+      }
+    }
+
+    /* Scroll Animation */
+    .scroll-animate {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .scroll-animate.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Back to Top Button */
+    .back-to-top-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      width: 50px;
+      height: 50px;
+      background: rgba(38, 198, 218, 0.2);
+      border: 1px solid rgba(38, 198, 218, 0.4);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 20px;
+      z-index: 1000;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background-color 0.3s;
+    }
+    .back-to-top-btn.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .back-to-top-btn:hover {
+      background-color: #26c6da;
+    }
   </style>
 </head>
 <body>
@@ -383,7 +502,7 @@
       </p>
 
       <div class="home-grid-container">
-        <div class="live-tools" style="grid-column: 1 / -1;"> <!-- Span full width -->
+        <div class="live-tools scroll-animate" style="grid-column: 1 / -1;"> <!-- Span full width -->
           <h3 id="online-tools-title">🧪 Online Tools (Direct from Website)</h3>
 
           <div class="search-container">
@@ -461,7 +580,7 @@
           </div>
         </div>
 
-        <div class="downloads">
+        <div class="downloads scroll-animate">
           <h3 id="downloads-title">⬇️ Downloads</h3>
           <div class="download-category">
             <h4 id="main-downloads-title">Main Tools:</h4>
@@ -506,7 +625,7 @@
           </div>
         </div>
         
-        <div class="coming-soon">
+        <div class="coming-soon scroll-animate">
           <h3 id="coming-soon-title">🚧 Coming Soon in Mostafa Unlocker Tool</h3>
           <ul>
             <li id="feature-1"><i class="fa-brands fa-apple"></i> iPhone Ramdisk (A7-A11)</li>
@@ -521,7 +640,7 @@
           </ul>
         </div>
         
-        <div class="contact">
+        <div class="contact scroll-animate">
           <h3 id="contact-title">📞 Contact</h3>
           <a href="https://wa.me/201129729147" target="_blank" id="link-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
           <a href="https://t.me/MostafaUnlocker" target="_blank" id="link-telegram"><i class="fa-brands fa-telegram"></i> Telegram</a>
@@ -529,6 +648,29 @@
           <a href="https://www.instagram.com/far0k6799/profilecard/?igsh=c2gxb3gyM25xOW1l" target="_blank" id="link-instagram"><i class="fa-brands fa-instagram"></i> Instagram</a>
           <p>📞 +20 112 972 9147</p>
         </div>
+
+        <div class="faq-section scroll-animate" style="grid-column: 1 / -1;">
+          <h3 id="faq-title">🤔 Frequently Asked Questions</h3>
+          <details>
+            <summary id="faq-q1">Is it safe to use these tools and services?</summary>
+            <div id="faq-a1">
+              <p>Yes, all tools and services are tested and safe. However, always back up your device before making major software changes. All services are intended for legally owned devices only.</p>
+            </div>
+          </details>
+          <details>
+            <summary id="faq-q2">How do I request a service like iCloud Bypass or MDM Removal?</summary>
+            <div id="faq-a2">
+              <p>You can request a service by navigating to the "Services" tab to see what's offered, then contacting us via WhatsApp or Telegram. Please provide your device model and the specific service you need for pricing and confirmation.</p>
+            </div>
+          </details>
+          <details>
+            <summary id="faq-q3">Do the "Online Tools" install anything on my phone?</summary>
+            <div id="faq-a3">
+              <p>No. These are special links (intents) that simply open applications or settings screens that are already on your Android phone. They do not install any new software. They are shortcuts.</p>
+            </div>
+          </details>
+        </div>
+
       </div>
     </section>
   </div>
@@ -539,7 +681,7 @@
       <p id="services-description">جميع خدمات السوفت وير متاحة أونلاين أو حضوري حسب الاتفاق، بدقة واحترافية.</p>
 
       <div class="services-cards-container">
-        <div class="service-card">
+        <div class="service-card scroll-animate">
           <i class="fa-solid fa-cloud-arrow-up service-icon"></i>
           <h3 id="icloud-bypass-title">تخطي iCloud - iPhone</h3>
           <p id="icloud-bypass-desc">
@@ -550,13 +692,13 @@
           </p>
         </div>
 
-        <div class="service-card">
+        <div class="service-card scroll-animate">
           <i class="fa-solid fa-key service-icon"></i>
           <h3 id="official-icloud-title">فك iCloud رسمي</h3>
           <p id="official-icloud-desc">متوفر فك iCloud رسمي للأجهزة المؤهلة عبر سيرفر Apple، حسب الشروط.</p>
         </div>
 
-        <div class="service-card">
+        <div class="service-card scroll-animate">
           <i class="fa-solid fa-school-lock service-icon"></i>
           <h3 id="mdm-removal-title">إزالة MDM - تابلت المدارس</h3>
           <p id="mdm-removal-desc">
@@ -568,13 +710,13 @@
           </p>
         </div>
 
-        <div class="service-card">
+        <div class="service-card scroll-animate">
           <i class="fa-solid fa-unlock-keyhole service-icon"></i>
           <h3 id="frp-removal-title">إزالة FRP</h3>
           <p id="frp-removal-desc">متاح إزالة FRP لجميع الشركات: Samsung، Huawei، Xiaomi، Oppo، Vivo، Realme، Infinix، Tecno، Nokia، وغيرها.</p>
         </div>
 
-        <div class="service-card">
+        <div class="service-card scroll-animate">
           <i class="fa-solid fa-barcode service-icon"></i>
           <h3 id="imei-repair-title">إصلاح IMEI / Serial</h3>
           <p id="imei-repair-desc">
@@ -600,6 +742,9 @@
       </div>
     </section>
   </div>
+
+  <!-- Back to Top Button -->
+  <a id="back-to-top-btn" class="back-to-top-btn"><i class="fa-solid fa-arrow-up"></i></a>
 
   <script>
     function openTab(tabName, event) {
@@ -739,9 +884,16 @@
           'services-whatsapp': '<i class="fa-brands fa-whatsapp"></i> Message us on WhatsApp',
           'services-telegram': '<i class="fa-brands fa-telegram"></i> Telegram',
           'services-facebook': '<i class="fa-brands fa-facebook"></i> Facebook',
-          'services-instagram': '<i class="fa-brands fa-instagram"></i> Instagram',
+          'services-instagram': '<i class="fa-brands fa-instagram"></i> Instagram',          
           'services-pricing': '<i class="fa-solid fa-comment-dollar"></i> Prices according to device type and service type, it is preferable to contact for confirmation first.',
-          'legal-notice': '<i class="fa-solid fa-gavel"></i> <strong>Legal Notice:</strong><br>All services provided are intended only for devices legally owned by the client, and we do not deal with any devices of unknown identity or violating laws.<br>We comply with international and local laws in providing software services, and any misuse is the responsibility of the user.'
+          'legal-notice': '<i class="fa-solid fa-gavel"></i> <strong>Legal Notice:</strong><br>All services provided are intended only for devices legally owned by the client, and we do not deal with any devices of unknown identity or violating laws.<br>We comply with international and local laws in providing software services, and any misuse is the responsibility of the user.',
+          'faq-title': '🤔 Frequently Asked Questions',
+          'faq-q1': 'Is it safe to use these tools and services?',
+          'faq-a1': '<p>Yes, all tools and services are tested and safe. However, always back up your device before making major software changes. All services are intended for legally owned devices only.</p>',
+          'faq-q2': 'How do I request a service like iCloud Bypass or MDM Removal?',
+          'faq-a2': '<p>You can request a service by navigating to the "Services" tab to see what\'s offered, then contacting us via WhatsApp or Telegram. Please provide your device model and the specific service you need for pricing and confirmation.</p>',
+          'faq-q3': 'What do these "Online Tools" do?',
+          'faq-a3': '<p>These are tools used for some devices that have FRP (Factory Reset Protection) or other security. When a vulnerability allows opening a browser, these tools provide shortcuts to system apps and settings, allowing the user to take full advantage of that access to bypass the protection.</p>'
         },
         ar: {
           'main-title': 'مركز مصطفى لفك القفل',
@@ -857,9 +1009,16 @@
           'services-whatsapp': '<i class="fa-brands fa-whatsapp"></i> راسلنا على واتساب',
           'services-telegram': '<i class="fa-brands fa-telegram"></i> تليجرام',
           'services-facebook': '<i class="fa-brands fa-facebook"></i> فيسبوك',
-          'services-instagram': '<i class="fa-brands fa-instagram"></i> إنستجرام',
+          'services-instagram': '<i class="fa-brands fa-instagram"></i> إنستجرام',          
           'services-pricing': '<i class="fa-solid fa-comment-dollar"></i> الأسعار حسب نوع الجهاز ونوع الخدمة، يُفضل التواصل للتأكيد أولاً.',
-          'legal-notice': '<i class="fa-solid fa-gavel"></i> <strong>تنويه قانوني:</strong><br>جميع الخدمات المقدمة مخصصة فقط للأجهزة المملوكة شرعيًا من قبل العميل، ولا يتم التعامل مع أي أجهزة مجهولة الهوية أو مخالفة للقوانين.<br>نحن نلتزم بالقوانين الدولية والمحلية في تقديم خدمات السوفت وير، وأي إساءة استخدام تقع على مسؤولية المستخدم.'
+          'legal-notice': '<i class="fa-solid fa-gavel"></i> <strong>تنويه قانوني:</strong><br>جميع الخدمات المقدمة مخصصة فقط للأجهزة المملوكة شرعيًا من قبل العميل، ولا يتم التعامل مع أي أجهزة مجهولة الهوية أو مخالفة للقوانين.<br>نحن نلتزم بالقوانين الدولية والمحلية في تقديم خدمات السوفت وير، وأي إساءة استخدام تقع على مسؤولية المستخدم.',
+          'faq-title': '🤔 الأسئلة الشائعة',
+          'faq-q1': 'هل استخدام هذه الأدوات والخدمات آمن؟',
+          'faq-a1': '<p>نعم، جميع الأدوات والخدمات تم اختبارها وهي آمنة. مع ذلك، قم دائمًا بعمل نسخة احتياطية من جهازك قبل إجراء أي تغييرات برمجية كبيرة. جميع الخدمات مخصصة للأجهزة المملوكة بشكل قانوني فقط.</p>',
+          'faq-q2': 'كيف أطلب خدمة مثل تخطي iCloud أو إزالة MDM؟',
+          'faq-a2': '<p>يمكنك طلب خدمة بالانتقال إلى تبويب "الخدمات" لرؤية ما هو معروض، ثم التواصل معنا عبر واتساب أو تيليجرام. يرجى تقديم طراز جهازك والخدمة المحددة التي تحتاجها للحصول على الأسعار والتأكيد.</p>',
+          'faq-q3': 'ماذا تفعل هذه الأدوات عبر الإنترنت؟',
+          'faq-a3': '<p>إنها أدوات تُستخدم لبعض الأجهزة التي عليها حماية FRP. عندما توجد ثغرة تسمح بفتح المتصفح، فإن هذه الأدوات تسمح للمستخدم بالاستفادة من هذه الثغرة عبر توفير اختصارات لتطبيقات وإعدادات النظام، مما يمكّنه من تخطي الحماية.</p>'
         }
       };
 
@@ -922,6 +1081,42 @@
 
       // Initial content load
       updateContent();
+
+      // Scroll Animation Logic
+      const animatedElements = document.querySelectorAll('.scroll-animate');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target); // Animate only once
+          }
+        });
+      }, {
+        threshold: 0.1 // Trigger when 10% of the element is visible
+      });
+
+      animatedElements.forEach(el => observer.observe(el));
+
+      // Back to Top Button Logic
+      const backToTopBtn = document.getElementById('back-to-top-btn');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTopBtn.classList.add('visible');
+        } else {
+          backToTopBtn.classList.remove('visible');
+        }
+      });
+
+      backToTopBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+
     });
   </script>
 </body>
