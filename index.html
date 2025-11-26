@@ -52,7 +52,9 @@
       z-index: 10;
     }
     header img {
-      max-height: 110px;
+      width: 100%; /* Make logo full width */
+      height: auto; /* Maintain aspect ratio */
+      max-width: 500px; /* Prevent it from being too large on wide screens */
     }
     h1 {
       margin: 10px 0 5px;
@@ -420,10 +422,6 @@
       
       body {
         font-size: 95%; /* Slightly smaller base font on mobile */
-      }
-
-      header img {
-        max-height: 90px; /* Smaller logo */
       }
 
       h1 {
