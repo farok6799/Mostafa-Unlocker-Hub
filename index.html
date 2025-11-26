@@ -119,6 +119,7 @@
       text-decoration: none;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       font-weight: 600;
+      text-align: center; /* Center text inside button */
       box-shadow: 0 0 15px rgba(38, 198, 218, 0.1);
     }
     .live-tools a.button:hover, .downloads a.button:hover, #language-toggle:hover {
@@ -268,6 +269,13 @@
       color: #4fc3f7; /* Softer cyan */
       margin-bottom: 15px;
       font-size: 1.1em;
+    }
+    /* New: Grid layout for tool buttons */
+    .tool-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
     }
 
     /* New Service Cards Styling */
@@ -512,71 +520,83 @@
 
           <div class="tool-category">
             <h4 id="category-stores">App Stores</h4>
-            <a class="button" href="intent://com.android.vending/#Intent;scheme=android-app;end" target="_blank" id="btn-play-store"><img src="playstore.png" alt="Play Store"> Open Play Store</a>
-            <a class="button" href="intent://com.sec.android.app.samsungapps/#Intent;scheme=android-app;end" target="_blank" id="btn-galaxy"><img src="samsung.png" alt="Galaxy Store"> Open Galaxy Store</a>
-            <a class="button" href="intent://com.heytap.market/#Intent;scheme=android-app;end" target="_blank" id="btn-oppo-market"><img src="oppo.png" alt="Oppo Market"> Open App Market (Oppo)</a>
-            <a class="button" href="intent://com.vivo.appstore/#Intent;scheme=android-app;end" target="_blank" id="btn-vivo-market"><img src="vivo.png" alt="Vivo Store"> Open App Store (Vivo)</a>
-            <a class="button" href="intent://com.xiaomi.mipicks/#Intent;scheme=android-app;end" target="_blank" id="btn-xiaomi-market"><img src="xiaomi.png" alt="Xiaomi Store"> Open App Store (Xiaomi)</a>
-            <a class="button" href="intent://com.transsion.palmstore/#Intent;scheme=android-app;end" target="_blank" id="btn-palm-store"><img src="palmstore.png" alt="Palm Store"> Open Palm Store (itel)</a>
+            <div class="tool-buttons">
+              <a class="button" href="intent://com.android.vending/#Intent;scheme=android-app;end" target="_blank" id="btn-play-store"><img src="playstore.png" alt="Play Store"> Open Play Store</a>
+              <a class="button" href="intent://com.sec.android.app.samsungapps/#Intent;scheme=android-app;end" target="_blank" id="btn-galaxy"><img src="samsung.png" alt="Galaxy Store"> Open Galaxy Store</a>
+              <a class="button" href="intent://com.heytap.market/#Intent;scheme=android-app;end" target="_blank" id="btn-oppo-market"><img src="oppo.png" alt="Oppo Market"> Open App Market (Oppo)</a>
+              <a class="button" href="intent://com.vivo.appstore/#Intent;scheme=android-app;end" target="_blank" id="btn-vivo-market"><img src="vivo.png" alt="Vivo Store"> Open App Store (Vivo)</a>
+              <a class="button" href="intent://com.xiaomi.mipicks/#Intent;scheme=android-app;end" target="_blank" id="btn-xiaomi-market"><img src="xiaomi.png" alt="Xiaomi Store"> Open App Store (Xiaomi)</a>
+              <a class="button" href="intent://com.transsion.palmstore/#Intent;scheme=android-app;end" target="_blank" id="btn-palm-store"><img src="palmstore.png" alt="Palm Store"> Open Palm Store (itel)</a>
+            </div>
           </div>
 
           <div class="tool-category">
             <h4 id="category-transfer">File Transfer & Backup</h4>
-            <a class="button" href="intent://com.sec.android.easyMover/#Intent;scheme=android-app;end" target="_blank" id="btn-smart-switch"><img src="smartswitch.png" alt="Smart Switch"> Open Smart Switch</a>
-            <a class="button" href="intent://com.itel.clonephone/#Intent;scheme=android-app;end" target="_blank" id="btn-itel-clone-phone"><img src="itel_clone.png" alt="Phone Cloner"> Open Phone Cloner (itel)</a>
-            <a class="button" href="intent://com.coloros.backuprestore/#Intent;scheme=android-app;end" target="_blank" id="btn-oppo-clone-phone"><img src="clonephone_oppo.png" alt="Clone Phone"> Open Clone Phone (Oppo)</a>
-            <a class="button" href="intent://com.hicloud.android.clone/#Intent;scheme=android-app;end" target="_blank" id="btn-huawei-clone-phone"><img src="huawei.png" alt="Phone Clone"> Open Phone Clone (Huawei)</a>
-            <a class="button" href="intent://com.vivo.easyshare/#Intent;scheme=android-app;end" target="_blank" id="btn-easyshare"><img src="easyshare.png" alt="EasyShare"> Open EasyShare (Vivo)</a>
-            <a class="button" href="intent://com.infinix.xshare/#Intent;scheme=android-app;end" target="_blank" id="btn-xshare"><img src="infinix.png" alt="XShare"> Open XShare (Infinix)</a>
-            <a class="button" href="intent://com.xiaomi.midrop/#Intent;scheme=android-app;end" target="_blank" id="btn-shareme"><img src="shareme.png" alt="ShareMe"> Open ShareMe (Xiaomi)</a>
-            <a class="button" href="intent://com.miui.huanji/#Intent;scheme=android-app;end" target="_blank" id="btn-mi-mover"><img src="mimover.png" alt="Mi Mover"> Open Mi Mover (Xiaomi)</a>
+            <div class="tool-buttons">
+              <a class="button" href="intent://com.sec.android.easyMover/#Intent;scheme=android-app;end" target="_blank" id="btn-smart-switch"><img src="smartswitch.png" alt="Smart Switch"> Open Smart Switch</a>
+              <a class="button" href="intent://com.itel.clonephone/#Intent;scheme=android-app;end" target="_blank" id="btn-itel-clone-phone"><img src="itel_clone.png" alt="Phone Cloner"> Open Phone Cloner (itel)</a>
+              <a class="button" href="intent://com.coloros.backuprestore/#Intent;scheme=android-app;end" target="_blank" id="btn-oppo-clone-phone"><img src="clonephone_oppo.png" alt="Clone Phone"> Open Clone Phone (Oppo)</a>
+              <a class="button" href="intent://com.hicloud.android.clone/#Intent;scheme=android-app;end" target="_blank" id="btn-huawei-clone-phone"><img src="huawei.png" alt="Phone Clone"> Open Phone Clone (Huawei)</a>
+              <a class="button" href="intent://com.vivo.easyshare/#Intent;scheme=android-app;end" target="_blank" id="btn-easyshare"><img src="easyshare.png" alt="EasyShare"> Open EasyShare (Vivo)</a>
+              <a class="button" href="intent://com.infinix.xshare/#Intent;scheme=android-app;end" target="_blank" id="btn-xshare"><img src="infinix.png" alt="XShare"> Open XShare (Infinix)</a>
+              <a class="button" href="intent://com.xiaomi.midrop/#Intent;scheme=android-app;end" target="_blank" id="btn-shareme"><img src="shareme.png" alt="ShareMe"> Open ShareMe (Xiaomi)</a>
+              <a class="button" href="intent://com.miui.huanji/#Intent;scheme=android-app;end" target="_blank" id="btn-mi-mover"><img src="mimover.png" alt="Mi Mover"> Open Mi Mover (Xiaomi)</a>
+            </div>
           </div>
 
           <div class="tool-category">
             <h4 id="category-google">Google Apps</h4>
-            <a class="button" href="intent://com.google.android.youtube/#Intent;scheme=android-app;end" target="_blank" id="btn-youtube"><img src="youtube.png" alt="YouTube"> Open YouTube</a>
-            <a class="button" href="intent://com.android.chrome/#Intent;scheme=android-app;end" target="_blank" id="btn-chrome"><img src="chrome.png" alt="Chrome"> Open Chrome Browser</a>
-            <a class="button" href="intent://com.google.android.gm/#Intent;scheme=android-app;end" target="_blank" id="btn-gmail"><img src="gmail.png" alt="Gmail"> Open Gmail</a>
-            <a class="button" href="intent://com.google.android.apps.maps/#Intent;scheme=android-app;end" target="_blank" id="btn-maps"><img src="maps.png" alt="Maps"> Open Maps</a>
-            <a class="button" href="intent://com.google.android.googlequicksearchbox/#Intent;scheme=android-app;end" target="_blank" id="btn-google-search"><img src="google.png" alt="Google Search"> Open Google Search</a>
-            <a class="button" href="intent:#Intent;action=android.intent.action.ASSIST;end" target="_blank" id="btn-google-assistant"><img src="assistant.png" alt="Google Assistant"> Open Google Assistant</a>
-            <a class="button" href="intent:#Intent;action=com.google.android.gsf.login.LOGIN_ACTIVITY;package=com.google.android.gsf.login;end" target="_blank" id="btn-google-login"><img src="google.png" alt="Google Login"> Google Login</a>
-            <a class="button" href="intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;data=package:com.google.android.gms;end" target="_blank" id="btn-play-services"><img src="playstore.png" alt="Play Services"> Google Play Services</a>
+            <div class="tool-buttons">
+              <a class="button" href="intent://com.google.android.youtube/#Intent;scheme=android-app;end" target="_blank" id="btn-youtube"><img src="youtube.png" alt="YouTube"> Open YouTube</a>
+              <a class="button" href="intent://com.android.chrome/#Intent;scheme=android-app;end" target="_blank" id="btn-chrome"><img src="chrome.png" alt="Chrome"> Open Chrome Browser</a>
+              <a class="button" href="intent://com.google.android.gm/#Intent;scheme=android-app;end" target="_blank" id="btn-gmail"><img src="gmail.png" alt="Gmail"> Open Gmail</a>
+              <a class="button" href="intent://com.google.android.apps.maps/#Intent;scheme=android-app;end" target="_blank" id="btn-maps"><img src="maps.png" alt="Maps"> Open Maps</a>
+              <a class="button" href="intent://com.google.android.googlequicksearchbox/#Intent;scheme=android-app;end" target="_blank" id="btn-google-search"><img src="google.png" alt="Google Search"> Open Google Search</a>
+              <a class="button" href="intent:#Intent;action=android.intent.action.ASSIST;end" target="_blank" id="btn-google-assistant"><img src="assistant.png" alt="Google Assistant"> Open Google Assistant</a>
+              <a class="button" href="intent:#Intent;action=com.google.android.gsf.login.LOGIN_ACTIVITY;package=com.google.android.gsf.login;end" target="_blank" id="btn-google-login"><img src="google.png" alt="Google Login"> Google Login</a>
+              <a class="button" href="intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;data=package:com.google.android.gms;end" target="_blank" id="btn-play-services"><img src="playstore.png" alt="Play Services"> Google Play Services</a>
+            </div>
           </div>
 
           <div class="tool-category">
             <h4 id="category-system">System & Settings</h4>
-            <a class="button" href="intent://com.android.settings/#Intent;scheme=android-app;end" target="_blank" id="btn-settings"><img src="settings.png" alt="Settings"> Open Settings</a>
-            <a class="button" href="intent://com.transsion.phoenix/#Intent;scheme=android-app;end" target="_blank" id="btn-phoenix-browser"><img src="phoenix.png" alt="Phoenix Browser"> Open Phoenix Browser</a>
-            <a class="button" href="intent://com.sec.android.app.myfiles/#Intent;scheme=android-app;end" target="_blank" id="btn-my-files"><img src="myfiles.png" alt="My Files"> Open My Files (Samsung)</a>
-            <a class="button" href="intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end" target="_blank" id="btn-accessibility"><img src="accessibility.png" alt="Accessibility"> Accessibility Settings</a>
-            <a class="button" href="intent:#Intent;action=android.app.action.SET_NEW_PASSWORD;end" target="_blank" id="btn-set-lock"><img src="setlock.png" alt="Set Lock"> Set Screen Lock</a>
-            <a class="button" href="intent://com.sec.android.app.popupcalculator/#Intent;scheme=android-app;end" target="_blank" id="btn-calculator"><img src="calculator.png" alt="Calculator"> Open Calculator</a>
-            <a class="button" href="intent://com.secuso.privacyFriendlyCodeScanner.QrScanActivity/#Intent;scheme=android-app;end" target="_blank" id="btn-open-qr-scanner"><img src="qrcode.png" alt="QR Scanner"> Open QR scanner</a>
+            <div class="tool-buttons">
+              <a class="button" href="intent://com.android.settings/#Intent;scheme=android-app;end" target="_blank" id="btn-settings"><img src="settings.png" alt="Settings"> Open Settings</a>
+              <a class="button" href="intent://com.transsion.phoenix/#Intent;scheme=android-app;end" target="_blank" id="btn-phoenix-browser"><img src="phoenix.png" alt="Phoenix Browser"> Open Phoenix Browser</a>
+              <a class="button" href="intent://com.sec.android.app.myfiles/#Intent;scheme=android-app;end" target="_blank" id="btn-my-files"><img src="myfiles.png" alt="My Files"> Open My Files (Samsung)</a>
+              <a class="button" href="intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end" target="_blank" id="btn-accessibility"><img src="accessibility.png" alt="Accessibility"> Accessibility Settings</a>
+              <a class="button" href="intent:#Intent;action=android.app.action.SET_NEW_PASSWORD;end" target="_blank" id="btn-set-lock"><img src="setlock.png" alt="Set Lock"> Set Screen Lock</a>
+              <a class="button" href="intent://com.sec.android.app.popupcalculator/#Intent;scheme=android-app;end" target="_blank" id="btn-calculator"><img src="calculator.png" alt="Calculator"> Open Calculator</a>
+              <a class="button" href="intent://com.secuso.privacyFriendlyCodeScanner.QrScanActivity/#Intent;scheme=android-app;end" target="_blank" id="btn-open-qr-scanner"><img src="qrcode.png" alt="QR Scanner"> Open QR scanner</a>
+            </div>
           </div>
 
           <div class="tool-category">
             <h4 id="category-frp">FRP & Unlocking Tools</h4>
-            <a class="button" href="intent://de.szalkowski.activitylauncher/#Intent;scheme=android-app;end" target="_blank" id="btn-activity-launcher"><img src="rocket.png" alt="Activity Launcher"> Open Activity Launcher</a>
-            <a class="button" href="intent://com.google.android.gms/#Intent;scheme=promote_smartlock_scheme;end" target="_blank" id="btn-pincode"><img src="key.png" alt="Pin Code"> Open Pin Code (Smart Lock)</a>
-            <a class="button" href="intent://com.rrivenllc.shieldx/#Intent;scheme=android-app;end" target="_blank" id="btn-alliance-shield"><img src="allianceshield.png" alt="Alliance Shield"> Open Alliance Shield</a> 
-            <a class="button" href="samsungapps://ProductDetail/com.rrivenllc.shieldx" target="_blank" id="btn-alliance-shield-store"><img src="allianceshield.png" alt="Galaxy Store"> Alliance Shield (Galaxy Store)</a>
-            <a class="button" href="intent://com.activitymanager/#Intent;scheme=android-app;end" target="_blank" id="btn-activity-manager"><img src="tasks.png" alt="Activity Manager"> Open Activity Manager</a>
-            <a class="button" href="samsungapps://ProductDetail/com.activitymanager" target="_blank" id="btn-activity-manager-store"><img src="tasks.png" alt="Galaxy Store"> Activity Manager (Galaxy Store)</a>
-            <a class="button" href="intent://org.aospstudio.files/#Intent;scheme=android-app;end" target="_blank" id="btn-files-shortcut"><img src="folder.png" alt="Files Shortcut"> Open Files Shortcut</a>
-            <a class="button" href="samsungapps://ProductDetail/org.aospstudio.files" target="_blank" id="btn-files-shortcut-store"><img src="folder.png" alt="Galaxy Store"> Files Shortcut (Galaxy Store)</a>
-            <a class="button" href="intent://com.school.optimize/#Intent;scheme=android-app;end" target="_blank" id="btn-package-disabler"><img src="ban.png" alt="Package Disabler"> Open Package Disabler</a>
-            <a class="button" href="intent://com.cloudmdm.tools.cloud/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-mdm"><img src="cloud.png" alt="Knox MDM"> Open Knox Cloud MDM</a>
-            <a class="button" href="intent://com.knox.verification.gettingstarted/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-verify"><img src="check.png" alt="Knox Verification"> Knox Verification</a>
-            <a class="button" href="samsungapps://ProductDetail/com.infinix.xshare" target="_blank" id="btn-xshare-store"><img src="infinix.png" alt="Galaxy Store"> XShare (Galaxy Store)</a>
+            <div class="tool-buttons">
+              <a class="button" href="intent://de.szalkowski.activitylauncher/#Intent;scheme=android-app;end" target="_blank" id="btn-activity-launcher"><img src="rocket.png" alt="Activity Launcher"> Open Activity Launcher</a>
+              <a class="button" href="intent://com.google.android.gms/#Intent;scheme=promote_smartlock_scheme;end" target="_blank" id="btn-pincode"><img src="key.png" alt="Pin Code"> Open Pin Code (Smart Lock)</a>
+              <a class="button" href="intent://com.rrivenllc.shieldx/#Intent;scheme=android-app;end" target="_blank" id="btn-alliance-shield"><img src="allianceshield.png" alt="Alliance Shield"> Open Alliance Shield</a> 
+              <a class="button" href="samsungapps://ProductDetail/com.rrivenllc.shieldx" target="_blank" id="btn-alliance-shield-store"><img src="allianceshield.png" alt="Galaxy Store"> Alliance Shield (Galaxy Store)</a>
+              <a class="button" href="intent://com.activitymanager/#Intent;scheme=android-app;end" target="_blank" id="btn-activity-manager"><img src="tasks.png" alt="Activity Manager"> Open Activity Manager</a>
+              <a class="button" href="samsungapps://ProductDetail/com.activitymanager" target="_blank" id="btn-activity-manager-store"><img src="tasks.png" alt="Galaxy Store"> Activity Manager (Galaxy Store)</a>
+              <a class="button" href="intent://org.aospstudio.files/#Intent;scheme=android-app;end" target="_blank" id="btn-files-shortcut"><img src="folder.png" alt="Files Shortcut"> Open Files Shortcut</a>
+              <a class="button" href="samsungapps://ProductDetail/org.aospstudio.files" target="_blank" id="btn-files-shortcut-store"><img src="folder.png" alt="Galaxy Store"> Files Shortcut (Galaxy Store)</a>
+              <a class="button" href="intent://com.school.optimize/#Intent;scheme=android-app;end" target="_blank" id="btn-package-disabler"><img src="ban.png" alt="Package Disabler"> Open Package Disabler</a>
+              <a class="button" href="intent://com.cloudmdm.tools.cloud/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-mdm"><img src="cloud.png" alt="Knox MDM"> Open Knox Cloud MDM</a>
+              <a class="button" href="intent://com.knox.verification.gettingstarted/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-verify"><img src="check.png" alt="Knox Verification"> Knox Verification</a>
+              <a class="button" href="samsungapps://ProductDetail/com.infinix.xshare" target="_blank" id="btn-xshare-store"><img src="infinix.png" alt="Galaxy Store"> XShare (Galaxy Store)</a>
+            </div>
           </div>
 
           <div class="tool-category">
             <h4 id="category-dev">Developer & Special Access</h4>
-            <a class="button" href="tel:*#85#" target="_blank" id="btn-adb-tecno"><img src="terminal.png" alt="ADB"> Enable ADB (Tecno/Infinix)</a> 
-            <a class="button" href="intent://com.samsung.android.dialer/#Intent;scheme=android-app;end" target="_blank" id="btn-samsung-dialer"><img src="phone.png" alt="Dialer"> Open Samsung Dialer</a>
-            <a class="button" href="intent://com.sec.android.app.servicemodeapp/#Intent;scheme=promote_USBSettings_scheme;end" target="_blank" id="btn-usb-settings"><img src="usb.png" alt="USB"> Open USB Settings</a>
-            <a class="button" href="intent://com.sec.android.app.hwmoduletest/#Intent;scheme=android-app;end" target="_blank" id="btn-hw-test"><img src="microscope.png" alt="HW Test"> HWModuleTest</a>
+            <div class="tool-buttons">
+              <a class="button" href="tel:*#85#" target="_blank" id="btn-adb-tecno"><img src="terminal.png" alt="ADB"> Enable ADB (Tecno/Infinix)</a> 
+              <a class="button" href="intent://com.samsung.android.dialer/#Intent;scheme=android-app;end" target="_blank" id="btn-samsung-dialer"><img src="phone.png" alt="Dialer"> Open Samsung Dialer</a>
+              <a class="button" href="intent://com.sec.android.app.servicemodeapp/#Intent;scheme=promote_USBSettings_scheme;end" target="_blank" id="btn-usb-settings"><img src="usb.png" alt="USB"> Open USB Settings</a>
+              <a class="button" href="intent://com.sec.android.app.hwmoduletest/#Intent;scheme=android-app;end" target="_blank" id="btn-hw-test"><img src="microscope.png" alt="HW Test"> HWModuleTest</a>
+            </div>
           </div>
         </div>
 
@@ -1060,7 +1080,7 @@
       searchInput.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
 
-        toolCategories.forEach(category => {
+        document.querySelectorAll('.live-tools .tool-category').forEach(category => {
           const buttons = category.querySelectorAll('a.button');
           let visibleButtonsInCategory = 0;
 
