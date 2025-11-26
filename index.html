@@ -4,12 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mostafa Unlocker Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #121212;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(180deg, #0d1b2a 0%, #000000 30%);
       color: #ffffff;
       display: flex;
       flex-direction: column;
@@ -20,7 +23,7 @@
     header {
       width: 100%;
       padding: 20px;
-      background-color: #1f1f1f;
+      background-color: transparent; /* Make header blend with gradient */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -45,11 +48,13 @@
     }
     .contact, .live-tools, .coming-soon, .downloads {
       margin-top: 20px;
-      background: #1f1f1f;
+      background: rgba(27, 38, 59, 0.5); /* Semi-transparent background */
       padding: 20px;
       border-radius: 10px;
       width: 100%;
       box-sizing: border-box;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     }
     .contact h3, .live-tools h3, .coming-soon h3, .downloads h3 {
       margin-bottom: 10px;
@@ -69,22 +74,25 @@
     .live-tools a.button, .downloads a.button, #language-toggle {
       display: inline-block;
       margin: 5px;
-      padding: 10px 20px;
-      background-color: #1f1f1f;
-      border: 1px solid #00ffc3;
-      color: #00ffc3;
+      padding: 12px 22px;
+      background: linear-gradient(90deg, #4A90E2, #00D9FF);
+      border: none;
+      color: #ffffff;
       border-radius: 8px;
       text-decoration: none;
-      transition: background-color 0.3s, color 0.3s;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(0, 217, 255, 0.2);
     }
     .live-tools a.button:hover, .downloads a.button:hover, #language-toggle:hover {
-      background-color: #00ffc3;
-      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 217, 255, 0.4);
     }
     .live-tools a.button i, .downloads a.button i, .contact a i {
         margin-right: 8px; /* Add space between icon and text */
         width: 1.1em;      /* Helps align icons of different widths */
         text-align: center;
+        vertical-align: middle;
     }
     .live-tools a.button img, .downloads a.button img {
         margin-right: 8px;
@@ -112,19 +120,20 @@
     }
     .tab-btn, .tab-btn.active {
       padding: 10px 20px;
-      background-color: #1f1f1f;
-      border: 1px solid #00ffc3;
-      color: #00ffc3;
+      background: transparent;
+      border: 1px solid #4A90E2;
+      color: #4A90E2;
       cursor: pointer;
       font-size: 16px;
       border-radius: 8px;
       margin: 0 5px;
       font-weight: bold;
-      transition: background-color 0.3s, color 0.3s;
+      transition: background-color 0.3s, color 0.3s, transform 0.3s;
     }
     .tab-btn:hover, .tab-btn.active {
-      background-color: #00ffc3;
+      background-color: #4A90E2;
       color: #000;
+      transform: translateY(-2px);
     }
     .tab-buttons-container {
       display: flex;
@@ -147,7 +156,7 @@
       text-align: right;
     }
     .services-page h1 {
-      color: #00d9ff;
+      color: #4A90E2;
       margin-bottom: 10px;
     }
     .services-page p {
@@ -164,7 +173,7 @@
       font-size: 16px;
     }
     .services-page th {
-      background-color: #1f1f1f;
+      background-color: rgba(27, 38, 59, 0.7);
     }
     .services-page tr:nth-child(even) {
       background-color: #1a1a1a;
@@ -174,7 +183,7 @@
       font-size: 18px;
     }
     .services-page a {
-      color: #00d9ff;
+      color: #4A90E2;
       text-decoration: none;
     }
     .services-page a:hover {
@@ -195,7 +204,7 @@
       padding-top: 20px;
     }
     .tool-category h4 {
-      color: #4fc3f7;
+      color: #00D9FF;
       margin-bottom: 15px;
       font-size: 1.1em;
     }
