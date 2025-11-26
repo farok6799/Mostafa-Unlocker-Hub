@@ -46,6 +46,7 @@
       padding: 20px;
       line-height: 1.6;
     }
+    
     .contact, .live-tools, .coming-soon, .downloads {
       margin-top: 20px;
       background: rgba(27, 38, 59, 0.5); /* Semi-transparent background */
@@ -55,8 +56,19 @@
       box-sizing: border-box;
       border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      display: flex; flex-direction: column; /* Ensure consistent height behavior */
     }
-    .contact h3, .live-tools h3, .coming-soon h3, .downloads h3 {
+    .coming-soon {
+      border-color: #FFC107;
+      background: rgba(27, 38, 59, 0.5) repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 10px,
+          rgba(255, 193, 7, 0.05) 10px,
+          rgba(255, 193, 7, 0.05) 20px
+      );
+    }
+    .contact h3, .live-tools h3, .downloads h3 {
       margin-bottom: 10px;
     }
     a {
@@ -75,18 +87,18 @@
       display: inline-block;
       margin: 5px;
       padding: 12px 22px;
-      background: linear-gradient(90deg, #4A90E2, #00D9FF);
+      background: linear-gradient(90deg, #0097a7, #26c6da);
       border: none;
       color: #ffffff;
       border-radius: 8px;
       text-decoration: none;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       font-weight: 600;
-      box-shadow: 0 4px 15px rgba(0, 217, 255, 0.2);
+      box-shadow: 0 4px 15px rgba(38, 198, 218, 0.2);
     }
     .live-tools a.button:hover, .downloads a.button:hover, #language-toggle:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 217, 255, 0.4);
+      box-shadow: 0 8px 25px rgba(38, 198, 218, 0.3);
     }
     .live-tools a.button i, .downloads a.button i, .contact a i {
         margin-right: 8px; /* Add space between icon and text */
@@ -103,11 +115,51 @@
     .coming-soon ul {
         list-style: none;
         padding-left: 0;
+        margin-top: 15px;
+    }
+    .coming-soon li {
+      background-color: rgba(0,0,0,0.2);
+      margin-bottom: 8px;
+      padding: 12px 15px;
+      border-radius: 6px;
+      border-left: 4px solid #FFC107;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .coming-soon li:hover {
+      background-color: #FFC107;
+      color: #000;
+    }
+    .coming-soon li:hover i {
+      color: #000;
     }
     .coming-soon li i {
         margin-right: 8px;
         width: 1.2em;
-        color: #4fc3f7; /* Give icons a color */
+        color: #FFC107; /* Give icons a color */
+        transition: color 0.3s;
+    }
+
+    /* Downloads Section Improvement */
+    .downloads .download-category {
+      background-color: rgba(0,0,0,0.2);
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .downloads .download-category:first-child {
+      margin-top: 0;
+    }
+    .downloads .download-category h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #00D9FF;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+    .downloads .download-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
     }
     
     /* Tabs styling */
@@ -121,8 +173,8 @@
     .tab-btn, .tab-btn.active {
       padding: 10px 20px;
       background: transparent;
-      border: 1px solid #4A90E2;
-      color: #4A90E2;
+      border: 1px solid #26c6da;
+      color: #26c6da;
       cursor: pointer;
       font-size: 16px;
       border-radius: 8px;
@@ -131,8 +183,8 @@
       transition: background-color 0.3s, color 0.3s, transform 0.3s;
     }
     .tab-btn:hover, .tab-btn.active {
-      background-color: #4A90E2;
-      color: #000;
+      background-color: #26c6da;
+      color: #fff;
       transform: translateY(-2px);
     }
     .tab-buttons-container {
@@ -156,7 +208,7 @@
       text-align: right;
     }
     .services-page h1 {
-      color: #4A90E2;
+      color: #26c6da;
       margin-bottom: 10px;
     }
     .services-page p {
@@ -167,7 +219,7 @@
       font-size: 18px;
     }
     .services-page a {
-      color: #4A90E2;
+      color: #26c6da;
       text-decoration: none;
     }
     .services-page a:hover {
@@ -208,9 +260,78 @@
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
       display: flex;
       flex-direction: column;
+      text-align: center; /* Center content */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px 0 rgba(38, 198, 218, 0.3);
+    }
+    .service-card .service-icon {
+      font-size: 2.5em; /* Make icon larger */
+      color: #26c6da;   /* Use a theme color */
+      margin-bottom: 15px; /* Space below icon */
     }
     .service-card h3 {
       color: #00D9FF;
+      margin-top: 0;
+    }
+
+    /* Coming Soon Title Animation */
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        text-shadow: 0 0 5px rgba(255, 193, 7, 0.5);
+      }
+      50% {
+        transform: scale(1.02);
+        text-shadow: 0 0 15px rgba(255, 193, 7, 1);
+      }
+      100% {
+        transform: scale(1);
+        text-shadow: 0 0 5px rgba(255, 193, 7, 0.5);
+      }
+    }
+    .coming-soon h3 {
+      color: #FFC107; /* Amber/Yellow color */
+      animation: pulse 2.5s infinite;
+    }
+
+    /* Home Page Grid Layout */
+    .home-grid-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      width: 100%;
+    }
+    .home-grid-container > div {
+      margin-top: 0; /* Remove margin from grid items */
+    }
+    @media (max-width: 768px) {
+      .home-grid-container { grid-template-columns: 1fr; }
+    }
+
+    /* Search Bar Styling */
+    .search-container {
+      position: relative;
+      margin: 10px 0 25px;
+    }
+    .search-container .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+    }
+    #tool-search-input {
+      width: 100%;
+      padding: 12px 20px 12px 45px; /* Padding for icon */
+      background-color: rgba(0,0,0,0.3);
+      border: 1px solid #26c6da;
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 1em;
+      box-sizing: border-box;
     }
   </style>
 </head>
@@ -235,132 +356,153 @@
         Welcome to Mostafa Unlocker Hub -- your trusted source for software solutions, tools, scripts, and online services for iPhone and Android devices.
       </p>
 
-      <div class="live-tools">
-        <h3 id="online-tools-title">🧪 Online Tools (Direct from Website)</h3>
+      <div class="home-grid-container">
+        <div class="live-tools" style="grid-column: 1 / -1;"> <!-- Span full width -->
+          <h3 id="online-tools-title">🧪 Online Tools (Direct from Website)</h3>
 
-        <div class="tool-category">
-          <h4 id="category-stores">App Stores</h4>
-          <a class="button" href="intent://com.android.vending/#Intent;scheme=android-app;end" target="_blank" id="btn-play-store"><img src="playstore.png" alt="Play Store"> Open Play Store</a>
-          <a class="button" href="intent://com.sec.android.app.samsungapps/#Intent;scheme=android-app;end" target="_blank" id="btn-galaxy"><img src="samsung.png" alt="Galaxy Store"> Open Galaxy Store</a>
-          <a class="button" href="intent://com.heytap.market/#Intent;scheme=android-app;end" target="_blank" id="btn-oppo-market"><img src="oppo.png" alt="Oppo Market"> Open App Market (Oppo)</a>
-          <a class="button" href="intent://com.vivo.appstore/#Intent;scheme=android-app;end" target="_blank" id="btn-vivo-market"><img src="vivo.png" alt="Vivo Store"> Open App Store (Vivo)</a>
-          <a class="button" href="intent://com.xiaomi.mipicks/#Intent;scheme=android-app;end" target="_blank" id="btn-xiaomi-market"><img src="xiaomi.png" alt="Xiaomi Store"> Open App Store (Xiaomi)</a>
+          <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="tool-search-input" placeholder="Search for a tool...">
+          </div>
+
+          <div class="tool-category">
+            <h4 id="category-stores">App Stores</h4>
+            <a class="button" href="intent://com.android.vending/#Intent;scheme=android-app;end" target="_blank" id="btn-play-store"><img src="playstore.png" alt="Play Store"> Open Play Store</a>
+            <a class="button" href="intent://com.sec.android.app.samsungapps/#Intent;scheme=android-app;end" target="_blank" id="btn-galaxy"><img src="samsung.png" alt="Galaxy Store"> Open Galaxy Store</a>
+            <a class="button" href="intent://com.heytap.market/#Intent;scheme=android-app;end" target="_blank" id="btn-oppo-market"><img src="oppo.png" alt="Oppo Market"> Open App Market (Oppo)</a>
+            <a class="button" href="intent://com.vivo.appstore/#Intent;scheme=android-app;end" target="_blank" id="btn-vivo-market"><img src="vivo.png" alt="Vivo Store"> Open App Store (Vivo)</a>
+            <a class="button" href="intent://com.xiaomi.mipicks/#Intent;scheme=android-app;end" target="_blank" id="btn-xiaomi-market"><img src="xiaomi.png" alt="Xiaomi Store"> Open App Store (Xiaomi)</a>
+          </div>
+          <a class="button" href="intent://com.transsion.palmstore/#Intent;scheme=android-app;end" target="_blank" id="btn-palm-store"><img src="palmstore.png" alt="Palm Store"> Open Palm Store (itel)</a>
+
+          <div class="tool-category">
+            <h4 id="category-transfer">File Transfer & Backup</h4>
+            <a class="button" href="intent://com.sec.android.easyMover/#Intent;scheme=android-app;end" target="_blank" id="btn-smart-switch"><img src="smartswitch.png" alt="Smart Switch"> Open Smart Switch</a>
+            <a class="button" href="intent://com.itel.clonephone/#Intent;scheme=android-app;end" target="_blank" id="btn-itel-clone-phone"><img src="itel_clone.png" alt="Phone Cloner"> Open Phone Cloner (itel)</a>
+            <a class="button" href="intent://com.coloros.backuprestore/#Intent;scheme=android-app;end" target="_blank" id="btn-oppo-clone-phone"><img src="clonephone_oppo.png" alt="Clone Phone"> Open Clone Phone (Oppo)</a>
+            <a class="button" href="intent://com.hicloud.android.clone/#Intent;scheme=android-app;end" target="_blank" id="btn-huawei-clone-phone"><img src="huawei.png" alt="Phone Clone"> Open Phone Clone (Huawei)</a>
+            <a class="button" href="intent://com.vivo.easyshare/#Intent;scheme=android-app;end" target="_blank" id="btn-easyshare"><img src="easyshare.png" alt="EasyShare"> Open EasyShare (Vivo)</a>
+            <a class="button" href="intent://com.infinix.xshare/#Intent;scheme=android-app;end" target="_blank" id="btn-xshare"><img src="infinix.png" alt="XShare"> Open XShare (Infinix)</a>
+            <a class="button" href="intent://com.xiaomi.midrop/#Intent;scheme=android-app;end" target="_blank" id="btn-shareme"><img src="shareme.png" alt="ShareMe"> Open ShareMe (Xiaomi)</a>
+            <a class="button" href="intent://com.miui.huanji/#Intent;scheme=android-app;end" target="_blank" id="btn-mi-mover"><img src="mimover.png" alt="Mi Mover"> Open Mi Mover (Xiaomi)</a>
+          </div>
+
+          <div class="tool-category">
+            <h4 id="category-google">Google Apps</h4>
+            <a class="button" href="intent://com.google.android.youtube/#Intent;scheme=android-app;end" target="_blank" id="btn-youtube"><img src="youtube.png" alt="YouTube"> Open YouTube</a>
+            <a class="button" href="intent://com.android.chrome/#Intent;scheme=android-app;end" target="_blank" id="btn-chrome"><img src="chrome.png" alt="Chrome"> Open Chrome Browser</a>
+            <a class="button" href="intent://com.google.android.gm/#Intent;scheme=android-app;end" target="_blank" id="btn-gmail"><img src="gmail.png" alt="Gmail"> Open Gmail</a>
+            <a class="button" href="intent://com.google.android.apps.maps/#Intent;scheme=android-app;end" target="_blank" id="btn-maps"><img src="maps.png" alt="Maps"> Open Maps</a>
+            <a class="button" href="intent://com.google.android.googlequicksearchbox/#Intent;scheme=android-app;end" target="_blank" id="btn-google-search"><img src="google.png" alt="Google Search"> Open Google Search</a>
+            <a class="button" href="intent:#Intent;action=android.intent.action.ASSIST;end" target="_blank" id="btn-google-assistant"><img src="assistant.png" alt="Google Assistant"> Open Google Assistant</a>
+            <a class="button" href="intent:#Intent;action=com.google.android.gsf.login.LOGIN_ACTIVITY;package=com.google.android.gsf.login;end" target="_blank" id="btn-google-login"><img src="google.png" alt="Google Login"> Google Login</a>
+            <a class="button" href="intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;data=package:com.google.android.gms;end" target="_blank" id="btn-play-services"><img src="playstore.png" alt="Play Services"> Google Play Services</a>
+          </div>
+
+          <div class="tool-category">
+            <h4 id="category-system">System & Settings</h4>
+            <a class="button" href="intent://com.android.settings/#Intent;scheme=android-app;end" target="_blank" id="btn-settings"><img src="settings.png" alt="Settings"> Open Settings</a>
+            <a class="button" href="intent://com.transsion.phoenix/#Intent;scheme=android-app;end" target="_blank" id="btn-phoenix-browser"><img src="phoenix.png" alt="Phoenix Browser"> Open Phoenix Browser</a>
+            <a class="button" href="intent://com.sec.android.app.myfiles/#Intent;scheme=android-app;end" target="_blank" id="btn-my-files"><img src="myfiles.png" alt="My Files"> Open My Files (Samsung)</a>
+            <a class="button" href="intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end" target="_blank" id="btn-accessibility"><img src="accessibility.png" alt="Accessibility"> Accessibility Settings</a>
+            <a class="button" href="intent:#Intent;action=android.app.action.SET_NEW_PASSWORD;end" target="_blank" id="btn-set-lock"><img src="setlock.png" alt="Set Lock"> Set Screen Lock</a>
+            <a class="button" href="intent://com.sec.android.app.popupcalculator/#Intent;scheme=android-app;end" target="_blank" id="btn-calculator"><img src="calculator.png" alt="Calculator"> Open Calculator</a>
+            <a class="button" href="intent://com.secuso.privacyFriendlyCodeScanner.QrScanActivity/#Intent;scheme=android-app;end" target="_blank" id="btn-open-qr-scanner"><img src="qrcode.png" alt="QR Scanner"> Open QR scanner</a>
+          </div>
+
+          <div class="tool-category">
+            <h4 id="category-frp">FRP & Unlocking Tools</h4>
+            <a class="button" href="intent://de.szalkowski.activitylauncher/#Intent;scheme=android-app;end" target="_blank" id="btn-activity-launcher"><img src="rocket.png" alt="Activity Launcher"> Open Activity Launcher</a>
+            <a class="button" href="intent://com.google.android.gms/#Intent;scheme=promote_smartlock_scheme;end" target="_blank" id="btn-pincode"><img src="key.png" alt="Pin Code"> Open Pin Code (Smart Lock)</a>
+            <a class="button" href="intent://com.rrivenllc.shieldx/#Intent;scheme=android-app;end" target="_blank" id="btn-alliance-shield"><img src="allianceshield.png" alt="Alliance Shield"> Open Alliance Shield</a> 
+            <a class="button" href="samsungapps://ProductDetail/com.rrivenllc.shieldx" target="_blank" id="btn-alliance-shield-store"><img src="allianceshield.png" alt="Galaxy Store"> Alliance Shield (Galaxy Store)</a>
+            <a class="button" href="intent://com.activitymanager/#Intent;scheme=android-app;end" target="_blank" id="btn-activity-manager"><img src="tasks.png" alt="Activity Manager"> Open Activity Manager</a>
+            <a class="button" href="samsungapps://ProductDetail/com.activitymanager" target="_blank" id="btn-activity-manager-store"><img src="tasks.png" alt="Galaxy Store"> Activity Manager (Galaxy Store)</a>
+            <a class="button" href="intent://org.aospstudio.files/#Intent;scheme=android-app;end" target="_blank" id="btn-files-shortcut"><img src="folder.png" alt="Files Shortcut"> Open Files Shortcut</a>
+            <a class="button" href="samsungapps://ProductDetail/org.aospstudio.files" target="_blank" id="btn-files-shortcut-store"><img src="folder.png" alt="Galaxy Store"> Files Shortcut (Galaxy Store)</a>
+            <a class="button" href="intent://com.school.optimize/#Intent;scheme=android-app;end" target="_blank" id="btn-package-disabler"><img src="ban.png" alt="Package Disabler"> Open Package Disabler</a>
+            <a class="button" href="intent://com.cloudmdm.tools.cloud/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-mdm"><img src="cloud.png" alt="Knox MDM"> Open Knox Cloud MDM</a>
+            <a class="button" href="intent://com.knox.verification.gettingstarted/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-verify"><img src="check.png" alt="Knox Verification"> Knox Verification</a>
+            <a class="button" href="samsungapps://ProductDetail/com.infinix.xshare" target="_blank" id="btn-xshare-store"><img src="infinix.png" alt="Galaxy Store"> XShare (Galaxy Store)</a>
+          </div>
+
+          <div class="tool-category">
+            <h4 id="category-dev">Developer & Special Access</h4>
+            <a class="button" href="tel:*#85#" target="_blank" id="btn-adb-tecno"><img src="terminal.png" alt="ADB"> Enable ADB (Tecno/Infinix)</a> 
+            <a class="button" href="intent://com.samsung.android.dialer/#Intent;scheme=android-app;end" target="_blank" id="btn-samsung-dialer"><img src="phone.png" alt="Dialer"> Open Samsung Dialer</a>
+            <a class="button" href="intent://com.sec.android.app.servicemodeapp/#Intent;scheme=promote_USBSettings_scheme;end" target="_blank" id="btn-usb-settings"><img src="usb.png" alt="USB"> Open USB Settings</a>
+            <a class="button" href="intent://com.sec.android.app.hwmoduletest/#Intent;scheme=android-app;end" target="_blank" id="btn-hw-test"><img src="microscope.png" alt="HW Test"> HWModuleTest</a>
+          </div>
         </div>
-        <a class="button" href="intent://com.transsion.palmstore/#Intent;scheme=android-app;end" target="_blank" id="btn-palm-store"><img src="palmstore.png" alt="Palm Store"> Open Palm Store (itel)</a>
 
-        <div class="tool-category">
-          <h4 id="category-transfer">File Transfer & Backup</h4>
-          <a class="button" href="intent://com.sec.android.easyMover/#Intent;scheme=android-app;end" target="_blank" id="btn-smart-switch"><img src="smartswitch.png" alt="Smart Switch"> Open Smart Switch</a>
-          <a class="button" href="intent://com.itel.clonephone/#Intent;scheme=android-app;end" target="_blank" id="btn-itel-clone-phone"><img src="itel_clone.png" alt="Phone Cloner"> Open Phone Cloner (itel)</a>
-          <a class="button" href="intent://com.coloros.backuprestore/#Intent;scheme=android-app;end" target="_blank" id="btn-oppo-clone-phone"><img src="clonephone_oppo.png" alt="Clone Phone"> Open Clone Phone (Oppo)</a>
-          <a class="button" href="intent://com.hicloud.android.clone/#Intent;scheme=android-app;end" target="_blank" id="btn-huawei-clone-phone"><img src="huawei.png" alt="Phone Clone"> Open Phone Clone (Huawei)</a>
-          <a class="button" href="intent://com.vivo.easyshare/#Intent;scheme=android-app;end" target="_blank" id="btn-easyshare"><img src="easyshare.png" alt="EasyShare"> Open EasyShare (Vivo)</a>
-          <a class="button" href="intent://com.infinix.xshare/#Intent;scheme=android-app;end" target="_blank" id="btn-xshare"><img src="infinix.png" alt="XShare"> Open XShare (Infinix)</a>
-          <a class="button" href="intent://com.xiaomi.midrop/#Intent;scheme=android-app;end" target="_blank" id="btn-shareme"><img src="shareme.png" alt="ShareMe"> Open ShareMe (Xiaomi)</a>
-          <a class="button" href="intent://com.miui.huanji/#Intent;scheme=android-app;end" target="_blank" id="btn-mi-mover"><img src="mimover.png" alt="Mi Mover"> Open Mi Mover (Xiaomi)</a>
+        <div class="downloads">
+          <h3 id="downloads-title">⬇️ Downloads</h3>
+          <div class="download-category">
+            <h4 id="main-downloads-title">Main Tools:</h4>
+            <div class="download-buttons">
+              <a class="button" href="#" id="btn-unlocker"><i class="fa-solid fa-download"></i> Mostafa Unlocker v1.0 Beta</a>
+              <a class="button" href="#" id="btn-scripts"><i class="fa-solid fa-file-zipper"></i> Scripts & Tools Collection (ZIP)</a>
+            </div>
+          </div>
+          <div class="download-category">
+            <h4 id="apk-downloads-title">APK & FRP Files:</h4>
+            <div class="download-buttons">
+              <a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/QRScanner.apk" target="_blank" id="btn-dl-qr" download>QR Scanner</a>
+              <a class="button" href="https://github.com/farok6799/Mostafa-Unlocker-Hub/raw/refs/heads/main/activity-launcher-2-0-2.apk" target="_blank" id="btn-dl-AL" download>Activity Launcher</a>
+              <a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Android_8-9_GAM.apk" target="_blank" id="btn-dl-gam89" download>Google Account Manager 8-9</a>
+              <a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/GoogleAccountManger5.apk" target="_blank" id="btn-dl-gam5" download>Google Account Manager 5</a>
+              <a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/GoogleAccountManger6.apk" target="_blank" id="btn-dl-gam6" download>Google Account Manager 6</a>
+              <a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/GooglePlayService.apk" target="_blank" id="btn-dl-gps" download>Google Play Service</a>
+              <a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Test_DPC.apk" target="_blank" id="btn-dl-dpc" download>Test DPC</a>
+              <a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/hushsms.apk" target="_blank" id="btn-dl-hush" download>HushSMS</a>
+              <a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/FRP_Android_7.apk" target="_blank" id="btn-dl-frp7" download>FRP Android 7</a>
+              <a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/FRP_addROM.apk" target="_blank" id="btn-dl-addrom" download>FRP addROM</a>
+              <a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Phone_Clone.apk" target="_blank" id="btn-dl-clone" download>Phone Clone</a>
+              <a class="button" href="https://github.com/farok6799/Mostafa-Unlocker-Hub/raw/refs/heads/main/Package%20Disabler%20Pro%20(All%20Android)_11.0_apkcombo.app.apk" target="_blank" id="btn-dl-pd" download>Package Disabler</a>
+              <a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/QuickShortcutMaker.apk" target="_blank" id="btn-dl-qsm" download>Quick Shortcut Maker</a>
+              <a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Smart_Switch_Mobile.apk" target="_blank" id="btn-dl-ssm" download>Smart Switch Mobile</a>
+              <a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/shieldx_install.apk" target="_blank" id="btn-dl-shieldx" download>Alliance Shield (APK)</a>
+            </div>
+          </div>
+          <div class="download-category">
+            <h4 id="xml-downloads-title">Package Disabler XML:</h4>
+            <div class="download-buttons">
+              <a class="button" href="https://raw.githubusercontent.com/farok6799/Mostafa-Unlocker-Hub/refs/heads/main/Disable%20System%20UI.xml" target="_blank" id="btn-dl-xml-ui" download>Disable System UI (XML)</a>
+              <a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/xml/pd_disable_apps_disable_googleservice.xml" target="_blank" id="btn-dl-xml-gs" download>Disable Google Service (XML)</a>
+            </div>
+          </div>
+          <div class="download-category">
+            <h4 id="ios-downloads-title">iOS Tools & Profiles:</h4>
+            <div class="download-buttons">
+              <a class="button" href="https://raw.githubusercontent.com/farok6799/Mostafa-Unlocker-Hub/refs/heads/main/blockota-26.mobileconfig" target="_blank" id="btn-dl-ios-profile"><i class="fa-brands fa-apple"></i> Block iOS Updates (Profile)</a>
+              <a class="button" href="https://raw.githubusercontent.com/farok6799/Mostafa-Unlocker-Hub/main/Mostafa_Global_Family_DNS.mobileconfig" target="_blank" id="btn-dl-ios-dns" download><i class="fa-solid fa-shield-halved"></i> Block Ads & Adult Content (Profile)</a>
+            </div>
+          </div>
         </div>
-
-        <div class="tool-category">
-          <h4 id="category-google">Google Apps</h4>
-          <a class="button" href="intent://com.google.android.youtube/#Intent;scheme=android-app;end" target="_blank" id="btn-youtube"><img src="youtube.png" alt="YouTube"> Open YouTube</a>
-          <a class="button" href="intent://com.android.chrome/#Intent;scheme=android-app;end" target="_blank" id="btn-chrome"><img src="chrome.png" alt="Chrome"> Open Chrome Browser</a>
-          <a class="button" href="intent://com.google.android.gm/#Intent;scheme=android-app;end" target="_blank" id="btn-gmail"><img src="gmail.png" alt="Gmail"> Open Gmail</a>
-          <a class="button" href="intent://com.google.android.apps.maps/#Intent;scheme=android-app;end" target="_blank" id="btn-maps"><img src="maps.png" alt="Maps"> Open Maps</a>
-          <a class="button" href="intent://com.google.android.googlequicksearchbox/#Intent;scheme=android-app;end" target="_blank" id="btn-google-search"><img src="google.png" alt="Google Search"> Open Google Search</a>
-          <a class="button" href="intent:#Intent;action=android.intent.action.ASSIST;end" target="_blank" id="btn-google-assistant"><img src="assistant.png" alt="Google Assistant"> Open Google Assistant</a>
-          <a class="button" href="intent:#Intent;action=com.google.android.gsf.login.LOGIN_ACTIVITY;package=com.google.android.gsf.login;end" target="_blank" id="btn-google-login"><img src="google.png" alt="Google Login"> Google Login</a>
-          <a class="button" href="intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;data=package:com.google.android.gms;end" target="_blank" id="btn-play-services"><img src="playstore.png" alt="Play Services"> Google Play Services</a>
+        
+        <div class="coming-soon">
+          <h3 id="coming-soon-title">🚧 Coming Soon in Mostafa Unlocker Tool</h3>
+          <ul>
+            <li id="feature-1"><i class="fa-brands fa-apple"></i> iPhone Ramdisk (A7-A11)</li>
+            <li id="feature-2"><i class="fa-solid fa-unlock-keyhole"></i> FRP Removal for Android (ADB/FASTBOOT/SPD)</li>
+            <li id="feature-3"><i class="fa-solid fa-tablet-screen-button"></i> Samsung T509 MDM Unlock</li>
+            <li id="feature-4"><i class="fa-solid fa-sd-card"></i> Flash Custom Partitions (userdata, etc.)</li>
+            <li id="feature-5"><i class="fa-solid fa-cloud-arrow-up"></i> iCloud Bypass (Passcode / Hello)</li>
+            <li id="feature-6"><i class="fa-solid fa-signal"></i> Network Unlock / Fix Handshake (SPD Devices)</li>
+            <li id="feature-7"><i class="fa-solid fa-shield-virus"></i> Remove Ads / Viruses from Android</li>
+            <li id="feature-8"><i class="fa-solid fa-brain"></i> Backup & Restore iPhone Passcode Data</li>
+            <li id="feature-9"><i class="fa-solid fa-forward"></i> Skip Setup / Disable OTA Updates</li>
+          </ul>
         </div>
-
-        <div class="tool-category">
-          <h4 id="category-system">System & Settings</h4>
-          <a class="button" href="intent://com.android.settings/#Intent;scheme=android-app;end" target="_blank" id="btn-settings"><img src="settings.png" alt="Settings"> Open Settings</a>
-          <a class="button" href="intent://com.transsion.phoenix/#Intent;scheme=android-app;end" target="_blank" id="btn-phoenix-browser"><img src="phoenix.png" alt="Phoenix Browser"> Open Phoenix Browser</a>
-          <a class="button" href="intent://com.sec.android.app.myfiles/#Intent;scheme=android-app;end" target="_blank" id="btn-my-files"><img src="myfiles.png" alt="My Files"> Open My Files (Samsung)</a>
-          <a class="button" href="intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end" target="_blank" id="btn-accessibility"><img src="accessibility.png" alt="Accessibility"> Accessibility Settings</a>
-          <a class="button" href="intent:#Intent;action=android.app.action.SET_NEW_PASSWORD;end" target="_blank" id="btn-set-lock"><img src="setlock.png" alt="Set Lock"> Set Screen Lock</a>
-          <a class="button" href="intent://com.sec.android.app.popupcalculator/#Intent;scheme=android-app;end" target="_blank" id="btn-calculator"><img src="calculator.png" alt="Calculator"> Open Calculator</a>
-          <a class="button" href="intent://com.secuso.privacyFriendlyCodeScanner.QrScanActivity/#Intent;scheme=android-app;end" target="_blank" id="btn-open-qr-scanner"><img src="qrcode.png" alt="QR Scanner"> Open QR scanner</a>
+        
+        <div class="contact">
+          <h3 id="contact-title">📞 Contact</h3>
+          <a href="https://wa.me/201129729147" target="_blank" id="link-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+          <a href="https://t.me/MostafaUnlocker" target="_blank" id="link-telegram"><i class="fa-brands fa-telegram"></i> Telegram</a>
+          <a href="https://www.facebook.com/share/1AyBCdPEDM/" target="_blank" id="link-facebook"><i class="fa-brands fa-facebook"></i> Facebook</a>
+          <a href="https://www.instagram.com/far0k6799/profilecard/?igsh=c2gxb3gyM25xOW1l" target="_blank" id="link-instagram"><i class="fa-brands fa-instagram"></i> Instagram</a>
+          <p>📞 +20 112 972 9147</p>
         </div>
-
-        <div class="tool-category">
-          <h4 id="category-frp">FRP & Unlocking Tools</h4>
-          <a class="button" href="intent://de.szalkowski.activitylauncher/#Intent;scheme=android-app;end" target="_blank" id="btn-activity-launcher"><img src="rocket.png" alt="Activity Launcher"> Open Activity Launcher</a>
-          <a class="button" href="intent://com.google.android.gms/#Intent;scheme=promote_smartlock_scheme;end" target="_blank" id="btn-pincode"><img src="key.png" alt="Pin Code"> Open Pin Code (Smart Lock)</a>
-          <a class="button" href="intent://com.rrivenllc.shieldx/#Intent;scheme=android-app;end" target="_blank" id="btn-alliance-shield"><img src="allianceshield.png" alt="Alliance Shield"> Open Alliance Shield</a> 
-          <a class="button" href="samsungapps://ProductDetail/com.rrivenllc.shieldx" target="_blank" id="btn-alliance-shield-store"><img src="allianceshield.png" alt="Galaxy Store"> Alliance Shield (Galaxy Store)</a>
-          <a class="button" href="intent://com.activitymanager/#Intent;scheme=android-app;end" target="_blank" id="btn-activity-manager"><img src="tasks.png" alt="Activity Manager"> Open Activity Manager</a>
-          <a class="button" href="samsungapps://ProductDetail/com.activitymanager" target="_blank" id="btn-activity-manager-store"><img src="tasks.png" alt="Galaxy Store"> Activity Manager (Galaxy Store)</a>
-          <a class="button" href="intent://org.aospstudio.files/#Intent;scheme=android-app;end" target="_blank" id="btn-files-shortcut"><img src="folder.png" alt="Files Shortcut"> Open Files Shortcut</a>
-          <a class="button" href="samsungapps://ProductDetail/org.aospstudio.files" target="_blank" id="btn-files-shortcut-store"><img src="folder.png" alt="Galaxy Store"> Files Shortcut (Galaxy Store)</a>
-          <a class="button" href="intent://com.school.optimize/#Intent;scheme=android-app;end" target="_blank" id="btn-package-disabler"><img src="ban.png" alt="Package Disabler"> Open Package Disabler</a>
-          <a class="button" href="intent://com.cloudmdm.tools.cloud/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-mdm"><img src="cloud.png" alt="Knox MDM"> Open Knox Cloud MDM</a>
-          <a class="button" href="intent://com.knox.verification.gettingstarted/#Intent;scheme=android-app;end" target="_blank" id="btn-knox-verify"><img src="check.png" alt="Knox Verification"> Knox Verification</a>
-          <a class="button" href="samsungapps://ProductDetail/com.infinix.xshare" target="_blank" id="btn-xshare-store"><img src="infinix.png" alt="Galaxy Store"> XShare (Galaxy Store)</a>
-        </div>
-
-        <div class="tool-category">
-          <h4 id="category-dev">Developer & Special Access</h4>
-          <a class="button" href="tel:*#85#" target="_blank" id="btn-adb-tecno"><img src="terminal.png" alt="ADB"> Enable ADB (Tecno/Infinix)</a> 
-          <a class="button" href="intent://com.samsung.android.dialer/#Intent;scheme=android-app;end" target="_blank" id="btn-samsung-dialer"><img src="phone.png" alt="Dialer"> Open Samsung Dialer</a>
-          <a class="button" href="intent://com.sec.android.app.servicemodeapp/#Intent;scheme=promote_USBSettings_scheme;end" target="_blank" id="btn-usb-settings"><img src="usb.png" alt="USB"> Open USB Settings</a>
-          <a class="button" href="intent://com.sec.android.app.hwmoduletest/#Intent;scheme=android-app;end" target="_blank" id="btn-hw-test"><img src="microscope.png" alt="HW Test"> HWModuleTest</a>
-        </div>
-      </div>
-
-      <div class="downloads">
-        <h3 id="downloads-title">⬇️ Downloads</h3>
-        <ul>
-          <li id="main-downloads-title" style="font-weight: bold; margin-bottom: 10px;">Main Tools:</li>
-          <li><a class="button" href="#" id="btn-unlocker"><i class="fa-solid fa-download"></i> Mostafa Unlocker v1.0 Beta</a></li>
-          <li><a class="button" href="#" id="btn-scripts"><i class="fa-solid fa-file-zipper"></i> Scripts & Tools Collection (ZIP)</a></li>
-          <li id="apk-downloads-title" style="font-weight: bold; margin-top: 20px; margin-bottom: 10px;">APK & FRP Files:</li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/QRScanner.apk" target="_blank" id="btn-dl-qr" download>QR Scanner</a></li>
-          <li><a class="button" href="https://github.com/farok6799/Mostafa-Unlocker-Hub/raw/refs/heads/main/activity-launcher-2-0-2.apk" target="_blank" id="btn-dl-AL" download>Activity Launcher</a></li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Android_8-9_GAM.apk" target="_blank" id="btn-dl-gam89" download>Google Account Manager 8-9</a></li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/GoogleAccountManger5.apk" target="_blank" id="btn-dl-gam5" download>Google Account Manager 5</a></li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/GoogleAccountManger6.apk" target="_blank" id="btn-dl-gam6" download>Google Account Manager 6</a></li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/GooglePlayService.apk" target="_blank" id="btn-dl-gps" download>Google Play Service</a></li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Test_DPC.apk" target="_blank" id="btn-dl-dpc" download>Test DPC</a></li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/hushsms.apk" target="_blank" id="btn-dl-hush" download>HushSMS</a></li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/FRP_Android_7.apk" target="_blank" id="btn-dl-frp7" download>FRP Android 7</a></li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/FRP_addROM.apk" target="_blank" id="btn-dl-addrom" download>FRP addROM</a></li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Phone_Clone.apk" target="_blank" id="btn-dl-clone" download>Phone Clone</a></li>
-          <li><a class="button" href="https://github.com/farok6799/Mostafa-Unlocker-Hub/raw/refs/heads/main/Package%20Disabler%20Pro%20(All%20Android)_11.0_apkcombo.app.apk" target="_blank" id="btn-dl-pd" download>Package Disabler</a></li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/QuickShortcutMaker.apk" target="_blank" id="btn-dl-qsm" download>Quick Shortcut Maker</a></li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Smart_Switch_Mobile.apk" target="_blank" id="btn-dl-ssm" download>Smart Switch Mobile</a></li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/shieldx_install.apk" target="_blank" id="btn-dl-shieldx" download>Alliance Shield (APK)</a></li>
-          <li id="xml-downloads-title" style="font-weight: bold; margin-top: 20px; margin-bottom: 10px;">Package Disabler XML:</li>
-          <li><a class="button" href="https://raw.githubusercontent.com/farok6799/Mostafa-Unlocker-Hub/refs/heads/main/Disable%20System%20UI.xml" target="_blank" id="btn-dl-xml-ui" download>Disable System UI (XML)</a></li>
-          <li><a class="button" href="https://github.com/reindex-ot/frp_bypass/raw/main/frp/xml/pd_disable_apps_disable_googleservice.xml" target="_blank" id="btn-dl-xml-gs" download>Disable Google Service (XML)</a></li>
-          <li id="ios-downloads-title" style="font-weight: bold; margin-top: 20px; margin-bottom: 10px;">iOS Tools & Profiles:</li>
-          <li><a class="button" href="https://raw.githubusercontent.com/farok6799/Mostafa-Unlocker-Hub/refs/heads/main/blockota-26.mobileconfig" target="_blank" id="btn-dl-ios-profile"><i class="fa-brands fa-apple"></i> Block iOS Updates (Profile)</a></li>
-          <li><a class="button" href="https://raw.githubusercontent.com/farok6799/Mostafa-Unlocker-Hub/main/Mostafa_Global_Family_DNS.mobileconfig" target="_blank" id="btn-dl-ios-dns" download><i class="fa-solid fa-shield-halved"></i> Block Ads & Adult Content (Profile)</a></li>
-        </ul>
-      </div>
-
-      <div class="coming-soon">
-        <h3 id="coming-soon-title">🚧 Coming Soon in Mostafa Unlocker Tool</h3>
-        <ul>
-          <li id="feature-1"><i class="fa-brands fa-apple"></i> iPhone Ramdisk (A7-A11)</li>
-          <li id="feature-2"><i class="fa-solid fa-unlock-keyhole"></i> FRP Removal for Android (ADB/FASTBOOT/SPD)</li>
-          <li id="feature-3"><i class="fa-solid fa-tablet-screen-button"></i> Samsung T509 MDM Unlock</li>
-          <li id="feature-4"><i class="fa-solid fa-sd-card"></i> Flash Custom Partitions (userdata, etc.)</li>
-          <li id="feature-5"><i class="fa-solid fa-cloud-arrow-up"></i> iCloud Bypass (Passcode / Hello)</li>
-          <li id="feature-6"><i class="fa-solid fa-signal"></i> Network Unlock / Fix Handshake (SPD Devices)</li>
-          <li id="feature-7"><i class="fa-solid fa-shield-virus"></i> Remove Ads / Viruses from Android</li>
-          <li id="feature-8"><i class="fa-solid fa-brain"></i> Backup & Restore iPhone Passcode Data</li>
-          <li id="feature-9"><i class="fa-solid fa-forward"></i> Skip Setup / Disable OTA Updates</li>
-        </ul>
-      </div>
-
-      <div class="contact">
-        <h3 id="contact-title">📞 Contact</h3>
-        <a href="https://wa.me/201129729147" target="_blank" id="link-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-        <a href="https://t.me/MostafaUnlocker" target="_blank" id="link-telegram"><i class="fa-brands fa-telegram"></i> Telegram</a>
-        <a href="https://www.facebook.com/share/1AyBCdPEDM/" target="_blank" id="link-facebook"><i class="fa-brands fa-facebook"></i> Facebook</a>
-        <a href="https://www.instagram.com/far0k6799/profilecard/?igsh=c2gxb3gyM25xOW1l" target="_blank" id="link-instagram"><i class="fa-brands fa-instagram"></i> Instagram</a>
-        <p>📞 +20 112 972 9147</p>
       </div>
     </section>
   </div>
@@ -372,6 +514,7 @@
 
       <div class="services-cards-container">
         <div class="service-card">
+          <i class="fa-solid fa-cloud-arrow-up service-icon"></i>
           <h3 id="icloud-bypass-title">تخطي iCloud - iPhone</h3>
           <p id="icloud-bypass-desc">
             ✅ مدعوم من <strong>iPhone 6s حتى iPhone 16 Pro Max</strong><br><br>
@@ -382,11 +525,13 @@
         </div>
 
         <div class="service-card">
+          <i class="fa-solid fa-key service-icon"></i>
           <h3 id="official-icloud-title">فك iCloud رسمي</h3>
           <p id="official-icloud-desc">متوفر فك iCloud رسمي للأجهزة المؤهلة عبر سيرفر Apple، حسب الشروط.</p>
         </div>
 
         <div class="service-card">
+          <i class="fa-solid fa-school-lock service-icon"></i>
           <h3 id="mdm-removal-title">إزالة MDM - تابلت المدارس</h3>
           <p id="mdm-removal-desc">
             ✅ إزالة MDM بالكامل للتابلتات التالية:<br><br>
@@ -398,11 +543,13 @@
         </div>
 
         <div class="service-card">
+          <i class="fa-solid fa-unlock-keyhole service-icon"></i>
           <h3 id="frp-removal-title">إزالة FRP</h3>
           <p id="frp-removal-desc">متاح إزالة FRP لجميع الشركات: Samsung، Huawei، Xiaomi، Oppo، Vivo، Realme، Infinix، Tecno، Nokia، وغيرها.</p>
         </div>
 
         <div class="service-card">
+          <i class="fa-solid fa-barcode service-icon"></i>
           <h3 id="imei-repair-title">إصلاح IMEI / Serial</h3>
           <p id="imei-repair-desc">
             إصلاح الرقم التسلسلي أو IMEI في الأجهزة المدعومة (مثل أجهزة MTK و SPD) في حالة وجود عطل أو فقد في الرقم.<br>
@@ -458,6 +605,7 @@
           'home-tab': 'Home',
           'services-tab': 'Services',
           'welcome-text': 'Welcome to Mostafa Unlocker Hub -- your trusted source for software solutions, tools, scripts, and online services for iPhone and Android devices.',
+          'tool-search-input': 'Search for a tool...', // Placeholder text
           'online-tools-title': '🧪 Online Tools (Direct from Website)',
           'btn-youtube': '<img src="youtube.png" alt="YouTube"> Open YouTube',          
           'btn-settings': '<img src="settings.png" alt="Settings"> Open Settings',
@@ -575,6 +723,7 @@
           'home-tab': 'الرئيسية',
           'services-tab': 'الخدمات',
           'welcome-text': 'مرحبًا بك في مركز مصطفى لفك القفل -- المكان الموثوق لحلول السوفت وير، الأدوات، السكربتات، والخدمات المباشرة لأجهزة iPhone و Android.',
+          'tool-search-input': 'ابحث عن أداة...', // Placeholder text
           'online-tools-title': '🧪 أدوات عبر الإنترنت (مباشرة من الموقع)',
           'btn-youtube': '<img src="youtube.png" alt="YouTube"> فتح يوتيوب',          
           'btn-settings': '<img src="settings.png" alt="Settings"> فتح الإعدادات',
@@ -699,6 +848,13 @@
             element.innerHTML = t[id];
           }
         });
+        
+        // Update placeholders
+        const searchInput = document.getElementById('tool-search-input');
+        if (searchInput && t['tool-search-input']) {
+          searchInput.placeholder = t['tool-search-input'];
+        }
+
 
         // Update language toggle button
         languageToggle.textContent = isEnglish ? 'العربية' : 'English';
@@ -710,6 +866,32 @@
       languageToggle.addEventListener('click', () => {
         isEnglish = !isEnglish;
         updateContent();
+      });
+
+      // Search functionality
+      const searchInput = document.getElementById('tool-search-input');
+      const toolCategories = document.querySelectorAll('.live-tools .tool-category');
+
+      searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+
+        toolCategories.forEach(category => {
+          const buttons = category.querySelectorAll('a.button');
+          let visibleButtonsInCategory = 0;
+
+          buttons.forEach(button => {
+            const buttonText = button.textContent.toLowerCase();
+            if (buttonText.includes(searchTerm)) {
+              button.style.display = 'inline-block';
+              visibleButtonsInCategory++;
+            } else {
+              button.style.display = 'none';
+            }
+          });
+
+          // Hide category title if no buttons are visible
+          category.style.display = visibleButtonsInCategory > 0 ? 'block' : 'none';
+        });
       });
 
       // Initial content load
