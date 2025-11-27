@@ -494,7 +494,7 @@
       color: #fff;
       font-size: 24px;
       opacity: 0.7;
-      animation: bounce 2.5s infinite;
+      animation: swipe-up 2.5s infinite;
       transition: opacity 0.5s ease, visibility 0.5s;
       z-index: 10;
       visibility: visible;
@@ -503,10 +503,15 @@
       opacity: 0;
       visibility: hidden;
     }
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
-      40% { transform: translate(-50%, -20px); }
-      60% { transform: translate(-50%, -10px); }
+    @keyframes swipe-up {
+      0% { transform: translate(-50%, 10px); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translate(-50%, -25px); opacity: 0; }
+    }
+  </style>
+ <style>
+    .scroll-down-indicator i {
+      transform: rotate(-15deg); /* Add a slight angle to the hand icon */
     }
   </style>
   <style>
@@ -598,7 +603,7 @@
   </header>
   
   <!-- Scroll Down Indicator -->
-  <div class="scroll-down-indicator"><i class="fa-solid fa-chevron-down"></i></div>
+  <div class="scroll-down-indicator"><i class="fa-solid fa-hand-pointer"></i></div>
   
   <div class="tabs">
     <div class="tab-buttons-container">
