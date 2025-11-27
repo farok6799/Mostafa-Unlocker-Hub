@@ -509,6 +509,86 @@
       60% { transform: translate(-50%, -10px); }
     }
   </style>
+  <style>
+    /* ADB QR Codes Section */
+    .qr-codes-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center; /* Center the QR codes */
+      margin-top: 10px;
+    }
+    .qr-codes-container img {
+      max-width: 180px; /* Control the size of QR codes */
+      height: auto;
+      border-radius: 8px;
+      border: 2px solid #4fc3f7; /* Keeping the border */
+      background-color: #fff; /* QR codes are usually on a white background */
+      padding: 8px; /* Add some padding around the QR code itself */
+      box-sizing: border-box;
+    }
+    .qr-code-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content horizontally */
+      text-align: center;
+      gap: 5px; /* Space between title and image */
+    }
+    .qr-code-title {
+      margin: 0;
+      font-size: 0.9em;
+      color: #4fc3f7; /* Themed color for titles */
+      font-weight: 600;
+    }
+  </style>
+  <style>
+    /* QR Code Clickable Effect */
+    .qr-codes-container img {
+      cursor: zoom-in;
+      transition: transform 0.2s ease;
+    }
+    .qr-codes-container img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Image Zoom Modal */
+    .image-zoom-modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 2000; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+      justify-content: center;
+      align-items: center;
+    }
+
+    .image-zoom-content {
+      margin: auto;
+      display: block;
+      max-width: 80%;
+      max-height: 80%;
+      animation: zoom-in 0.4s ease;
+    }
+
+    @keyframes zoom-in {
+      from {transform: scale(0.5);}
+      to {transform: scale(1);}
+    }
+
+    .close-zoom-modal {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -621,6 +701,24 @@
               <a class="button" href="intent://com.samsung.android.dialer/#Intent;scheme=android-app;end" target="_blank" id="btn-samsung-dialer"><img src="phone.png" alt="Dialer"> Open Samsung Dialer</a>
               <a class="button" href="intent://com.sec.android.app.servicemodeapp/#Intent;scheme=promote_USBSettings_scheme;end" target="_blank" id="btn-usb-settings"><img src="usb.png" alt="USB"> Open USB Settings</a>
               <a class="button" href="intent://com.sec.android.app.hwmoduletest/#Intent;scheme=android-app;end" target="_blank" id="btn-hw-test"><img src="microscope.png" alt="HW Test"> HWModuleTest</a>
+            </div>
+          </div>
+
+          <div class="tool-category">
+            <h4 id="category-adb-qr">ADB QR Codes</h4>
+            <div class="qr-codes-container">
+              <div class="qr-code-item">
+                <p class="qr-code-title" id="qr-title-samsung"></p>
+                <img src="adb-qr-samsung.png" alt="Samsung ADB QR Code">
+              </div>
+              <div class="qr-code-item">
+                <p class="qr-code-title" id="qr-title-general"></p>
+                <img src="adb-qr-general.png" alt="General Android ADB QR Code">
+              </div>
+              <div class="qr-code-item">
+                <p class="qr-code-title" id="qr-title-new"></p>
+                <img src="adb-qr-new.png" alt="New ADB QR Code">
+              </div>
             </div>
           </div>
         </div>
@@ -788,6 +886,12 @@
     </section>
   </div>
 
+  <!-- Image Zoom Modal -->
+  <div id="image-zoom-modal" class="image-zoom-modal">
+    <span class="close-zoom-modal" id="close-zoom-modal">&times;</span>
+    <img class="image-zoom-content" id="zoomed-image">
+  </div>
+
   <!-- Back to Top Button -->
   <a id="back-to-top-btn" class="back-to-top-btn"><i class="fa-solid fa-arrow-up"></i></a>
 
@@ -871,8 +975,12 @@
           'category-transfer': 'File Transfer & Backup',
           'category-google': 'Google Apps',
           'category-system': 'System & Settings',
+          'qr-title-samsung': 'New Security',
+          'qr-title-general': 'Old',
+          'qr-title-new': 'Alliance Shield',
           'category-frp': 'FRP & Unlocking Tools',
           'category-dev': 'Developer & Special Access',
+          'category-adb-qr': 'ADB QR Codes',
           'downloads-title': '⬇️ Downloads',
           'btn-unlocker': '<i class="fa-solid fa-download"></i> Mostafa Unlocker v1.0 Beta',
           'btn-scripts': '<i class="fa-solid fa-file-zipper"></i> Scripts & Tools Collection (ZIP)',
@@ -996,8 +1104,12 @@
           'category-transfer': 'نقل الملفات والنسخ الاحتياطي',
           'category-google': 'تطبيقات جوجل',
           'category-system': 'النظام والإعدادات',
+          'qr-title-samsung': 'حماية جديدة',
+          'qr-title-general': 'قديم',
+          'qr-title-new': 'Alliance Shield',
           'category-frp': 'أدوات FRP والتخطي',
           'category-dev': 'أدوات المطور والوصول الخاص',
+          'category-adb-qr': 'أكواد QR لتفعيل ADB',
           'downloads-title': '⬇️ التنزيلات',
           'btn-unlocker': '<i class="fa-solid fa-download"></i> مصطفى أونلوكر v1.0 بيتا',
           'btn-scripts': '<i class="fa-solid fa-file-zipper"></i> مجموعة البرامج النصية والأدوات (ZIP)',
@@ -1100,27 +1212,29 @@
 
       // Search functionality
       const searchInput = document.getElementById('tool-search-input');
-      const toolCategories = document.querySelectorAll('.live-tools .tool-category');
 
       searchInput.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
 
         document.querySelectorAll('.live-tools .tool-category').forEach(category => {
-          const buttons = category.querySelectorAll('a.button');
-          let visibleButtonsInCategory = 0;
+          // Select both buttons and QR code items as searchable items
+          const items = category.querySelectorAll('a.button, .qr-code-item');
+          let visibleItemsInCategory = 0;
 
-          buttons.forEach(button => {
-            const buttonText = button.textContent.toLowerCase();
-            if (buttonText.includes(searchTerm)) {
-              button.style.display = 'inline-block';
-              visibleButtonsInCategory++;
+          items.forEach(item => {
+            const itemText = item.textContent.toLowerCase();
+            if (itemText.includes(searchTerm)) {
+              // Use 'flex' for qr-code-item and 'inline-block' for buttons
+              const displayStyle = item.classList.contains('qr-code-item') ? 'flex' : 'inline-block';
+              item.style.display = displayStyle;
+              visibleItemsInCategory++;
             } else {
-              button.style.display = 'none';
+              item.style.display = 'none';
             }
           });
 
-          // Hide category title if no buttons are visible
-          category.style.display = visibleButtonsInCategory > 0 ? 'block' : 'none';
+          // Hide category title if no items are visible
+          category.style.display = visibleItemsInCategory > 0 ? 'block' : 'none';
         });
       });
 
@@ -1170,6 +1284,33 @@
         }, { once: true }); // The listener will be removed after it runs once
       }
 
+      // QR Code Zoom Logic
+      const modal = document.getElementById('image-zoom-modal');
+      const modalImg = document.getElementById('zoomed-image');
+      const qrImages = document.querySelectorAll('.qr-codes-container img');
+      const closeBtn = document.getElementById('close-zoom-modal');
+
+      qrImages.forEach(img => {
+        img.addEventListener('click', function() {
+          modal.style.display = 'flex';
+          modalImg.src = this.src;
+        });
+      });
+
+      // Function to close the modal
+      function closeModal() {
+        modal.style.display = 'none';
+      }
+
+      // Close the modal when the close button is clicked
+      closeBtn.onclick = closeModal;
+
+      // Close the modal when clicking on the background
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
     });
   </script>
 </body>
