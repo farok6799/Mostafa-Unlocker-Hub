@@ -1225,28 +1225,38 @@
       const searchInput = document.getElementById('tool-search-input');
 
       searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-
-        document.querySelectorAll('.live-tools .tool-category').forEach(category => {
-          // Select both buttons and QR code items as searchable items
-          const items = category.querySelectorAll('a.button, .qr-code-item');
-          let visibleItemsInCategory = 0;
-
-          items.forEach(item => {
-            const itemText = item.textContent.toLowerCase();
-            if (itemText.includes(searchTerm)) {
-              // Use 'flex' for qr-code-item and 'inline-block' for buttons
-              const displayStyle = item.classList.contains('qr-code-item') ? 'flex' : 'inline-block';
-              item.style.display = displayStyle;
-              visibleItemsInCategory++;
-            } else {
-              item.style.display = 'none';
-            }
-          });
-
-          // Hide category title if no items are visible
-          category.style.display = visibleItemsInCategory > 0 ? 'block' : 'none';
-        });
+          const searchTerm = e.target.value.toLowerCase();
+  
+          // Function to filter a list of categories
+          const filterCategories = (selector) => {
+              document.querySelectorAll(selector).forEach(category => {
+                  const items = category.querySelectorAll('a.button, .qr-code-item');
+                  let visibleItemsInCategory = 0;
+  
+                  items.forEach(item => {
+                      const itemText = item.textContent.toLowerCase();
+                      if (itemText.includes(searchTerm)) {
+                          // Determine the correct display style
+                          const displayStyle = item.classList.contains('qr-code-item') 
+                              ? 'flex' 
+                              : (item.classList.contains('button') ? 'inline-block' : 'block');
+                          item.style.display = displayStyle;
+                          visibleItemsInCategory++;
+                      } else {
+                          item.style.display = 'none';
+                      }
+                  });
+  
+                  // Hide or show the category based on visible items
+                  category.style.display = visibleItemsInCategory > 0 ? 'block' : 'none';
+              });
+          };
+  
+          // Search within Online Tools
+          filterCategories('.live-tools .tool-category');
+  
+          // Search within Downloads (including iOS tools)
+          filterCategories('.downloads .download-category');
       });
 
       // Initial content load
