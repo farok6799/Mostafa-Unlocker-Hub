@@ -17,7 +17,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: flex-start; /* Changed from center to flex-start */
       min-height: 100vh;
       overflow-x: hidden; /* Prevent horizontal scroll from aurora */
       position: relative;
@@ -1299,10 +1299,18 @@
 
       // Scroll Down Indicator Logic
       const scrollIndicator = document.querySelector('.scroll-down-indicator');
-      if (scrollIndicator) {
-        window.addEventListener('scroll', () => {
-          scrollIndicator.classList.add('hidden');
-        }, { once: true }); // The listener will be removed after it runs once
+      const firstContentSection = document.querySelector('.live-tools');
+
+      if (scrollIndicator && firstContentSection) {
+        const indicatorObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              scrollIndicator.classList.add('hidden');
+              indicatorObserver.unobserve(entry.target); // Stop observing once done
+            }
+          });
+        }, { threshold: 0.1 }); // Trigger when 10% of the section is visible
+        indicatorObserver.observe(firstContentSection);
       }
 
       // QR Code Zoom Logic
