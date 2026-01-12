@@ -30,16 +30,17 @@
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;
+      z-index: -2;
       pointer-events: none;
       background: 
-        radial-gradient(circle at 15% 30%, rgba(38, 198, 218, 0.2), transparent 40%),
-        radial-gradient(circle at 85% 70%, rgba(156, 39, 176, 0.2), transparent 40%);
-      animation: aurora-glow 20s infinite alternate;
+        linear-gradient(-45deg, rgba(6, 182, 212, 0.15), rgba(139, 92, 246, 0.15), rgba(236, 72, 153, 0.15), rgba(6, 182, 212, 0.15));
+      background-size: 400% 400%;
+      animation: gradient-wave 15s ease infinite;
     }
-    @keyframes aurora-glow {
-      from { transform: rotate(0deg) scale(1.2); opacity: 0.7; }
-      to { transform: rotate(360deg) scale(1.5); opacity: 1; }
+    @keyframes gradient-wave {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     header {
       width: 100%;
@@ -518,6 +519,42 @@
       0% { transform: translate(-50%, 10px); opacity: 0; }
       50% { opacity: 1; }
       100% { transform: translate(-50%, -25px); opacity: 0; }
+    }
+
+    /* Floating Particles */
+    #particles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      bottom: -10px;
+      background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+      border-radius: 50%;
+      opacity: 0;
+      animation: float-up linear infinite;
+    }
+    @keyframes float-up {
+      0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.5;
+      }
+      80% {
+        opacity: 0.5;
+      }
+      100% {
+        transform: translateY(-110vh) scale(1.2);
+        opacity: 0;
+      }
     }
   </style>
  <style>
@@ -1351,6 +1388,28 @@
           closeModal();
         }
       });
+
+      // Floating Particles Logic
+      const particlesContainer = document.createElement('div');
+      particlesContainer.id = 'particles-container';
+      document.body.appendChild(particlesContainer);
+
+      function createParticle() {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        const size = Math.random() * 5 + 2; // 2px to 7px
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${Math.random() * 100}vw`;
+        
+        const duration = Math.random() * 15 + 10; // 10s to 25s
+        particle.style.animationDuration = `${duration}s`;
+        
+        particlesContainer.appendChild(particle);
+        setTimeout(() => particle.remove(), duration * 1000);
+      }
+      setInterval(createParticle, 500);
     });
   </script>
 </body>
