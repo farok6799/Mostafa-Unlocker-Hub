@@ -452,6 +452,31 @@
         flex-wrap: wrap; /* Allow tab buttons to wrap */
         gap: 10px;
       }
+
+      /* Organize buttons into a 2-column grid on mobile */
+      .tool-buttons, .downloads .download-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .live-tools a.button, .downloads a.button {
+        width: 100%;
+        margin: 0;
+        flex-direction: column; /* Icon on top, text below */
+        text-align: center;
+        padding: 15px 5px;
+        height: 100%; /* Equal height */
+        font-size: 0.9em;
+      }
+
+      .live-tools a.button i, .downloads a.button i, .live-tools a.button img, .downloads a.button img {
+        margin-right: 0;
+        margin-bottom: 8px;
+        font-size: 1.5em;
+        width: auto;
+        height: 1.5em;
+      }
     }
 
     /* Scroll Animation */
