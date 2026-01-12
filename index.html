@@ -12,18 +12,24 @@
     * {
       box-sizing: border-box;
     }
+    html {
+      background-color: #02040a; /* لون الخلفية الأساسي لمنع الشاشة البيضاء */
+      width: 100%;
+      overflow-x: hidden;
+    }
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background-color: #02040a; /* Dark base color */
+      background-color: transparent; /* جعل الجسم شفافاً لتظهر التدرجات */
       color: #ffffff;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start; /* Changed from center to flex-start */
       min-height: 100vh;
-      overflow-x: hidden; /* Prevent horizontal scroll from aurora */
+      width: 100%; /* ضمان ملء العرض */
       position: relative;
+      overflow-x: hidden;
     }
     /* Aurora Background Effect */
     body::before {
