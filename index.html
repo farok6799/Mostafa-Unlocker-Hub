@@ -73,15 +73,15 @@
     
     .contact, .live-tools, .coming-soon, .downloads {
       margin-top: 20px;
-      background: rgba(0, 0, 0, 0.6); /* Neutral dark glass for better contrast */
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0)); /* Liquid Glass Gradient */
       padding: 20px;
       border-radius: 24px; /* More rounded and modern */
       width: 100%;
       box-sizing: border-box;
-      border: 1px solid rgba(255, 255, 255, 0.1); /* Clean glass border */
+      border: 1px solid rgba(255, 255, 255, 0.18); /* Stronger glass border */
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Kept for depth */
-      backdrop-filter: blur(12px); /* Core of Glassmorphism */
-      -webkit-backdrop-filter: blur(12px); /* For Safari */
+      backdrop-filter: blur(20px); /* Stronger blur for liquid effect */
+      -webkit-backdrop-filter: blur(20px); /* For Safari */
       display: flex; flex-direction: column; /* Ensure consistent height behavior */
       transition: border-color 0.3s ease, background 0.3s ease;
     }
@@ -116,22 +116,23 @@
       justify-content: center;
       margin: 5px;
       padding: 10px 20px;
-      background: rgba(255, 255, 255, 0.08); /* Glassy fill */
-      border: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle border */
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)); /* Liquid pill effect */
+      border: 1px solid rgba(255, 255, 255, 0.2); /* Highlight border */
       color: #ffffff;
       border-radius: 50px; /* Pill shape - Modern look */
       text-decoration: none;
       transition: all 0.3s ease;
       font-weight: 600;
       text-align: center; /* Center text inside button */
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2), inset 0 0 10px rgba(255,255,255,0.05); /* Depth */
     }
     .live-tools a.button:hover, .downloads a.button:hover, #language-toggle:hover {
-      transform: translateY(-3px);
-      background: #26c6da; /* Solid Cyan on hover */
-      border-color: transparent;
-      color: #000000; /* Black text for high contrast */
-      box-shadow: 0 0 20px rgba(38, 198, 218, 0.6); /* Strong glow */
+      transform: translateY(-3px) scale(1.02);
+      background: linear-gradient(145deg, rgba(38, 198, 218, 0.6), rgba(38, 198, 218, 0.2)); /* Glowing liquid */
+      border: 1px solid rgba(38, 198, 218, 0.5);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(38, 198, 218, 0.4), inset 0 0 15px rgba(255,255,255,0.2);
     }
     .live-tools a.button i, .downloads a.button i, .contact a i {
         margin-right: 8px; /* Add space between icon and text */
@@ -295,20 +296,22 @@
       margin-top: 30px;
     }
     .service-card {
-      background: rgba(0, 0, 0, 0.6);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
       padding: 25px;
       border-radius: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       display: flex;
       flex-direction: column;
       text-align: center; /* Center content */
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .service-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(38, 198, 218, 0.4);
+      transform: translateY(-5px) scale(1.02);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+      border-color: rgba(38, 198, 218, 0.5);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
     }
     .service-card .service-icon {
       font-size: 2.5em; /* Make icon larger */
@@ -369,8 +372,8 @@
     #tool-search-input {
       width: 100%;
       padding: 12px 20px 12px 45px; /* Padding for icon */
-      background-color: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 50px; /* Rounded search bar */
       color: #ffffff;
       font-size: 1em;
@@ -381,14 +384,14 @@
     /* FAQ Section Styling */
     .faq-section {
       margin-top: 20px;
-      background: rgba(0, 0, 0, 0.6);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
       padding: 20px;
       border-radius: 24px;
       width: 100%;
       box-sizing: border-box;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
     .faq-section h3 {
       color: #4fc3f7;
