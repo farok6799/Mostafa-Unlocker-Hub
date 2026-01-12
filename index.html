@@ -983,6 +983,16 @@
       // Show the selected tab and mark its button as active
       document.getElementById(tabName).classList.add('active');
       event.currentTarget.classList.add('active');
+
+      // Hide scroll indicator on Services tab
+      const scrollIndicator = document.querySelector('.scroll-down-indicator');
+      if (scrollIndicator) {
+        if (tabName === 'services') {
+          scrollIndicator.style.display = 'none';
+        } else {
+          scrollIndicator.style.display = '';
+        }
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
