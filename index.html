@@ -73,12 +73,12 @@
     
     .contact, .live-tools, .coming-soon, .downloads {
       margin-top: 20px;
-      background: rgba(13, 27, 42, 0.6); /* Darker, more transparent glass */
+      background: rgba(0, 0, 0, 0.6); /* Neutral dark glass for better contrast */
       padding: 20px;
-      border-radius: 15px; /* Slightly larger radius */
+      border-radius: 24px; /* More rounded and modern */
       width: 100%;
       box-sizing: border-box;
-      border: 1px solid rgba(38, 198, 218, 0.2); /* Themed border */
+      border: 1px solid rgba(255, 255, 255, 0.1); /* Clean glass border */
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Kept for depth */
       backdrop-filter: blur(12px); /* Core of Glassmorphism */
       -webkit-backdrop-filter: blur(12px); /* For Safari */
@@ -114,19 +114,22 @@
       display: inline-block;
       margin: 5px;
       padding: 10px 20px;
-      background: rgba(38, 198, 218, 0.15);
-      border: 1px solid rgba(38, 198, 218, 0.5);
+      background: rgba(255, 255, 255, 0.08); /* Glassy fill */
+      border: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle border */
       color: #ffffff;
-      border-radius: 8px;
+      border-radius: 50px; /* Pill shape - Modern look */
       text-decoration: none;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: all 0.3s ease;
       font-weight: 600;
       text-align: center; /* Center text inside button */
-      box-shadow: 0 0 15px rgba(38, 198, 218, 0.1);
+      backdrop-filter: blur(5px);
     }
     .live-tools a.button:hover, .downloads a.button:hover, #language-toggle:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(38, 198, 218, 0.3);
+      transform: translateY(-3px);
+      background: #26c6da; /* Solid Cyan on hover */
+      border-color: transparent;
+      color: #000000; /* Black text for high contrast */
+      box-shadow: 0 0 20px rgba(38, 198, 218, 0.6); /* Strong glow */
     }
     .live-tools a.button i, .downloads a.button i, .contact a i {
         margin-right: 8px; /* Add space between icon and text */
@@ -201,19 +204,19 @@
     .tab-btn, .tab-btn.active {
       padding: 10px 20px;
       background: transparent;
-      border: 1px solid rgba(38, 198, 218, 0.7);
-      color: rgba(38, 198, 218, 0.9);
+      border: none;
+      color: #bbbbbb;
       cursor: pointer;
       font-size: 16px;
-      border-radius: 8px;
+      border-radius: 50px; /* Pill shape for tabs too */
       margin: 0 5px;
       font-weight: bold;
       transition: background-color 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s;
     }
     .tab-btn:hover, .tab-btn.active {
-      background-color: #26c6da; /* Cyan-400 */
-      color: #fff;
-      transform: translateY(-2px);
+      background-color: #26c6da;
+      color: #000; /* Black text on active tab */
+      box-shadow: 0 0 15px rgba(38, 198, 218, 0.4);
     }
     .tab-buttons-container {
       display: flex;
@@ -288,10 +291,10 @@
       margin-top: 30px;
     }
     .service-card {
-      background: rgba(13, 27, 42, 0.6); /* Consistent with other cards */
+      background: rgba(0, 0, 0, 0.6);
       padding: 25px;
-      border-radius: 15px;
-      border: 1px solid rgba(38, 198, 218, 0.2);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       display: flex;
@@ -362,23 +365,24 @@
     #tool-search-input {
       width: 100%;
       padding: 12px 20px 12px 45px; /* Padding for icon */
-      background-color: rgba(0, 0, 0, 0.2);
-      border: 1px solid #26c6da;
-      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50px; /* Rounded search bar */
       color: #ffffff;
       font-size: 1em;
       box-sizing: border-box;
+      transition: all 0.3s ease;
     }
     
     /* FAQ Section Styling */
     .faq-section {
       margin-top: 20px;
-      background: rgba(13, 27, 42, 0.6);
+      background: rgba(0, 0, 0, 0.6);
       padding: 20px;
-      border-radius: 15px;
+      border-radius: 24px;
       width: 100%;
       box-sizing: border-box;
-      border: 1px solid rgba(38, 198, 218, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
