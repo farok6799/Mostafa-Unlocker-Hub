@@ -13,7 +13,7 @@
       box-sizing: border-box;
     }
     html {
-      background-color: #02040a; /* لون الخلفية الأساسي لمنع الشاشة البيضاء */
+      background-color: #02040a;
       width: 100%;
       overflow-x: hidden;
     }
@@ -21,7 +21,7 @@
       margin: 0;
       font-family: 'Poppins', sans-serif;
       background-color: transparent; /* جعل الجسم شفافاً لتظهر التدرجات */
-      color: #ffffff;
+      color: #ffffff; /* لون النص الأساسي */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -55,11 +55,10 @@
       width: 100%;
       padding: 20px;
       background-color: transparent;
-      display: flex;
-      flex-direction: column;
+      display: flex; /* Use flexbox */
+      flex-direction: column; /* Stack items vertically */
       align-items: center;
       text-align: center;
-      z-index: 10;
     }
     header img {
       width: 100%; /* Make logo full width */
@@ -77,7 +76,7 @@
     }
     section {
       max-width: 800px;
-      padding: 20px;
+      padding: 20px; /* General padding */
       line-height: 1.6;
     }
     
@@ -208,7 +207,7 @@
     }
     
     /* Tabs styling */
-    .tabs {
+   .tabs {
       display: flex;
       flex-direction: column; /* Stack items vertically */
       align-items: center;    /* Center items horizontally */
@@ -435,10 +434,10 @@
 
     /* --- Mobile Responsiveness --- */
     @media (max-width: 768px) {
-      .home-grid-container { 
-        grid-template-columns: 1fr; 
+      .home-grid-container {
+        grid-template-columns: 1fr;
       }
-      
+
       body {
         font-size: 95%; /* Slightly smaller base font on mobile */
       }
@@ -504,7 +503,7 @@
 
     /* Back to Top Button */
     .back-to-top-btn {
-      position: fixed;
+      position: fixed; /* Fixed position */
       bottom: 25px;
       right: 25px;
       width: 50px;
@@ -536,7 +535,7 @@
 
     /* Scroll Down Indicator */
     .scroll-down-indicator {
-      position: fixed;
+      position: fixed; /* Fixed position */
       bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
@@ -790,7 +789,7 @@
             <h4 id="category-dev">Developer & Special Access</h4>
             <div class="tool-buttons">
               <a class="button" href="tel:*#85#" target="_blank" id="btn-adb-tecno"><img src="terminal.png" alt="ADB"> Enable ADB (Tecno/Infinix)</a> 
-              <a class="button" href="intent://com.samsung.android.dialer/#Intent;scheme=android-app;end" target="_blank" id="btn-samsung-dialer"><img src="phone.png" alt="Dialer"> Open Samsung Dialer</a>
+              <a class="button" href="intent://com.samsung.android.dialer/#Intent;scheme=android-app;end" target="_blank" id="btn-samsung-dialer"><img src="phone.png" alt="Dialer"> Open Samsung Dialer</a> <!---intent:#Intent;action=android.intent.action.DIAL;end-->
               <a class="button" href="intent://com.sec.android.app.servicemodeapp/#Intent;scheme=promote_USBSettings_scheme;end" target="_blank" id="btn-usb-settings"><img src="usb.png" alt="USB"> Open USB Settings</a>
               <a class="button" href="intent://com.sec.android.app.hwmoduletest/#Intent;scheme=android-app;end" target="_blank" id="btn-hw-test"><img src="microscope.png" alt="HW Test"> HWModuleTest</a>
             </div>
@@ -979,7 +978,7 @@
       for (let i = 0; i < tabContents.length; i++) {
         tabContents[i].classList.remove('active');
       }
-      
+
       // Remove active class from all buttons
       const tabButtons = document.getElementsByClassName('tab-btn');
       for (let i = 0; i < tabButtons.length; i++) {
@@ -1015,7 +1014,7 @@
           'tool-search-input': 'Search for a tool...', // Placeholder text
           'online-tools-title': '🧪 Online Tools (Direct from Website)',
           'btn-youtube': '<img src="youtube.png" alt="YouTube"> Open YouTube',          
-          'btn-settings': '<img src="settings.png" alt="Settings"> Open Settings',
+         'btn-settings': '<img src="settings.png" alt="Settings"> Open Settings',
           'btn-galaxy': '<img src="samsung.png" alt="Galaxy Store"> Open Galaxy Store',
           'btn-oppo-market': '<img src="oppo.png" alt="Oppo Market"> Open App Market (Oppo)', // Kept as is, it's the market
           'btn-oppo-clone-phone': '<img src="clonephone_oppo.png" alt="Clone Phone"> Open Clone Phone (Oppo)',
@@ -1027,7 +1026,7 @@
           'btn-gmail': '<img src="gmail.png" alt="Gmail"> Open Gmail',
           'btn-pincode': '<img src="key.png" alt="Pin Code"> Open Pin Code (Smart Lock)',
           'btn-open-qr-scanner': '<img src="qrcode.png" alt="QR Scanner"> Open QR scanner',
-          'btn-my-files': '<img src="myfiles.png" alt="My Files"> Open My Files (Samsung)',
+         'btn-my-files': '<img src="myfiles.png" alt="My Files"> Open My Files (Samsung)',
           'btn-maps': '<img src="maps.png" alt="Maps"> Open Maps',
           'btn-accessibility': '<img src="accessibility.png" alt="Accessibility"> Accessibility Settings',
           'btn-set-lock': '<img src="setlock.png" alt="Set Lock"> Set Screen Lock',
