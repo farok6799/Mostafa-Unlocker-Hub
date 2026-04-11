@@ -10,18 +10,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --background: #0f0f0f;
-            --foreground: #f8f9fa;
-            --card: #161b26;
-            --card-foreground: #f8f9fa;
-            --primary: #22d3ee;
-            --primary-foreground: #0f1219;
-            --secondary: #1e2433;
-            --secondary-foreground: #f8f9fa;
-            --muted: #1e2433;
-            --muted-foreground: #9ca3af;
-            --border: #2a3142;
+            /* Dark elegant theme - pure black/gray tones with teal accent */
+            --background: #09090b;
+            --foreground: #fafafa;
+            --card: #18181b;
+            --card-foreground: #fafafa;
+            --primary: #2dd4bf;
+            --primary-foreground: #09090b;
+            --secondary: #27272a;
+            --secondary-foreground: #fafafa;
+            --muted: #27272a;
+            --muted-foreground: #a1a1aa;
+            --border: #3f3f46;
             --radius: 0.75rem;
+            --accent-glow: rgba(45, 212, 191, 0.15);
+            --accent-glow-strong: rgba(45, 212, 191, 0.3);
         }
         
         * {
@@ -39,7 +42,11 @@
             background-color: var(--background);
             color: var(--foreground);
             line-height: 1.6;
-            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
         }
         
         body.rtl {
@@ -48,9 +55,13 @@
         }
         
         .container {
-            max-width: 1200px;
+            width: 100%;
+            max-width: min(1200px, 95vw);
             margin: 0 auto;
             padding: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         /* Header */
@@ -58,15 +69,17 @@
             position: sticky;
             top: 0;
             z-index: 50;
-            border-bottom: 1px solid rgba(42, 49, 66, 0.5);
-            background: rgba(15, 18, 25, 0.8);
-            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(63, 63, 70, 0.5);
+            background: rgba(9, 9, 11, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
         
         .header-content {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            width: 100%;
             height: 4rem;
         }
         
@@ -74,19 +87,20 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            flex-shrink: 0;
         }
         
         .logo-icon {
             width: 2.5rem;
             height: 2.5rem;
-            border-radius: 0.75rem;
-            background: linear-gradient(135deg, var(--primary), rgba(34, 211, 238, 0.6));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 1.125rem;
-            color: var(--primary-foreground);
+        }
+
+        .logo-img-nav {
+            height: 2.5rem;
+            width: auto;
         }
         
         .logo-text h1 {
@@ -104,9 +118,10 @@
             display: flex;
             align-items: center;
             gap: 0.25rem;
-            background: rgba(30, 36, 51, 0.5);
+            background: rgba(39, 39, 42, 0.6);
             border-radius: 9999px;
             padding: 0.25rem;
+            position: relative;
         }
         
         .nav-tab {
@@ -116,9 +131,11 @@
             border-radius: 9999px;
             border: none;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: color 0.3s ease;
             background: transparent;
             color: var(--muted-foreground);
+            position: relative;
+            z-index: 1;
         }
         
         .nav-tab:hover {
@@ -126,9 +143,19 @@
         }
         
         .nav-tab.active {
-            background: var(--primary);
             color: var(--primary-foreground);
-            box-shadow: 0 4px 15px rgba(34, 211, 238, 0.25);
+        }
+        
+        /* Tab Indicator for Animation */
+        .tab-indicator {
+            position: absolute;
+            height: calc(100% - 0.5rem);
+            top: 0.25rem;
+            border-radius: 9999px;
+            background: var(--primary);
+            box-shadow: 0 4px 20px var(--accent-glow-strong);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 0;
         }
         
         .lang-btn {
@@ -147,13 +174,24 @@
         
         .lang-btn:hover {
             color: var(--foreground);
-            background: rgba(30, 36, 51, 0.5);
+            background: rgba(39, 39, 42, 0.6);
         }
         
         /* Hero Section */
         .hero {
-            padding: 4rem 0 2rem;
+            padding: clamp(2rem, 10vh, 5rem) 0 2rem;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-logo {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 1.5rem;
         }
         
         .hero-badge {
@@ -162,8 +200,8 @@
             gap: 0.5rem;
             padding: 0.5rem 1rem;
             border-radius: 9999px;
-            background: rgba(34, 211, 238, 0.1);
-            border: 1px solid rgba(34, 211, 238, 0.2);
+            background: var(--accent-glow);
+            border: 1px solid rgba(45, 212, 191, 0.25);
             margin-bottom: 1.5rem;
         }
         
@@ -233,16 +271,25 @@
         
         /* Main Content */
         main {
-            padding: 2rem 0 4rem;
+            padding: 2rem 0 5rem;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
         
         .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  
+ .tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  }
         
         /* Section Header */
         .section-header {
@@ -320,6 +367,7 @@
         /* Category */
         .category {
             margin-bottom: 2rem;
+            width: 100%;
         }
         
         .category-header {
@@ -332,7 +380,7 @@
         .category-icon {
             padding: 0.5rem;
             border-radius: 0.5rem;
-            background: rgba(34, 211, 238, 0.1);
+            background: var(--accent-glow);
         }
         
         .category-icon svg {
@@ -349,12 +397,13 @@
         /* Tools Grid */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
+            grid-template-columns: repeat(auto-fill, minmax(clamp(140px, 20vw, 180px), 1fr));
+            gap: clamp(0.5rem, 2vw, 1rem);
+            width: 100%;
         }
         
         @media (min-width: 640px) {
-            .tools-grid { grid-template-columns: repeat(3, 1fr); }
+            /* Managed by auto-fill now */
         }
         
         @media (min-width: 768px) {
@@ -381,16 +430,16 @@
         }
         
         .tool-card:hover {
-            border-color: rgba(34, 211, 238, 0.5);
+            border-color: rgba(45, 212, 191, 0.5);
             transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(34, 211, 238, 0.05);
+            box-shadow: 0 8px 30px var(--accent-glow);
         }
         
         .tool-icon {
             width: 2.5rem;
             height: 2.5rem;
             border-radius: 0.75rem;
-            background: linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(34, 211, 238, 0.05));
+            background: linear-gradient(135deg, var(--accent-glow-strong), var(--accent-glow));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -399,9 +448,15 @@
         }
         
         .tool-card:hover .tool-icon {
-            background: linear-gradient(135deg, rgba(34, 211, 238, 0.3), rgba(34, 211, 238, 0.1));
+            background: linear-gradient(135deg, rgba(45, 212, 191, 0.4), var(--accent-glow));
         }
         
+        .tool-icon img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+        }
+
         .tool-card span {
             font-size: 0.75rem;
             text-align: center;
@@ -455,8 +510,8 @@
         }
         
         .download-btn:hover {
-            border-color: rgba(34, 211, 238, 0.5);
-            background: rgba(34, 211, 238, 0.1);
+            border-color: rgba(45, 212, 191, 0.5);
+            background: var(--accent-glow);
         }
         
         .download-btn svg {
@@ -489,7 +544,7 @@
         .info-card .card-header .icon {
             padding: 0.5rem;
             border-radius: 0.5rem;
-            background: rgba(34, 211, 238, 0.1);
+            background: var(--accent-glow);
         }
         
         .info-card .card-header .icon svg {
@@ -667,15 +722,15 @@
         }
         
         .service-card:hover {
-            border-color: rgba(34, 211, 238, 0.5);
-            box-shadow: 0 12px 40px rgba(34, 211, 238, 0.05);
+            border-color: rgba(45, 212, 191, 0.5);
+            box-shadow: 0 12px 40px var(--accent-glow);
         }
         
         .service-icon {
             width: 3.5rem;
             height: 3.5rem;
             border-radius: 1rem;
-            background: linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(34, 211, 238, 0.05));
+            background: linear-gradient(135deg, var(--accent-glow-strong), var(--accent-glow));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -684,7 +739,7 @@
         }
         
         .service-card:hover .service-icon {
-            background: linear-gradient(135deg, rgba(34, 211, 238, 0.3), rgba(34, 211, 238, 0.1));
+            background: linear-gradient(135deg, rgba(45, 212, 191, 0.4), var(--accent-glow));
         }
         
         .service-icon svg {
@@ -756,6 +811,83 @@
             font-size: 0.875rem;
             color: var(--muted-foreground);
         }
+
+        /* Modal Styles for QR Codes */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 2.5rem 1.5rem 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--secondary);
+            border: none;
+            color: var(--foreground);
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .rtl .modal-close { right: auto; left: 1rem; }
+
+        .qr-modal-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        }
+
+        .qr-item { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+        .qr-item h4 { font-size: 0.9rem; color: var(--primary); font-weight: 600; }
+        .qr-item img { 
+            width: 100%; border-radius: 1rem; background: white; padding: 0.5rem; 
+            transition: transform 0.3s; border: 4px solid var(--background);
+        }
+        .qr-item img:hover { transform: scale(1.05); }
         
         /* Utility */
         .hidden { display: none !important; }
@@ -771,17 +903,20 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <div class="logo-icon">M</div>
+                    <div class="logo-icon">
+                        <img src="images/logo2.png" alt="Logo" class="logo-img-nav" onerror="this.style.display='none'">
+                    </div>
                     <div class="logo-text">
                         <h1>Mostafa Unlocker</h1>
                         <p>Hub</p>
                     </div>
                 </div>
                 
-                <nav class="nav-tabs">
-                    <button class="nav-tab active" data-tab="home" id="homeTabBtn">Home</button>
-                    <button class="nav-tab" data-tab="services" id="servicesTabBtn">Services</button>
-                </nav>
+ <nav class="nav-tabs">
+  <div class="tab-indicator" id="tabIndicator"></div>
+  <button class="nav-tab active" data-tab="home" id="homeTabBtn">Home</button>
+  <button class="nav-tab" data-tab="services" id="servicesTabBtn">Services</button>
+  </nav>
                 
                 <button class="lang-btn" id="langBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
@@ -794,6 +929,7 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
+            <img src="images/logo.png" alt="Mostafa Unlocker Logo" class="hero-logo">
             <div class="hero-badge">
                 <div class="dot"></div>
                 <span id="heroBadge">All-in-One Software Solution</span>
@@ -816,6 +952,30 @@
             </div>
         </div>
     </section>
+
+    <!-- QR Modal -->
+    <div class="modal-overlay" id="qrModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModalBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            <h2 id="modalTitle" style="margin-bottom: 2rem; text-align: center; font-size: 1.5rem;">ADB QR Codes</h2>
+            <div class="qr-modal-grid">
+                <div class="qr-item">
+                    <h4 id="qrSamsungTitle">Samsung New Security</h4>
+                    <img src="images/adb-qr-samsung.png" alt="Samsung ADB QR">
+                </div>
+                <div class="qr-item">
+                    <h4 id="qrOldTitle">Old Android</h4>
+                    <img src="images/adb-qr-general.png" alt="General ADB QR">
+                </div>
+                <div class="qr-item">
+                    <h4 id="qrShieldTitle">Alliance Shield</h4>
+                    <img src="images/adb-qr-new.png" alt="Alliance Shield QR">
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!-- Main Content -->
     <main class="container">
@@ -927,12 +1087,12 @@
                 titleAr: "متاجر التطبيقات",
                 icon: "store",
                 tools: [
-                    { id: "play-store", nameEn: "Play Store", nameAr: "متجر بلاي", href: "intent://com.android.vending/#Intent;scheme=android-app;end", emoji: "🏪" },
-                    { id: "galaxy-store", nameEn: "Galaxy Store", nameAr: "متجر Galaxy", href: "intent://com.sec.android.app.samsungapps/#Intent;scheme=android-app;end", emoji: "🏪" },
-                    { id: "oppo-market", nameEn: "App Market (Oppo)", nameAr: "متجر اوبو", href: "intent://com.heytap.market/#Intent;scheme=android-app;end", emoji: "🏪" },
-                    { id: "vivo-store", nameEn: "App Store (Vivo)", nameAr: "متجر فيفو", href: "intent://com.vivo.appstore/#Intent;scheme=android-app;end", emoji: "🏪" },
-                    { id: "xiaomi-store", nameEn: "App Store (Xiaomi)", nameAr: "متجر شاومي", href: "intent://com.xiaomi.mipicks/#Intent;scheme=android-app;end", emoji: "🏪" },
-                    { id: "palm-store", nameEn: "Palm Store (itel)", nameAr: "متجر itel", href: "intent://com.transsnet.store/#Intent;scheme=android-app;end", emoji: "🏪" },
+                    { id: "play-store", nameEn: "Play Store", nameAr: "متجر بلاي", href: "intent://com.android.vending/#Intent;scheme=android-app;end", emoji: "🏪", image: "playstore.png" },
+                    { id: "galaxy-store", nameEn: "Galaxy Store", nameAr: "متجر Galaxy", href: "intent://com.sec.android.app.samsungapps/#Intent;scheme=android-app;end", emoji: "🏪", image: "samsung.png" },
+                    { id: "oppo-market", nameEn: "App Market (Oppo)", nameAr: "متجر اوبو", href: "intent://com.heytap.market/#Intent;scheme=android-app;end", emoji: "🏪", image: "oppo.png" },
+                    { id: "vivo-store", nameEn: "App Store (Vivo)", nameAr: "متجر فيفو", href: "intent://com.vivo.appstore/#Intent;scheme=android-app;end", emoji: "🏪", image: "vivo.png" },
+                    { id: "xiaomi-store", nameEn: "App Store (Xiaomi)", nameAr: "متجر شاومي", href: "intent://com.xiaomi.mipicks/#Intent;scheme=android-app;end", emoji: "🏪", image: "xiaomi.png" },
+                    { id: "palm-store", nameEn: "Palm Store (itel)", nameAr: "متجر itel", href: "intent://com.transsnet.store/#Intent;scheme=android-app;end", emoji: "🏪", image: "palmstore.png" },
                 ]
             },
             {
@@ -941,14 +1101,14 @@
                 titleAr: "نقل الملفات والنسخ الاحتياطي",
                 icon: "transfer",
                 tools: [
-                    { id: "smart-switch", nameEn: "Smart Switch", nameAr: "Smart Switch", href: "intent://com.sec.android.easyMover/#Intent;scheme=android-app;end", emoji: "📲" },
-                    { id: "itel-clone", nameEn: "Phone Cloner (itel)", nameAr: "استنساخ الهاتف (itel)", href: "intent://com.itel.clonephone/#Intent;scheme=android-app;end", emoji: "📲" },
-                    { id: "oppo-clone", nameEn: "Clone Phone (Oppo)", nameAr: "استنساخ الهاتف (اوبو)", href: "intent://com.coloros.backuprestore/#Intent;scheme=android-app;end", emoji: "📲" },
-                    { id: "huawei-clone", nameEn: "Phone Clone (Huawei)", nameAr: "استنساخ الهاتف (هواوي)", href: "intent://com.hicloud.android.clone/#Intent;scheme=android-app;end", emoji: "📲" },
-                    { id: "easyshare", nameEn: "EasyShare (Vivo)", nameAr: "EasyShare (فيفو)", href: "intent://com.vivo.easyshare/#Intent;scheme=android-app;end", emoji: "📲" },
-                    { id: "xshare", nameEn: "XShare (Infinix)", nameAr: "XShare (انفينكس)", href: "intent://com.infinix.xshare/#Intent;scheme=android-app;end", emoji: "📲" },
-                    { id: "shareme", nameEn: "ShareMe (Xiaomi)", nameAr: "ShareMe (شاومي)", href: "intent://com.xiaomi.midrop/#Intent;scheme=android-app;end", emoji: "📲" },
-                    { id: "mi-mover", nameEn: "Mi Mover (Xiaomi)", nameAr: "Mi Mover (شاومي)", href: "intent://com.miui.huanji/#Intent;scheme=android-app;end", emoji: "📲" },
+                    { id: "smart-switch", nameEn: "Smart Switch", nameAr: "Smart Switch", href: "intent://com.sec.android.easyMover/#Intent;scheme=android-app;end", emoji: "📲", image: "smartswitch.png" },
+                    { id: "itel-clone", nameEn: "Phone Cloner (itel)", nameAr: "استنساخ الهاتف (itel)", href: "intent://com.itel.clonephone/#Intent;scheme=android-app;end", emoji: "📲", image: "itel_clone.png" },
+                    { id: "oppo-clone", nameEn: "Clone Phone (Oppo)", nameAr: "استنساخ الهاتف (اوبو)", href: "intent://com.coloros.backuprestore/#Intent;scheme=android-app;end", emoji: "📲", image: "clonephone_oppo.png" },
+                    { id: "huawei-clone", nameEn: "Phone Clone (Huawei)", nameAr: "استنساخ الهاتف (هواوي)", href: "intent://com.hicloud.android.clone/#Intent;scheme=android-app;end", emoji: "📲", image: "huawei.png" },
+                    { id: "easyshare", nameEn: "EasyShare (Vivo)", nameAr: "EasyShare (فيفو)", href: "intent://com.vivo.easyshare/#Intent;scheme=android-app;end", emoji: "📲", image: "easyshare.png" },
+                    { id: "xshare", nameEn: "XShare (Infinix)", nameAr: "XShare (انفينكس)", href: "intent://com.infinix.xshare/#Intent;scheme=android-app;end", emoji: "📲", image: "infinix.png" },
+                    { id: "shareme", nameEn: "ShareMe (Xiaomi)", nameAr: "ShareMe (شاومي)", href: "intent://com.xiaomi.midrop/#Intent;scheme=android-app;end", emoji: "📲", image: "shareme.png" },
+                    { id: "mi-mover", nameEn: "Mi Mover (Xiaomi)", nameAr: "Mi Mover (شاومي)", href: "intent://com.miui.huanji/#Intent;scheme=android-app;end", emoji: "📲", image: "mimover.png" },
                 ]
             },
             {
@@ -957,14 +1117,14 @@
                 titleAr: "تطبيقات جوجل",
                 icon: "chrome",
                 tools: [
-                    { id: "youtube", nameEn: "YouTube", nameAr: "يوتيوب", href: "intent://com.google.android.youtube/#Intent;scheme=android-app;end", emoji: "▶️" },
-                    { id: "chrome", nameEn: "Chrome Browser", nameAr: "متصفح كروم", href: "intent://com.android.chrome/#Intent;scheme=android-app;end", emoji: "🌐" },
-                    { id: "gmail", nameEn: "Gmail", nameAr: "Gmail", href: "intent://com.google.android.gm/#Intent;scheme=android-app;end", emoji: "📧" },
-                    { id: "maps", nameEn: "Maps", nameAr: "الخرائط", href: "intent://com.google.android.apps.maps/#Intent;scheme=android-app;end", emoji: "🗺️" },
-                    { id: "google-search", nameEn: "Google Search", nameAr: "بحث جوجل", href: "intent://com.google.android.googlequicksearchbox/#Intent;scheme=android-app;end", emoji: "🔍" },
-                    { id: "google-assistant", nameEn: "Google Assistant", nameAr: "مساعد جوجل", href: "intent:#Intent;action=android.intent.action.ASSIST;end", emoji: "🎙️" },
-                    { id: "google-login", nameEn: "Google Login", nameAr: "تسجيل دخول جوجل", href: "intent:#Intent;action=com.google.android.gsf.login.LOGIN_ACTIVITY;package=com.google.android.gsf.login;end", emoji: "🔑" },
-                    { id: "play-services", nameEn: "Google Play Services", nameAr: "خدمات جوجل بلاي", href: "intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;data=package:com.google.android.gms;end", emoji: "⚙️" },
+                    { id: "youtube", nameEn: "YouTube", nameAr: "يوتيوب", href: "intent://com.google.android.youtube/#Intent;scheme=android-app;end", emoji: "▶️", image: "youtube.png" },
+                    { id: "chrome", nameEn: "Chrome Browser", nameAr: "متصفح كروم", href: "intent://com.android.chrome/#Intent;scheme=android-app;end", emoji: "🌐", image: "chrome.png" },
+                    { id: "gmail", nameEn: "Gmail", nameAr: "Gmail", href: "intent://com.google.android.gm/#Intent;scheme=android-app;end", emoji: "📧", image: "gmail.png" },
+                    { id: "maps", nameEn: "Maps", nameAr: "الخرائط", href: "intent://com.google.android.apps.maps/#Intent;scheme=android-app;end", emoji: "🗺️", image: "maps.png" },
+                    { id: "google-search", nameEn: "Google Search", nameAr: "بحث جوجل", href: "intent://com.google.android.googlequicksearchbox/#Intent;scheme=android-app;end", emoji: "🔍", image: "google.png" },
+                    { id: "google-assistant", nameEn: "Google Assistant", nameAr: "مساعد جوجل", href: "intent:#Intent;action=android.intent.action.ASSIST;end", emoji: "🎙️", image: "assistant.png" },
+                    { id: "google-login", nameEn: "Google Login", nameAr: "تسجيل دخول جوجل", href: "intent:#Intent;action=com.google.android.gsf.login.LOGIN_ACTIVITY;package=com.google.android.gsf.login;end", emoji: "🔑", image: "google.png" },
+                    { id: "play-services", nameEn: "Google Play Services", nameAr: "خدمات جوجل بلاي", href: "intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;data=package:com.google.android.gms;end", emoji: "⚙️", image: "playstore.png" },
                 ]
             },
             {
@@ -973,13 +1133,13 @@
                 titleAr: "النظام والإعدادات",
                 icon: "settings",
                 tools: [
-                    { id: "settings", nameEn: "Settings", nameAr: "الإعدادات", href: "intent://com.android.settings/#Intent;scheme=android-app;end", emoji: "⚙️" },
-                    { id: "phoenix-browser", nameEn: "Phoenix Browser", nameAr: "متصفح Phoenix", href: "intent://com.transsion.phoenix/#Intent;scheme=android-app;end", emoji: "🌐" },
-                    { id: "my-files", nameEn: "My Files (Samsung)", nameAr: "ملفاتي (سامسونج)", href: "intent://com.sec.android.app.myfiles/#Intent;scheme=android-app;end", emoji: "📁" },
-                    { id: "accessibility", nameEn: "Accessibility Settings", nameAr: "إعدادات إمكانية الوصول", href: "intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end", emoji: "♿" },
-                    { id: "set-lock", nameEn: "Set Screen Lock", nameAr: "تعيين قفل الشاشة", href: "intent:#Intent;action=android.app.action.SET_NEW_PASSWORD;end", emoji: "🔒" },
-                    { id: "calculator", nameEn: "Calculator", nameAr: "الآلة الحاسبة", href: "intent://com.sec.android.app.popupcalculator/#Intent;scheme=android-app;end", emoji: "🔢" },
-                    { id: "qr-scanner", nameEn: "QR Scanner", nameAr: "ماسح QR", href: "intent://com.secuso.privacyFriendlyCodeScanner.QrScanActivity/#Intent;scheme=android-app;end", emoji: "📷" },
+                    { id: "settings", nameEn: "Settings", nameAr: "الإعدادات", href: "intent://com.android.settings/#Intent;scheme=android-app;end", emoji: "⚙️", image: "settings.png" },
+                    { id: "phoenix-browser", nameEn: "Phoenix Browser", nameAr: "متصفح Phoenix", href: "intent://com.transsion.phoenix/#Intent;scheme=android-app;end", emoji: "🌐", image: "phoenix.png" },
+                    { id: "my-files", nameEn: "My Files (Samsung)", nameAr: "ملفاتي (سامسونج)", href: "intent://com.sec.android.app.myfiles/#Intent;scheme=android-app;end", emoji: "📁", image: "myfiles.png" },
+                    { id: "accessibility", nameEn: "Accessibility Settings", nameAr: "إعدادات إمكانية الوصول", href: "intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end", emoji: "♿", image: "accessibility.png" },
+                    { id: "set-lock", nameEn: "Set Screen Lock", nameAr: "تعيين قفل الشاشة", href: "intent:#Intent;action=android.app.action.SET_NEW_PASSWORD;end", emoji: "🔒", image: "setlock.png" },
+                    { id: "calculator", nameEn: "Calculator", nameAr: "الآلة الحاسبة", href: "intent://com.sec.android.app.popupcalculator/#Intent;scheme=android-app;end", emoji: "🔢", image: "calculator.png" },
+                    { id: "qr-scanner", nameEn: "QR Scanner", nameAr: "ماسح QR", href: "intent://com.secuso.privacyFriendlyCodeScanner.QrScanActivity/#Intent;scheme=android-app;end", emoji: "📷", image: "qrcode.png" },
                 ]
             },
             {
@@ -988,14 +1148,14 @@
                 titleAr: "أدوات FRP وفك القفل",
                 icon: "unlock",
                 tools: [
-                    { id: "activity-launcher", nameEn: "Activity Launcher", nameAr: "Activity Launcher", href: "intent://de.szalkowski.activitylauncher/#Intent;scheme=android-app;end", emoji: "🚀" },
-                    { id: "pincode", nameEn: "Pin Code (Smart Lock)", nameAr: "رمز PIN (القفل الذكي)", href: "intent://com.google.android.gms/#Intent;scheme=promote_smartlock_scheme;end", emoji: "🔐" },
-                    { id: "alliance-shield", nameEn: "Alliance Shield", nameAr: "Alliance Shield", href: "intent://com.rrivenllc.shieldx/#Intent;scheme=android-app;end", emoji: "🛡️" },
-                    { id: "alliance-shield-store", nameEn: "Alliance Shield (Galaxy)", nameAr: "Alliance Shield (Galaxy)", href: "samsungapps://ProductDetail/com.rrivenllc.shieldx", emoji: "🛡️" },
-                    { id: "activity-manager", nameEn: "Activity Manager", nameAr: "مدير الأنشطة", href: "intent://com.activitymanager/#Intent;scheme=android-app;end", emoji: "🚀" },
-                    { id: "files-shortcut", nameEn: "Files Shortcut", nameAr: "اختصار الملفات", href: "intent://org.aospstudio.files/#Intent;scheme=android-app;end", emoji: "📁" },
-                    { id: "package-disabler", nameEn: "Package Disabler", nameAr: "معطل الحزم", href: "intent://com.school.optimize/#Intent;scheme=android-app;end", emoji: "🚫" },
-                    { id: "knox-mdm", nameEn: "Knox Cloud MDM", nameAr: "Knox Cloud MDM", href: "intent://com.cloudmdm.tools.cloud/#Intent;scheme=android-app;end", emoji: "☁️" },
+                    { id: "activity-launcher", nameEn: "Activity Launcher", nameAr: "Activity Launcher", href: "intent://de.szalkowski.activitylauncher/#Intent;scheme=android-app;end", emoji: "🚀", image: "rocket.png" },
+                    { id: "pincode", nameEn: "Pin Code (Smart Lock)", nameAr: "رمز PIN (القفل الذكي)", href: "intent://com.google.android.gms/#Intent;scheme=promote_smartlock_scheme;end", emoji: "🔐", image: "key.png" },
+                    { id: "alliance-shield", nameEn: "Alliance Shield", nameAr: "Alliance Shield", href: "intent://com.rrivenllc.shieldx/#Intent;scheme=android-app;end", emoji: "🛡️", image: "allianceshield.png" },
+                    { id: "alliance-shield-store", nameEn: "Alliance Shield (Galaxy)", nameAr: "Alliance Shield (Galaxy)", href: "samsungapps://ProductDetail/com.rrivenllc.shieldx", emoji: "🛡️", image: "allianceshield.png" },
+                    { id: "activity-manager", nameEn: "Activity Manager", nameAr: "مدير الأنشطة", href: "intent://com.activitymanager/#Intent;scheme=android-app;end", emoji: "🚀", image: "tasks.png" },
+                    { id: "files-shortcut", nameEn: "Files Shortcut", nameAr: "اختصار الملفات", href: "intent://org.aospstudio.files/#Intent;scheme=android-app;end", emoji: "📁", image: "folder.png" },
+                    { id: "package-disabler", nameEn: "Package Disabler", nameAr: "معطل الحزم", href: "intent://com.school.optimize/#Intent;scheme=android-app;end", emoji: "🚫", image: "ban.png" },
+                    { id: "knox-mdm", nameEn: "Knox Cloud MDM", nameAr: "Knox Cloud MDM", href: "intent://com.cloudmdm.tools.cloud/#Intent;scheme=android-app;end", emoji: "☁️", image: "cloud.png" },
                 ]
             },
             {
@@ -1004,10 +1164,19 @@
                 titleAr: "المطور والوصول الخاص",
                 icon: "terminal",
                 tools: [
-                    { id: "adb-tecno", nameEn: "Enable ADB (Tecno/Infinix)", nameAr: "تفعيل ADB (تكنو/انفينكس)", href: "tel:*#85#", emoji: "💻" },
-                    { id: "samsung-dialer", nameEn: "Samsung Dialer", nameAr: "هاتف سامسونج", href: "intent://com.samsung.android.dialer/#Intent;scheme=android-app;end", emoji: "📞" },
-                    { id: "usb-settings", nameEn: "USB Settings", nameAr: "إعدادات USB", href: "intent://com.sec.android.app.servicemodeapp/#Intent;scheme=promote_USBSettings_scheme;end", emoji: "🔌" },
-                    { id: "hw-test", nameEn: "HWModuleTest", nameAr: "HWModuleTest", href: "intent://com.sec.android.app.hwmoduletest/#Intent;scheme=android-app;end", emoji: "🔧" },
+                    { id: "adb-tecno", nameEn: "Enable ADB (Tecno/Infinix)", nameAr: "تفعيل ADB (تكنو/انفينكس)", href: "tel:*#85#", emoji: "💻", image: "terminal.png" },
+                    { id: "samsung-dialer", nameEn: "Samsung Dialer", nameAr: "هاتف سامسونج", href: "intent://com.samsung.android.dialer/#Intent;scheme=android-app;end", emoji: "📞", image: "phone.png" },
+                    { id: "usb-settings", nameEn: "USB Settings", nameAr: "إعدادات USB", href: "intent://com.sec.android.app.servicemodeapp/#Intent;scheme=promote_USBSettings_scheme;end", emoji: "🔌", image: "usb.png" },
+                    { id: "hw-test", nameEn: "HWModuleTest", nameAr: "HWModuleTest", href: "intent://com.sec.android.app.hwmoduletest/#Intent;scheme=android-app;end", emoji: "🔧", image: "microscope.png" },
+                ]
+            },
+            {
+                id: "adb-qr",
+                titleEn: "ADB QR Codes",
+                titleAr: "أكواد QR لتفعيل ADB",
+                icon: "terminal",
+                tools: [
+                    { id: "show-qr", nameEn: "Show ADB QR Codes", nameAr: "عرض أكواد QR", href: "#", emoji: "📸", image: "qrcode.png", isModal: true },
                 ]
             },
         ];
@@ -1027,21 +1196,21 @@
                 titleEn: "APK & FRP Files",
                 titleAr: "ملفات APK و FRP",
                 downloads: [
-                    { id: "qr-scanner", nameEn: "QR Scanner", nameAr: "ماسح QR", href: "https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/QRScanner.apk" },
-                    { id: "activity-launcher", nameEn: "Activity Launcher", nameAr: "Activity Launcher", href: "https://github.com/farok6799/Mostafa-Unlocker-Hub/raw/refs/heads/main/activity-launcher-2-0-2.apk" },
-                    { id: "gam-89", nameEn: "Google Account Manager 8-9", nameAr: "Google Account Manager 8-9", href: "https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Android_8-9_GAM.apk" },
-                    { id: "gam-5", nameEn: "Google Account Manager 5", nameAr: "Google Account Manager 5", href: "https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/GoogleAccountManger5.apk" },
-                    { id: "gam-6", nameEn: "Google Account Manager 6", nameAr: "Google Account Manager 6", href: "https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/GoogleAccountManger6.apk" },
-                    { id: "play-service", nameEn: "Google Play Service", nameAr: "خدمات جوجل بلاي", href: "https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/GooglePlayService.apk" },
-                    { id: "test-dpc", nameEn: "Test DPC", nameAr: "Test DPC", href: "https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Test_DPC.apk" },
-                    { id: "hushsms", nameEn: "HushSMS", nameAr: "HushSMS", href: "https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/hushsms.apk" },
-                    { id: "frp-7", nameEn: "FRP Android 7", nameAr: "FRP Android 7", href: "https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/FRP_Android_7.apk" },
-                    { id: "frp-addrom", nameEn: "FRP addROM", nameAr: "FRP addROM", href: "https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/FRP_addROM.apk" },
-                    { id: "phone-clone", nameEn: "Phone Clone", nameAr: "Phone Clone", href: "https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Phone_Clone.apk" },
-                    { id: "package-disabler", nameEn: "Package Disabler", nameAr: "معطل الحزم", href: "https://github.com/farok6799/Mostafa-Unlocker-Hub/raw/refs/heads/main/Package%20Disabler%20Pro%20(All%20Android)_11.0_apkcombo.app.apk" },
-                    { id: "quick-shortcut", nameEn: "Quick Shortcut Maker", nameAr: "Quick Shortcut Maker", href: "https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/QuickShortcutMaker.apk" },
-                    { id: "smart-switch", nameEn: "Smart Switch Mobile", nameAr: "Smart Switch Mobile", href: "https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/Smart_Switch_Mobile.apk" },
-                    { id: "alliance-shield", nameEn: "Alliance Shield (APK)", nameAr: "Alliance Shield (APK)", href: "https://github.com/reindex-ot/frp_bypass/raw/main/frp/apk/shieldx_install.apk" },
+                    { id: "qr-scanner", nameEn: "QR Scanner", nameAr: "ماسح QR", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/QRScanner.apk" },
+                    { id: "activity-launcher", nameEn: "Activity Launcher", nameAr: "Activity Launcher", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/activity-launcher-2-0-2.apk" },
+                    { id: "gam-89", nameEn: "Google Account Manager 8-9", nameAr: "Google Account Manager 8-9", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/Google.Account.Manger.9.apk" },
+                    { id: "gam-5", nameEn: "Google Account Manager 5", nameAr: "Google Account Manager 5", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/Google.Account.Manger.5.apk" },
+                    { id: "gam-6", nameEn: "Google Account Manager 6", nameAr: "Google Account Manager 6", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/Google.Account.Manger.6.apk" },
+                    { id: "play-service", nameEn: "Google Play Service", nameAr: "خدمات جوجل بلاي", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/Google.play.service.apk" },
+                    { id: "test-dpc", nameEn: "Test DPC", nameAr: "Test DPC", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/Test_DPC.apk" },
+                    { id: "hushsms", nameEn: "HushSMS", nameAr: "HushSMS", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/hushsms.apk" },
+                    { id: "frp-7", nameEn: "FRP Android 7", nameAr: "FRP Android 7", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/FRP_Android_7.apk" },
+                    { id: "frp-addrom", nameEn: "FRP addROM", nameAr: "FRP addROM", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/FRP_addROM.apk" },
+                    { id: "phone-clone", nameEn: "Phone Clone", nameAr: "Phone Clone", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/Phone_Clone.apk" },
+                    { id: "package-disabler", nameEn: "Package Disabler", nameAr: "معطل الحزم", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/Package.Disabler.Pro.All.Android._11.0_apkcombo.app.apk" },
+                    { id: "quick-shortcut", nameEn: "Quick Shortcut Maker", nameAr: "Quick Shortcut Maker", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/QuickShortcutMaker.apk" },
+                    { id: "smart-switch", nameEn: "Smart Switch Mobile", nameAr: "Smart Switch Mobile", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/Smart_Switch_Mobile.apk" },
+                    { id: "alliance-shield", nameEn: "Alliance Shield (APK)", nameAr: "Alliance Shield (APK)", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/shieldx_install.apk" },
                 ]
             },
             {
@@ -1049,8 +1218,8 @@
                 titleEn: "Package Disabler XML",
                 titleAr: "ملفات XML لمعطل الحزم",
                 downloads: [
-                    { id: "xml-ui", nameEn: "Disable System UI (XML)", nameAr: "تعطيل System UI (XML)", href: "https://raw.githubusercontent.com/farok6799/Mostafa-Unlocker-Hub/refs/heads/main/Disable%20System%20UI.xml" },
-                    { id: "xml-gs", nameEn: "Disable Google Service (XML)", nameAr: "تعطيل خدمات جوجل (XML)", href: "https://github.com/reindex-ot/frp_bypass/raw/main/frp/xml/pd_disable_apps_disable_googleservice.xml" },
+                    { id: "xml-ui", nameEn: "Disable System UI (XML)", nameAr: "تعطيل System UI (XML)", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/Disable.System.UI.xml" },
+                    { id: "xml-gs", nameEn: "Disable Google Service (XML)", nameAr: "تعطيل خدمات جوجل (XML)", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/pd_disable_apps_disable_googleservice.xml" },
                 ]
             },
             {
@@ -1058,8 +1227,8 @@
                 titleEn: "iOS Tools & Profiles",
                 titleAr: "أدوات iOS والبروفايلات",
                 downloads: [
-                    { id: "block-ota", nameEn: "Block iOS Updates (Profile)", nameAr: "حظر تحديثات iOS (بروفايل)", href: "https://raw.githubusercontent.com/farok6799/Mostafa-Unlocker-Hub/refs/heads/main/blockota-26.mobileconfig" },
-                    { id: "block-ads", nameEn: "Block Ads & Adult Content (Profile)", nameAr: "حظر الإعلانات والمحتوى غير المناسب (بروفايل)", href: "https://raw.githubusercontent.com/farok6799/Mostafa-Unlocker-Hub/main/Mostafa_Global_Family_DNS.mobileconfig" },
+                    { id: "block-ota", nameEn: "Block iOS Updates (Profile)", nameAr: "حظر تحديثات iOS (بروفايل)", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/blockota-26.mobileconfig" },
+                    { id: "block-ads", nameEn: "Block Ads & Adult Content (Profile)", nameAr: "حظر الإعلانات والمحتوى غير المناسب (بروفايل)", href: "https://github.com/farok6799/my-files/releases/download/v.1.0/Mostafa_Global_Family_DNS.mobileconfig" },
                 ]
             },
         ];
@@ -1070,8 +1239,8 @@
                 icon: "cloud",
                 titleEn: "iCloud Bypass - iPhone",
                 titleAr: "تخطي iCloud - iPhone",
-                descEn: "Supported from iPhone 6s to iPhone 16 Pro Max. 6s to X: Bypass with network (Passcode / Hello). XS to 16 Pro Max: Bypass without network.",
-                descAr: "مدعوم من iPhone 6s حتى iPhone 16 Pro Max. من 6s إلى X: تخطي بشبكة. من XS إلى 16 Pro Max: تخطي بدون شبكة.",
+                descEn: "Supported from iPhone 6s to iPhone 17 Pro Max. 6s to X: Bypass with network (Passcode / Hello). XS to 17 Pro Max: Bypass without network. Make sure of support before performing the operation, contact us to know if the device is currently supported or not, and whether the bypass is available with network or without or stopped.",
+                descAr: "مدعوم من iPhone 6s حتى iPhone 17 Pro Max. من 6s إلى X: تخطي بشبكة (Passcode / Hello). من XS إلى 17 Pro Max: تخطي بدون شبكة. تأكد من الدعم قبل تنفيذ العملية، التواصل معنا لمعرفة هل الجهاز مدعوم حالياً أم لا، وهل التخطي متاح بشبكة أو بدون أو موقوف.",
             },
             {
                 id: "official-icloud",
@@ -1112,22 +1281,22 @@
                 id: "safe",
                 questionEn: "Is it safe to use these tools and services?",
                 questionAr: "هل استخدام هذه الأدوات والخدمات آمن؟",
-                answerEn: "Yes, all tools and services are tested and safe. However, always back up your device before making major software changes.",
-                answerAr: "نعم، جميع الأدوات والخدمات مختبرة وآمنة. ومع ذلك، قم دائمًا بعمل نسخة احتياطية لجهازك قبل إجراء تغييرات برمجية كبيرة.",
+                answerEn: "Yes, all tools and services are tested and safe. However, always back up your device before making major software changes. All services are intended for legally owned devices only.",
+                answerAr: "نعم، جميع الأدوات والخدمات مختبرة وآمنة. ومع ذلك، قم دائمًا بعمل نسخة احتياطية لجهازك قبل إجراء تغييرات برمجية كبيرة. جميع الخدمات مخصصة للأجهزة المملوكة بشكل قانوني فقط.",
             },
             {
                 id: "request",
                 questionEn: "How do I request a service like iCloud Bypass or MDM Removal?",
                 questionAr: "كيف أطلب خدمة مثل تخطي iCloud أو إزالة MDM؟",
-                answerEn: "Navigate to the \"Services\" tab, then contact us via WhatsApp or Telegram with your device model and the service you need.",
-                answerAr: "انتقل إلى علامة التبويب \"الخدمات\"، ثم تواصل معنا عبر واتساب أو تليجرام مع طراز جهازك والخدمة المطلوبة.",
+                answerEn: "You can request a service by navigating to the \"Services\" tab to see what's offered, then contacting us via WhatsApp or Telegram. Please provide your device model and the specific service you need for pricing and confirmation.",
+                answerAr: "يمكنك طلب خدمة بالانتقال إلى تبويب \"الخدمات\" لرؤية ما هو معروض، ثم التواصل معنا عبر واتساب أو تيليجرام. يرجى تقديم طراز جهازك والخدمة المحددة التي تحتاجها للحصول على الأسعار والتأكيد.",
             },
             {
                 id: "online-tools",
-                questionEn: "Do the \"Online Tools\" install anything on my phone?",
-                questionAr: "هل تقوم \"الأدوات عبر الإنترنت\" بتثبيت أي شيء على هاتفي؟",
-                answerEn: "No. These are special links (intents) that simply open applications or settings screens already on your Android phone. They are shortcuts.",
-                answerAr: "لا. هذه روابط خاصة (intents) تفتح ببساطة التطبيقات أو شاشات الإعدادات الموجودة بالفعل على هاتف Android الخاص بك. إنها اختصارات.",
+                questionEn: "What do these \"Online Tools\" do?",
+                questionAr: "ماذا تفعل هذه الأدوات عبر الإنترنت؟",
+                answerEn: "These are tools used for some devices that have FRP (Factory Reset Protection) or other security. When a vulnerability allows opening a browser, these tools provide shortcuts to system apps and settings, allowing the user to take full advantage of that access to bypass the protection.",
+                answerAr: "إنها أدوات تُستخدم لبعض الأجهزة التي عليها حماية FRP. عندما توجد ثغرة تسمح بفتح المتصفح، فإن هذه الأدوات تسمح للمستخدم بالاستفادة من هذه الثغرة عبر توفير اختصارات لتطبيقات وإعدادات النظام، مما يمكّنه من تخطي الحماية.",
             },
         ];
         
@@ -1172,8 +1341,10 @@
                     </div>
                     <div class="tools-grid">
                         ${cat.tools.map(tool => `
-                            <a href="${tool.href}" target="_blank" rel="noopener noreferrer" class="tool-card">
-                                <div class="tool-icon">${tool.emoji}</div>
+                            <a href="${tool.href}" ${tool.isModal ? `onclick="openQRModal(); return false;"` : 'target="_blank" rel="noopener noreferrer"'} class="tool-card">
+                                <div class="tool-icon">
+                                    ${tool.image ? `<img src="images/${tool.image}" alt="${tool.nameEn}" onerror="this.style.display='none'; this.parentElement.innerText='${tool.emoji}'">` : tool.emoji}
+                                </div>
                                 <span>${currentLang === 'ar' ? tool.nameAr : tool.nameEn}</span>
                             </a>
                         `).join('')}
@@ -1261,6 +1432,13 @@
                 ? 'جميع خدمات السوفت وير متاحة أونلاين أو حضوري حسب الاتفاق، بدقة واحترافية.'
                 : 'All software services are available online or in-person as agreed, with precision and professionalism.';
             document.getElementById('serviceContactTitle').textContent = isArabic ? 'للتواصل وطلب الخدمة' : 'Contact & Request Service';
+            
+            // Modal translations
+            document.getElementById('modalTitle').textContent = isArabic ? 'أكواد QR لتفعيل ADB' : 'ADB QR Codes';
+            document.getElementById('qrSamsungTitle').textContent = isArabic ? 'حماية سامسونج الجديدة' : 'Samsung New Security';
+            document.getElementById('qrOldTitle').textContent = isArabic ? 'أندرويد قديم' : 'Old Android';
+            document.getElementById('qrShieldTitle').textContent = isArabic ? 'Alliance Shield' : 'Alliance Shield';
+
             document.getElementById('serviceContactDesc').textContent = isArabic 
                 ? 'الأسعار حسب نوع الجهاز ونوع الخدمة، يُفضل التواصل للتأكيد أولاً.'
                 : 'Prices according to device type and service type. Contact us for confirmation first.';
@@ -1278,19 +1456,73 @@
         
         function switchTab(tab) {
             currentTab = tab;
-            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+            const tabs = document.querySelectorAll('.nav-tab');
+            const indicator = document.getElementById('tabIndicator');
             
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            document.getElementById(tab === 'home' ? 'homeContent' : 'servicesContent').classList.add('active');
+            tabs.forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`[data-tab="${tab}"]`);
+            activeBtn.classList.add('active');
+            
+            // Animate indicator
+            indicator.style.left = activeBtn.offsetLeft + 'px';
+            indicator.style.width = activeBtn.offsetWidth + 'px';
+            
+            // Animate content transition
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+                content.style.opacity = '0';
+                content.style.transform = 'translateY(20px)';
+            });
+            
+            setTimeout(() => {
+                const activeContent = document.getElementById(tab === 'home' ? 'homeContent' : 'servicesContent');
+                activeContent.classList.add('active');
+                setTimeout(() => {
+                    activeContent.style.opacity = '1';
+                    activeContent.style.transform = 'translateY(0)';
+                }, 50);
+            }, 150);
         }
         
+        // Initialize tab indicator position
+        function initTabIndicator() {
+            const activeBtn = document.querySelector('.nav-tab.active');
+            const indicator = document.getElementById('tabIndicator');
+            if (activeBtn && indicator) {
+                indicator.style.left = activeBtn.offsetLeft + 'px';
+                indicator.style.width = activeBtn.offsetWidth + 'px';
+            }
+        }
+        
+        // Modal Control Functions
+        function openQRModal() {
+            const modal = document.getElementById('qrModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeQRModal() {
+            const modal = document.getElementById('qrModal');
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
         // Event Listeners
         document.getElementById('langBtn').addEventListener('click', () => {
             currentLang = currentLang === 'en' ? 'ar' : 'en';
             updateLanguage();
         });
         
+        document.getElementById('closeModalBtn').addEventListener('click', closeQRModal);
+        document.getElementById('qrModal').addEventListener('click', (e) => {
+            if (e.target.id === 'qrModal') closeQRModal();
+        });
+
         document.querySelectorAll('.nav-tab').forEach(btn => {
             btn.addEventListener('click', () => switchTab(btn.dataset.tab));
         });
@@ -1299,6 +1531,10 @@
         
         // Initialize
         updateLanguage();
+        initTabIndicator();
+        
+        // Re-init on window resize
+        window.addEventListener('resize', initTabIndicator);
     </script>
 </body>
 </html>
