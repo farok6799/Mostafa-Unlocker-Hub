@@ -39,7 +39,7 @@ export function setButtonsState(enabled) {
     const actionButtons = [
         'btnConnect', 'btnReadInfo', 'btnKnox', 'btnAppManager', 'btnFRP',
         'btnReboot', 'btnDownload', 'btnFastboot', 'btnRecovery',
-        'btnMTP', 'btnSendAT', 'btnReadDownloadInfo', 'btnDownloadReboot',
+        'btnMTP', 'btnSendAT', 'btnSerialInfo', 'btnSerialRefresh', 'btnSerialReboot', 'btnSerialAndroidReboot', 'btnSerialDownloadAdb', 'btnSerialDownload', 'btnReadDownloadInfo', 'btnDownloadReboot',
         'btnApple', 'btnEnterRecovery', 'btnExitRecovery',
         'btnFastbootInfo', 'btnFastbootReboot', 'btnHonorInfo', 'btnHonorFRP',
         'btnADBMenu', 'btnRebootMenu', 'btnFastbootMenu',

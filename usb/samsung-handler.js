@@ -53,7 +53,7 @@ function bytesToAscii(bytes) {
     return new TextDecoder().decode(bytes).replaceAll('\0', '').trim();
 }
 
-async function transferInWithTimeout(device, endpoint, length, timeoutMs = 3000) {
+async function transferInWithTimeout(device, endpoint, length, timeoutMs = 15000) {
     let timer;
     try {
         return await Promise.race([
@@ -75,13 +75,13 @@ async function sendBulk(device, endpoint, data, timeoutMs = 5000) {
     return result;
 }
 
-async function receiveBytes(device, endpoint, length, timeoutMs = 3000) {
+async function receiveBytes(device, endpoint, length, timeoutMs = 15000) {
     const result = await transferInWithTimeout(device, endpoint, length, timeoutMs);
     if (!result?.data) throw new Error('USB device returned an empty response.');
     return new Uint8Array(result.data.buffer, result.data.byteOffset, result.data.byteLength);
 }
 
-async function receiveResponse(device, endpoints, expectedType, timeoutMs = 5000) {
+async function receiveResponse(device, endpoints, expectedType, timeoutMs = 15000) {
     const bytes = await receiveBytes(device, endpoints.endpointIn, 8, timeoutMs);
     const responseType = readUint32le(bytes, 0);
     const result = readUint32le(bytes, 4);
@@ -93,8 +93,8 @@ async function receiveResponse(device, endpoints, expectedType, timeoutMs = 5000
 }
 
 async function initialiseOdin(device, endpoints) {
-    await sendBulk(device, endpoints.endpointOut, new TextEncoder().encode('ODIN'), 3000);
-    const handshake = await receiveBytes(device, endpoints.endpointIn, 64, 3000);
+    await sendBulk(device, endpoints.endpointOut, new TextEncoder().encode('ODIN'), 15000);
+    const handshake = await receiveBytes(device, endpoints.endpointIn, 64, 15000);
     const text = bytesToAscii(handshake);
 
     if (!text.startsWith('LOKE')) {
@@ -102,16 +102,17 @@ async function initialiseOdin(device, endpoints) {
     }
 }
 
-async function sendSessionPacket(device, endpoints, request, value = null, expectedResponse = RESPONSE_SESSION_SETUP) {
+async function sendSessionPacket(device, endpoints, request, value = null, expectedResponse = RESPONSE_SESSION_SETUP, responseTimeout = 10000) {
     await sendBulk(device, endpoints.endpointOut, makeControlPacket(ODIN_CONTROL_TYPE, request, value), 5000);
-    return receiveResponse(device, endpoints, expectedResponse, 5000);
+    return receiveResponse(device, endpoints, expectedResponse, responseTimeout);
 }
 
 async function beginSession(device, endpoints) {
-    const deviceDefaultPacketSize = await sendSessionPacket(device, endpoints, SESSION_BEGIN);
+    // Some Samsung bootloaders take much longer to answer after sitting idle.
+    const deviceDefaultPacketSize = await sendSessionPacket(device, endpoints, SESSION_BEGIN, null, RESPONSE_SESSION_SETUP, 120000);
 
     if (deviceDefaultPacketSize) {
-        const result = await sendSessionPacket(device, endpoints, SESSION_FILE_PART_SIZE, DEFAULT_FILE_PART_SIZE);
+        const result = await sendSessionPacket(device, endpoints, SESSION_FILE_PART_SIZE, DEFAULT_FILE_PART_SIZE, RESPONSE_SESSION_SETUP, 30000);
         if (result !== 0) throw new Error(`Samsung rejected file-part setup with code ${result}.`);
     }
 
@@ -119,16 +120,16 @@ async function beginSession(device, endpoints) {
 }
 
 async function requestDeviceType(device, endpoints) {
-    return sendSessionPacket(device, endpoints, SESSION_DEVICE_TYPE);
+    return sendSessionPacket(device, endpoints, SESSION_DEVICE_TYPE, null, RESPONSE_SESSION_SETUP, 15000);
 }
 
 async function endSession(device, endpoints, reboot = false) {
     await sendBulk(device, endpoints.endpointOut, makeControlPacket(END_SESSION_CONTROL_TYPE, END_SESSION), 5000);
-    await receiveResponse(device, endpoints, RESPONSE_END_SESSION, 5000);
+    await receiveResponse(device, endpoints, RESPONSE_END_SESSION, 15000);
 
     if (reboot) {
         await sendBulk(device, endpoints.endpointOut, makeControlPacket(END_SESSION_CONTROL_TYPE, REBOOT_DEVICE), 5000);
-        await receiveResponse(device, endpoints, RESPONSE_END_SESSION, 5000);
+        await receiveResponse(device, endpoints, RESPONSE_END_SESSION, 15000);
     }
 }
 
@@ -141,6 +142,12 @@ async function openDownloadSession() {
     try {
         device = await getOrRequestDevice(DOWNLOAD_FILTERS);
         setActiveUsbDevice(device);
+
+        // A paired USBDevice can remain marked as opened while its old LOKE
+        // session is stale. Force a clean handle for every new operation.
+        try { if (device.opened) await device.close(); } catch (_) {}
+        await device.open();
+        try { await device.selectConfiguration(1); } catch (_) {}
 
         endpoints = await findInterfaceAndEndpoints(device, 'bulk');
         if (!endpoints) throw new Error('Samsung Download bulk interface was not found or is already claimed.');
@@ -182,6 +189,9 @@ function logDownloadDevice(device, endpoints, session, deviceType) {
 function logDownloadError(error) {
     const info = describeUsbError(error);
     logRaw(`<div class="notice notice-error"><strong>Download Mode read failed</strong><br>${info.title}: ${info.detail}</div>`);
+    if (/timeout|stale|LOKE|handshake/i.test(error?.message || '')) {
+        logRaw('<div class="notice notice-warning"><strong>Download session timeout:</strong><br>The page already retried with a fresh USB handle. If the next attempt fails too, unplug and reconnect the cable while keeping the phone in Download Mode.</div>');
+    }
     if (/interface|claim|access|permission/i.test(error?.message || '')) {
         logRaw('<div class="notice notice-warning"><strong>Driver note:</strong><br>Close Odin, Smart Switch, Kies, and other Samsung tools. On Windows, use a WinUSB-compatible driver only when the device is in Download Mode. On Linux, a udev rule or permission adjustment may be required.</div>');
     }
@@ -200,12 +210,28 @@ async function closeDownloadSession(context, reboot = false) {
     }
 }
 
+async function openDownloadSessionWithRetry() {
+    let lastError;
+    for (let attempt = 1; attempt <= 2; attempt++) {
+        try {
+            return await openDownloadSession();
+        } catch (error) {
+            lastError = error;
+            if (error?.name === 'NotFoundError' || error?.name === 'AbortError' || attempt === 2) throw error;
+            logRaw('<span class="color-blue">The previous Samsung session was stale; reopening the USB handle…</span>');
+            await closeActiveUsbDevice();
+            await new Promise(resolve => setTimeout(resolve, 700));
+        }
+    }
+    throw lastError;
+}
+
 export async function readDownloadInfo() {
     let context = null;
     setStatus('Opening Samsung Download Mode…');
 
     try {
-        context = await openDownloadSession();
+        context = await openDownloadSessionWithRetry();
         const deviceType = await requestDeviceType(context.device, context.endpoints);
         logDownloadDevice(context.device, context.endpoints, context.session, deviceType);
         setStatus('Samsung Download ready', 'connected');
@@ -225,7 +251,7 @@ export async function odinReboot() {
     setStatus('Preparing Samsung reboot…');
 
     try {
-        context = await openDownloadSession();
+        context = await openDownloadSessionWithRetry();
         logRaw('<div class="log-divider"></div>');
         logRaw('<span class="color-blue"><strong>Samsung Download reboot</strong></span>');
         await endSession(context.device, context.endpoints, true);
@@ -242,25 +268,38 @@ export async function odinReboot() {
     }
 }
 
+function selectedBaudRate() {
+    const value = Number(document.getElementById('serialBaudRate')?.value || 115200);
+    return [9600, 115200, 230400, 921600].includes(value) ? value : 115200;
+}
+
 async function requestSerialPort() {
     if (!('serial' in navigator)) {
-        throw new Error('Web Serial is not supported. Use Chrome or Edge over HTTPS on desktop.');
+        throw new Error('Web Serial is not supported in this browser. Use Chrome 148+ on Android OTG or Chrome/Edge on desktop.');
     }
+
+    const paired = await navigator.serial.getPorts();
+    const pairedSamsung = paired.find(port => port.getInfo?.().usbVendorId === SAMSUNG_VENDOR_ID);
+    if (pairedSamsung) return pairedSamsung;
+    if (paired.length === 1) return paired[0];
 
     try {
         return await navigator.serial.requestPort({ filters: [{ usbVendorId: SAMSUNG_VENDOR_ID }] });
     } catch (error) {
-        if (error?.name === 'NotFoundError') throw error;
-        return navigator.serial.requestPort({});
+        // Android drivers may omit USB VID from the Serial chooser. Offer an
+        // unfiltered picker so the user can select the actual diagnostic port.
+        if (error?.name === 'NotFoundError') return navigator.serial.requestPort({});
+        throw error;
     }
 }
 
 async function openSerialSession() {
     const port = await requestSerialPort();
     if (!port.readable || !port.writable) {
-        await port.open({ baudRate: 115200, dataBits: 8, stopBits: 1, parity: 'none', flowControl: 'none', bufferSize: 4096 });
+        await port.open({ baudRate: selectedBaudRate(), dataBits: 8, stopBits: 1, parity: 'none', flowControl: 'none', bufferSize: 4096 });
     }
 
+    try { await port.setSignals?.({ dataTerminalReady: true, requestToSend: true }); } catch (_) {}
     if (!port.readable || !port.writable) throw new Error('The selected device did not expose readable and writable Serial streams.');
     return port;
 }
@@ -340,7 +379,7 @@ function logSerialError(error) {
     logRaw('<div class="notice notice-warning"><strong>Important:</strong><br>AT is available only when the selected Android/Samsung driver exposes a modem or diagnostic Serial port. MTP itself is not an AT channel.</div>');
 }
 
-export async function handleMTP() {
+export async function readSerialInfo() {
     let port = null;
     let writer = null;
     setStatus('Opening Modem/AT serial port…');
@@ -350,15 +389,18 @@ export async function handleMTP() {
         writer = port.writable.getWriter();
         logRaw('<div class="log-divider"></div>');
         logRaw('<span class="color-purple"><strong>MODEM / AT SERIAL SESSION</strong></span>');
-        logRaw('<span class="color-blue">Web Serial port opened at 115200 8N1.</span>');
+        logRaw(`<span class="color-blue">Web Serial port opened at ${selectedBaudRate()} 8N1.</span>`);
 
         const commands = [
             ['Handshake', 'AT'],
-            ['Model', 'AT+GMM'],
+            ['Manufacturer', 'AT+CGMI'],
+            ['Samsung device info', 'AT+DEVCONINFO'],
+            ['Model', 'AT+CGMM'],
             ['IMEI / Serial', 'AT+CGSN'],
             ['Modem revision', 'AT+CGMR'],
             ['Signal', 'AT+CSQ'],
-            ['SIM state', 'AT+CPIN?']
+            ['SIM state', 'AT+CPIN?'],
+            ['Function state', 'AT+CFUN?']
         ];
 
         for (const [label, command] of commands) {
@@ -376,6 +418,8 @@ export async function handleMTP() {
     }
 }
 
+export const handleMTP = readSerialInfo;
+
 export async function sendATCommand(command) {
     let port = null;
     let writer = null;
@@ -387,6 +431,82 @@ export async function sendATCommand(command) {
         logRaw(`<div class="log-divider"></div><span class="color-blue"><strong>AT command:</strong> ${escapeHtml(command)}</span>`);
         logRaw(`<pre class="serial-response">${escapeHtml(response || 'No response')}</pre>`);
         return response;
+    } finally {
+        await closeSerialSession(port, writer);
+    }
+}
+
+export async function getSerialSupport() {
+    if (!('serial' in navigator)) {
+        return { supported: false, portCount: 0, ports: [], reason: 'Web Serial is not exposed by this browser.' };
+    }
+
+    try {
+        const ports = await navigator.serial.getPorts();
+        return {
+            supported: true,
+            portCount: ports.length,
+            ports: ports.map(port => {
+                const info = port.getInfo?.() || {};
+                return {
+                    vendorId: info.usbVendorId || null,
+                    productId: info.usbProductId || null
+                };
+            })
+        };
+    } catch (error) {
+        return { supported: true, portCount: 0, ports: [], reason: error.message };
+    }
+}
+
+export async function rebootModem() {
+    setStatus('Restarting modem with AT…');
+    logRaw('<div class="log-divider"></div><span class="color-purple"><strong>MODEM RESTART</strong></span>');
+    logRaw('<span class="color-blue">Sending AT+CFUN=1,1. This restarts the modem/radio, not necessarily the full Android system.</span>');
+    try {
+        const response = await sendATCommand('AT+CFUN=1,1');
+        logRaw(`<div class="notice notice-info"><strong>Modem restart command sent.</strong><br>${escapeHtml(response || 'The modem may reset without returning a final response.')}</div>`);
+        setStatus('Modem restart sent', 'connected');
+        return response;
+    } catch (error) {
+        logSerialError(error);
+        setStatus('Modem restart failed', 'error');
+        throw error;
+    }
+}
+
+export async function rebootToDownloadAT() {
+    setStatus('Sending Samsung Download command over AT…');
+    logRaw('<div class="log-divider"></div><span class="color-purple"><strong>SAMSUNG AT → DOWNLOAD MODE</strong></span>');
+    logRaw('<span class="color-blue">Sending the model-dependent AT+FUS? command over the selected Modem/Serial port.</span>');
+
+    let port = null;
+    let writer = null;
+    try {
+        port = await openSerialSession();
+        writer = port.writable.getWriter();
+        const command = 'AT+FUS?';
+        await writer.write(new TextEncoder().encode(`${command}\r`));
+        logRaw(`<span class="color-blue">${command} sent. The modem may disconnect immediately while switching USB mode.</span>`);
+
+        let response = '';
+        try {
+            response = await readSerialResponse(port, 1200);
+        } catch (error) {
+            if (!/disconnect|closed|network|read|device/i.test(error?.message || '')) throw error;
+        }
+
+        if (response && /ERROR|COMMAND NOT SUPPORT/i.test(response)) {
+            throw new Error(`The selected Samsung modem rejected ${command}: ${response.trim()}`);
+        }
+
+        logRaw(`<div class="notice notice-info"><strong>Download command sent over AT.</strong><br>${escapeHtml(response.trim() || 'No final response; USB disconnect during mode switch is expected.')}</div>`);
+        setStatus('Download command sent', 'connected');
+        return response;
+    } catch (error) {
+        logSerialError(error);
+        setStatus('AT Download command failed', 'error');
+        throw error;
     } finally {
         await closeSerialSession(port, writer);
     }

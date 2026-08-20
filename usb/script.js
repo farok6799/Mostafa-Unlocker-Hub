@@ -95,7 +95,41 @@ function init() {
     bindAction('btnFastboot', () => adb.adbReboot('bootloader'));
     bindAction('btnRecovery', () => adb.adbReboot('recovery'));
 
-    bindAction('btnMTP', samsung.handleMTP);
+    const updateSerialSupport = async () => {
+        const badge = byId('serialSupportBadge');
+        const status = byId('serialSupportStatus');
+        const state = await samsung.getSerialSupport();
+        if (!badge || !status) return state;
+
+        if (!state.supported) {
+            badge.textContent = 'Unavailable';
+            badge.className = 'badge purple';
+            status.className = 'notice notice-warning';
+            status.textContent = 'Web Serial is unavailable in this browser. Use Chrome 148+ on Android with OTG, or Chrome/Edge on a desktop.';
+            return state;
+        }
+
+        badge.textContent = state.portCount ? `${state.portCount} paired` : 'No port';
+        badge.className = `badge ${state.portCount ? 'cyan' : 'purple'}`;
+        status.className = `notice ${state.portCount ? 'notice-info' : 'notice-warning'}`;
+        status.textContent = state.portCount
+            ? `${state.portCount} previously paired Serial port${state.portCount === 1 ? '' : 's'} available. Press Read Modem Info to choose one.`
+            : 'No paired Serial port found. Connect the OTG cable, expose a Modem/Diagnostic port, then press Refresh Ports.';
+        return state;
+    };
+
+    bindAction('btnSerialInfo', samsung.readSerialInfo);
+    bindAction('btnSerialRefresh', updateSerialSupport);
+    bindAction('btnSerialReboot', samsung.rebootModem);
+    bindAction('btnSerialAndroidReboot', async () => {
+        logRaw('<span class="color-blue">Android reboot uses an authorized ADB session.</span>');
+        await adb.adbReboot('');
+    });
+    bindAction('btnSerialDownloadAdb', async () => {
+        logRaw('<span class="color-blue">ADB Download reboot uses an authorized USB debugging session.</span>');
+        await adb.adbReboot('download');
+    });
+    bindAction('btnSerialDownload', samsung.rebootToDownloadAT);
     const runManualAT = async command => {
         try {
             await samsung.sendATCommand(command);
@@ -152,6 +186,12 @@ function init() {
 
     bindEnter('customAdbCommandInput', adb.executeCustomCommand);
     bindEnter('customFastbootCommandInput', fastboot.executeCustomFastbootCommand);
+
+    updateSerialSupport();
+    if ('serial' in navigator) {
+        navigator.serial.addEventListener('connect', updateSerialSupport);
+        navigator.serial.addEventListener('disconnect', updateSerialSupport);
+    }
 
     const openAppManager = async () => {
         if (await adb.ensureAdb()) {
