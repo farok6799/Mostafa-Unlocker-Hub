@@ -891,9 +891,48 @@
         
         /* Utility */
         .hidden { display: none !important; }
+
+        /* USB Web workspace */
+        .usb-workspace {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1rem 0 3rem;
+        }
+        .usb-workspace-header {
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.25rem 1.35rem;
+            border: 1px solid rgba(45, 212, 191, .2);
+            border-radius: 1rem;
+            background: linear-gradient(135deg, rgba(45, 212, 191, .1), rgba(24, 24, 27, .92));
+        }
+        .usb-kicker {
+            display: block;
+            margin-bottom: .35rem;
+            color: var(--primary);
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+        .usb-workspace-header h1 { margin: 0; font-size: clamp(1.35rem, 3vw, 2rem); }
+        .usb-workspace-header p { max-width: 700px; margin: .45rem 0 0; color: var(--muted-foreground); font-size: .9rem; }
+        .usb-status-chip { display: inline-flex; align-items: center; gap: .5rem; flex: 0 0 auto; padding: .5rem .75rem; border: 1px solid rgba(45, 212, 191, .22); border-radius: 999px; color: var(--primary); background: rgba(45, 212, 191, .08); font-size: .75rem; font-weight: 600; white-space: nowrap; }
+        .usb-status-chip span:first-child { width: .45rem; height: .45rem; border-radius: 50%; background: var(--primary); box-shadow: 0 0 0 .2rem rgba(45, 212, 191, .12); }
+        .usb-frame-wrap { width: 100%; overflow: hidden; border: 1px solid rgba(63, 63, 70, .8); border-radius: 1rem; background: #07090d; box-shadow: 0 20px 50px rgba(0, 0, 0, .24); }
+        #usbToolFrame { display: block; width: 100%; height: max(760px, calc(100dvh - 170px)); border: 0; background: #07090d; }
         
         @media (max-width: 640px) {
             .logo-text { display: none; }
+            .usb-workspace { margin-top: .5rem; }
+            .usb-workspace-header { flex-direction: column; padding: 1rem; }
+            .usb-status-chip { align-self: flex-start; }
+            #usbToolFrame { height: 980px; }
         }
     </style>
 </head>
@@ -916,6 +955,7 @@
   <div class="tab-indicator" id="tabIndicator"></div>
   <button class="nav-tab active" data-tab="home" id="homeTabBtn">Home</button>
   <button class="nav-tab" data-tab="services" id="servicesTabBtn">Services</button>
+  <button class="nav-tab" data-tab="usb" id="usbTabBtn">USB Web</button>
   </nav>
                 
                 <button class="lang-btn" id="langBtn">
@@ -1068,6 +1108,23 @@
                 </div>
                 <p id="legalText">All services provided are intended only for devices legally owned by the client. We do not deal with any devices of unknown identity or violating laws. We comply with international and local laws in providing software services, and any misuse is the responsibility of the user.</p>
             </div>
+        </div>
+
+        <!-- USB Web Tab -->
+        <div class="tab-content" id="usbContent">
+            <section class="usb-workspace">
+                <div class="usb-workspace-header">
+                    <div>
+                        <span class="usb-kicker" id="usbKicker">Browser hardware tools</span>
+                        <h1 id="usbMainTitle">USB Web Console</h1>
+                        <p id="usbMainDesc">Read supported device metadata directly from Chrome or Edge over HTTPS. Use only with devices you legally own.</p>
+                    </div>
+                    <div class="usb-status-chip"><span></span><span id="usbStatusChip">WebUSB ready</span></div>
+                </div>
+                <div class="usb-frame-wrap">
+                    <iframe id="usbToolFrame" src="usb/index.html" title="Mostafa Unlocker USB Web Console" allow="usb"></iframe>
+                </div>
+            </section>
         </div>
     </main>
     
@@ -1240,8 +1297,8 @@
                 icon: "cloud",
                 titleEn: "iCloud Bypass - iPhone",
                 titleAr: "تخطي iCloud - iPhone",
-                descEn: "Supported from iPhone 5s to iPhone 17 Pro Max. 5s to 11 pro max: Bypass with network (Passcode / Hello). 12 to 17 Pro Max: Bypass without network. Make sure of support before performing the operation, contact us to know if the device is currently supported or not, and whether the bypass is available with network or without or stopped.",
-                descAr: "مدعوم من iPhone 5s حتى iPhone 17 Pro Max. من5s إلى 11 pro max: تخطي بشبكة (Passcode / Hello). من 12 إلى 17 Pro Max: تخطي بدون شبكة. تأكد من الدعم قبل تنفيذ العملية، التواصل معنا لمعرفة هل الجهاز مدعوم حالياً أم لا، وهل التخطي متاح بشبكة أو بدون أو موقوف.",
+                descEn: "Supported from iPhone 6s to iPhone 17 Pro Max. 6s to X: Bypass with network (Passcode / Hello). XS to 17 Pro Max: Bypass without network. Make sure of support before performing the operation, contact us to know if the device is currently supported or not, and whether the bypass is available with network or without or stopped.",
+                descAr: "مدعوم من iPhone 6s حتى iPhone 17 Pro Max. من 6s إلى X: تخطي بشبكة (Passcode / Hello). من XS إلى 17 Pro Max: تخطي بدون شبكة. تأكد من الدعم قبل تنفيذ العملية، التواصل معنا لمعرفة هل الجهاز مدعوم حالياً أم لا، وهل التخطي متاح بشبكة أو بدون أو موقوف.",
             },
             {
                 id: "official-icloud",
@@ -1415,6 +1472,13 @@
             document.getElementById('langText').textContent = isArabic ? 'English' : 'العربية';
             document.getElementById('homeTabBtn').textContent = isArabic ? 'الرئيسية' : 'Home';
             document.getElementById('servicesTabBtn').textContent = isArabic ? 'الخدمات' : 'Services';
+            document.getElementById('usbTabBtn').textContent = isArabic ? 'USB Web' : 'USB Web';
+            document.getElementById('usbKicker').textContent = isArabic ? 'أدوات الأجهزة من المتصفح' : 'Browser hardware tools';
+            document.getElementById('usbMainTitle').textContent = isArabic ? 'وحدة USB Web' : 'USB Web Console';
+            document.getElementById('usbMainDesc').textContent = isArabic
+                ? 'اقرأ بيانات الأجهزة المدعومة مباشرة من Chrome أو Edge عبر HTTPS. استخدمها فقط مع الأجهزة المملوكة لك بشكل قانوني.'
+                : 'Read supported device metadata directly from Chrome or Edge over HTTPS. Use only with devices you legally own.';
+            document.getElementById('usbStatusChip').textContent = isArabic ? 'WebUSB جاهز' : 'WebUSB ready';
             document.getElementById('heroBadge').textContent = isArabic ? 'الحل البرمجي الشامل' : 'All-in-One Software Solution';
             document.getElementById('heroDesc').textContent = isArabic 
                 ? 'المكان الموثوق لحلول السوفت وير، الأدوات، السكربتات، والخدمات المباشرة لأجهزة iPhone و Android.'
@@ -1477,7 +1541,7 @@
             });
             
             setTimeout(() => {
-                const activeContent = document.getElementById(tab === 'home' ? 'homeContent' : 'servicesContent');
+                const activeContent = document.getElementById(tab === 'home' ? 'homeContent' : tab === 'usb' ? 'usbContent' : 'servicesContent');
                 activeContent.classList.add('active');
                 setTimeout(() => {
                     activeContent.style.opacity = '1';
