@@ -96,6 +96,26 @@ function init() {
     bindAction('btnRecovery', () => adb.adbReboot('recovery'));
 
     bindAction('btnMTP', samsung.handleMTP);
+    const runManualAT = async command => {
+        try {
+            await samsung.sendATCommand(command);
+            setStatus('AT response received', 'connected');
+        } catch (error) {
+            logRaw(`<div class="notice notice-error"><strong>AT command failed</strong><br>${error.message}</div>`);
+            setStatus('AT command error', 'error');
+        }
+    };
+    bindAction('btnSendAT', async () => {
+        const input = byId('atCommandInput');
+        const command = input?.value.trim();
+        if (!command) {
+            logRaw('<span class="color-red">Enter an AT command first.</span>');
+            return;
+        }
+        await runManualAT(command);
+        input.value = '';
+    });
+    bindEnter('atCommandInput', runManualAT);
     bindAction('btnReadDownloadInfo', samsung.readDownloadInfo);
     bindAction('btnDownloadReboot', samsung.odinReboot);
 

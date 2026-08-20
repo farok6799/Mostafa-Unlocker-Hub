@@ -131,7 +131,12 @@
                                 <button id="btnEnterRecovery" class="btn-outline-apple"><i data-lucide="log-in"></i> Enter Rec</button>
                                 <button id="btnExitRecovery" class="btn-outline-apple"><i data-lucide="log-out"></i> Exit Rec</button>
                             </div>
-                            <button id="btnMTP" class="btn-outline-mtp"><i data-lucide="radio"></i> MTP Read Info</button>
+                            <button id="btnMTP" class="btn-outline-mtp"><i data-lucide="radio"></i> Modem / AT Info</button>
+                            <div class="custom-cmd at-command-row">
+                                <input type="text" id="atCommandInput" name="atCommand" placeholder="AT command, e.g. AT+CSQ" autocomplete="off">
+                                <button id="btnSendAT" type="button" aria-label="Send AT command"><i data-lucide="send"></i></button>
+                            </div>
+                            <div class="notice notice-info compact-notice">MTP is for file/device data. AT commands require a modem or diagnostic Serial port exposed by the driver.</div>
                         </div>
                     </div>
                 </section>

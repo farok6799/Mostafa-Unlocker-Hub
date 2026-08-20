@@ -39,7 +39,7 @@ export function setButtonsState(enabled) {
     const actionButtons = [
         'btnConnect', 'btnReadInfo', 'btnKnox', 'btnAppManager', 'btnFRP',
         'btnReboot', 'btnDownload', 'btnFastboot', 'btnRecovery',
-        'btnMTP', 'btnReadDownloadInfo', 'btnDownloadReboot',
+        'btnMTP', 'btnSendAT', 'btnReadDownloadInfo', 'btnDownloadReboot',
         'btnApple', 'btnEnterRecovery', 'btnExitRecovery',
         'btnFastbootInfo', 'btnFastbootReboot', 'btnHonorInfo', 'btnHonorFRP',
         'btnADBMenu', 'btnRebootMenu', 'btnFastbootMenu',
@@ -190,8 +190,8 @@ export function describeUsbError(error) {
     if (normalized.includes('no device selected') || normalized.includes('cancel')) {
         return {
             title: 'No device selected',
-            detail: 'Open the device picker again and select the Apple device while it is still in DFU/Recovery mode.'
+            detail: 'Open the device picker again and select the intended device while it is still connected in the required mode.'
         };
     }
-    return { title: 'Apple read failed', detail: message };
+    return { title: 'USB operation failed', detail: message };
 }
