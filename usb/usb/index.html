@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mostafa Unlocker Hub · USB Web</title>
+    <meta name="description" content="WebUSB device information tools for legally owned Android and Apple devices.">
+    <meta name="theme-color" content="#07090d">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://esm.sh; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://esm.sh https://cdn.jsdelivr.net;">
+    <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container" id="dashboard">
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" id="menuToggle">
+            <i data-lucide="menu"></i>
+        </button>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i data-lucide="zap" class="logo-icon"></i>
+                <span class="logo-text">Mostafa Unlocker Hub<small>USB Web Console</small></span>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <span class="nav-label">Main</span>
+                    <a href="#" class="nav-item active" data-section="adb"><i data-lucide="smartphone"></i> ADB Ops</a>
+                    <a href="#" class="nav-item" data-section="fastboot"><i data-lucide="zap"></i> Fastboot</a>
+                    <a href="#" class="nav-item" data-section="download"><i data-lucide="download"></i> Samsung Download</a>
+                    <a href="#" class="nav-item" data-section="modem"><i data-lucide="radio-tower"></i> Modem / Serial / AT</a>
+                    <a href="#" class="nav-item" data-section="apple"><i data-lucide="apple"></i> Apple · DFU & MTP</a>
+                    <a href="#" class="nav-item" data-section="actions"><i data-lucide="power"></i> Quick Actions</a>
+                    <a href="#" id="btnAppManagerSidebar" class="nav-item"><i data-lucide="box"></i> App Manager</a>
+                </div>
+                <div class="nav-group">
+                    <span class="nav-label">Support</span>
+                    <a href="#" class="nav-item premium"><i data-lucide="award"></i> Premium Support</a>
+                    <a href="#" class="nav-item"><i data-lucide="help-circle"></i> Documentation</a>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="connection-status">
+                    <span class="status-dot pulse"></span>
+                    <span id="statusText">System Ready</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-area">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="operationSearch" name="operationSearch" placeholder="Search operations...">
+                </div>
+                <div class="user-controls">
+                    <button class="icon-btn"><i data-lucide="bell"></i></button>
+                    <button class="icon-btn"><i data-lucide="settings"></i></button>
+                    <div class="user-profile">
+                        <div class="avatar">MU</div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-grid">
+                <!-- ADB Section Card -->
+                <section id="section-adb" class="card adb-card">
+                    <div class="card-header">
+                        <h3><i data-lucide="smartphone"></i> ADB Operations</h3>
+                        <span class="badge cyan">Active</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="button-grid">
+                            <button id="btnConnect" class="btn-glow-cyan"><i data-lucide="info"></i> Read Info</button>
+                            <button id="btnAppManager" class="btn-glow-cyan"><i data-lucide="layout-grid"></i> Manager</button>
+                            <button id="btnKnox" class="btn-glow-cyan"><i data-lucide="shield-off"></i> Disable Knox</button>
+                            <button id="btnFRP" class="btn-glow-cyan"><i data-lucide="unlock"></i> Reset FRP</button>
+                        </div>
+                        <div class="custom-cmd">
+                            <input type="text" id="customAdbCommandInput" name="customAdbCommand" placeholder="Custom ADB Command...">
+                            <button id="btnExecuteCustomAdb"><i data-lucide="send"></i></button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Fastboot Section Card -->
+                <section id="section-fastboot" class="card fastboot-card hidden-section">
+                    <div class="card-header">
+                        <h3><i data-lucide="zap"></i> Fastboot Ops</h3>
+                        <span class="badge blue">Standby</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="button-grid">
+                            <button id="btnFastbootInfo" class="btn-glow-blue"><i data-lucide="info"></i> Read Info</button>
+                            <button id="btnFastbootReboot" class="btn-glow-blue"><i data-lucide="refresh-cw"></i> Reboot</button>
+                            <button id="btnHonorInfo" class="btn-glow-blue"><i data-lucide="cpu"></i> Honor Info</button>
+                            <button id="btnHonorFRP" class="btn-glow-blue"><i data-lucide="unlock"></i> Honor FRP</button>
+                        </div>
+                        <div class="custom-cmd">
+                            <input type="text" id="customFastbootCommandInput" name="customFastbootCommand" placeholder="Custom Fastboot Command...">
+                            <button id="btnExecuteCustomFastboot"><i data-lucide="send"></i></button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Samsung Download (Odin) Card -->
+                <section id="section-download" class="card download-card hidden-section">
+                    <div class="card-header">
+                        <div>
+                            <h3><i data-lucide="download"></i> Samsung Download Mode</h3>
+                            <p class="card-subtitle">Odin / LOKE USB session</p>
+                        </div>
+                        <span class="badge blue">Samsung</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="button-grid">
+                            <button id="btnReadDownloadInfo" class="btn-glow-blue"><i data-lucide="scan-search"></i> Read Download Info</button>
+                            <button id="btnDownloadReboot" class="btn-glow-blue"><i data-lucide="refresh-cw"></i> Reboot System</button>
+                        </div>
+                        <div class="download-info-grid">
+                            <div class="mini-stat"><span>Mode</span><strong>Download / Odin</strong></div>
+                            <div class="mini-stat"><span>Protocol</span><strong>ODIN → LOKE</strong></div>
+                            <div class="mini-stat"><span>Scope</span><strong>Verified USB data</strong></div>
+                        </div>
+                        <div class="notice notice-info compact-notice">Read Info shows USB descriptor, interface, session packet size, and device-type response. CSC/AP/PIT fields remain unavailable unless the bootloader exposes a model-specific packet.</div>
+                    </div>
+                </section>
+
+                <!-- Modem / Serial / AT Card -->
+                <section id="section-modem" class="card modem-card hidden-section">
+                    <div class="card-header">
+                        <div>
+                            <h3><i data-lucide="radio-tower"></i> Modem / Serial / AT</h3>
+                            <p class="card-subtitle">Dedicated serial transport</p>
+                        </div>
+                        <span id="serialSupportBadge" class="badge purple">Checking</span>
+                    </div>
+                    <div class="card-body">
+                        <div id="serialSupportStatus" class="notice notice-info">Checking Web Serial support and previously paired ports…</div>
+                        <label class="serial-option"><span>Serial speed</span><select id="serialBaudRate" name="serialBaudRate"><option value="115200">115200 8N1</option><option value="921600">921600 8N1</option><option value="230400">230400 8N1</option><option value="9600">9600 8N1</option></select></label>
+                        <div class="button-grid">
+                            <button id="btnSerialInfo" class="btn-outline-mtp"><i data-lucide="scan-search"></i> Read Modem Info</button>
+                            <button id="btnSerialRefresh" class="action-btn"><i data-lucide="refresh-cw"></i> Refresh Ports</button>
+                            <button id="btnSerialReboot" class="action-btn"><i data-lucide="power"></i> Reboot Modem (AT)</button>
+                            <button id="btnSerialAndroidReboot" class="action-btn"><i data-lucide="refresh-cw"></i> Reboot Android (ADB)</button>
+                            <button id="btnSerialDownloadAdb" class="action-btn"><i data-lucide="download"></i> Reboot to Download (ADB)</button>
+                            <button id="btnSerialDownload" class="action-btn"><i data-lucide="radio-tower"></i> Reboot to Download (AT)</button>
+                        </div>
+                        <div class="custom-cmd at-command-row">
+                            <input type="text" id="atCommandInput" name="atCommand" placeholder="AT command, e.g. AT+CSQ" autocomplete="off">
+                            <button id="btnSendAT" type="button" aria-label="Send AT command"><i data-lucide="send"></i></button>
+                        </div>
+                        <div class="notice notice-warning compact-notice">AT commands work only when Android exposes a modem or diagnostic Serial port. MTP is a file transport and will not appear here as an AT port. Download Mode uses Samsung's model-dependent `AT+FUS?` command and may be unavailable on newer or locked models.</div>
+                    </div>
+                </section>
+
+                <!-- Apple & MTP Card -->
+                <section id="section-apple" class="card apple-card hidden-section">
+                    <div class="card-header">
+                        <h3><i data-lucide="apple"></i> Apple & MTP</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="button-list">
+                            <button id="btnApple" class="btn-outline-apple"><i data-lucide="info"></i> Apple Info</button>
+                            <div class="flex-row">
+                                <button id="btnEnterRecovery" class="btn-outline-apple"><i data-lucide="log-in"></i> Enter Rec</button>
+                                <button id="btnExitRecovery" class="btn-outline-apple"><i data-lucide="log-out"></i> Exit Rec</button>
+                            </div>
+                            <div class="notice notice-info compact-notice">Apple DFU/Recovery controls are kept separate from Android MTP and Modem/Serial operations.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Reboot & Quick Actions -->
+                <section id="section-actions" class="card actions-card hidden-section">
+                    <div class="card-header">
+                        <h3><i data-lucide="power"></i> Quick Actions</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="action-grid">
+                            <button id="btnReboot" class="action-btn"><i data-lucide="refresh-cw"></i> Reboot</button>
+                            <button id="btnDownload" class="action-btn"><i data-lucide="download-cloud"></i> Download</button>
+                            <button id="btnRecovery" class="action-btn"><i data-lucide="cpu"></i> Recovery</button>
+                            <button id="btnClear" class="action-btn danger"><i data-lucide="trash-2"></i> Clear Log</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Terminal Section (Full Width) -->
+                <section class="card terminal-card full-width">
+                    <div class="card-header">
+                        <h3><i data-lucide="terminal"></i> System Terminal</h3>
+                        <div class="terminal-controls">
+                            <span class="t-dot red"></span>
+                            <span class="t-dot yellow"></span>
+                            <span class="t-dot green"></span>
+                        </div>
+                    </div>
+                    <div id="terminal" class="terminal-body" role="log" aria-live="polite">
+                        <div class="terminal-line welcome">Mostafa Unlocker Web tool initialized.</div>
+                        <div class="terminal-line info">>_ Waiting for device connection...</div>
+                    </div>
+                </section>
+            </div>
+
+            <footer class="dashboard-footer">
+                <p>© 2026 Mostafa Unlocker Hub · USB Web Console</p>
+                <div class="footer-links">
+                    <span>Privacy</span>
+                    <span>Terms</span>
+                    <span>Support</span>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- App Manager Modal -->
+    <div id="appModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span><i data-lucide="box"></i> Device App Manager</span>
+                <span class="close-modal"><i data-lucide="x"></i></span>
+            </div>
+            <div class="modal-body">
+                <div class="app-controls">
+                    <div class="search-box">
+                        <i data-lucide="search"></i>
+                        <input type="text" id="appSearch" name="appSearch" placeholder="Filter packages...">
+                    </div>
+                    <button id="btnInstallApk" class="btn-glow-cyan"><i data-lucide="plus-circle"></i> Install APK</button>
+                    <input type="file" id="apkInput" name="apkInput" accept=".apk" style="display: none;">
+                </div>
+                <!-- Installation Progress -->
+                <div id="installProgressContainer" style="display: none; margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px;">
+                        <span>Installing APK...</span>
+                        <span id="installPercent">0%</span>
+                    </div>
+                    <div class="progress-bg">
+                        <div id="installProgressBar" class="progress-fill"></div>
+                    </div>
+                </div>
+                <div class="app-list-container">
+                    <table id="appTable">
+                        <thead><tr><th>Package</th><th>Status</th><th>Type</th><th>Actions</th></tr></thead>
+                        <tbody id="appTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
