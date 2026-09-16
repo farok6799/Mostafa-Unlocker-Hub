@@ -430,7 +430,7 @@ export async function installApk(file) {
     progressCont.style.display = 'block';
     const tempPath = `/data/local/tmp/app.apk`;
     let sync = await currentAdb.sync();
-    
+
     let uploaded = 0;
     const progressTransform = new TransformStream({
         transform(chunk, controller) {
@@ -443,15 +443,22 @@ export async function installApk(file) {
     });
 
     try {
-        await sync.write(tempPath, file.stream().pipeThrough(progressTransform), Math.floor(Date.now() / 1000));
-        await sync.dispose();
-        
-        const res = await execShell(currentAdb, `pm install -r -t -g "${tempPath}"`);
-        logRaw(`<span class="color-blue">[Install] ${res}</span>`);
-        await execShell(currentAdb, `rm "${tempPath}"`);
+        // @yume-chan/adb exposes sync.write() as a WritableStream factory.
+        // Passing the ReadableStream as the second argument causes APK installs
+        // to fail because it is interpreted as file mode/mtime.
+        const destination = sync.write(tempPath, (0o100000 | 0o644), Math.floor((file.lastModified || Date.now()) / 1000));
+        await file.stream().pipeThrough(progressTransform).pipeTo(destination);
+
+        const res = await execShell(currentAdb, `pm install -r -t -g --user 0 "${tempPath}"`);
+        logRaw(`<span class="color-blue">[Install] ${res || 'No installer output'}</span>`);
+        if (!/success/i.test(res)) throw new Error(res || 'Package manager did not report SUCCESS.');
+        logRaw(`<span class="color-green">[Install] APK installed successfully.</span>`);
+        await execShell(currentAdb, `rm -f "${tempPath}"`);
     } catch (e) {
         logRaw(`<span class="color-red">[Install Error] ${e.message}</span>`);
+        try { await execShell(currentAdb, `rm -f "${tempPath}"`); } catch (_) {}
     } finally {
+        try { await sync.dispose(); } catch (_) {}
         setTimeout(() => { progressCont.style.display = 'none'; }, 2000);
         if (apkInput) apkInput.value = '';
         await refreshAppList();

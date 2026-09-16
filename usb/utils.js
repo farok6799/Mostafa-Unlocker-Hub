@@ -37,7 +37,7 @@ export function setStatus(text, tone = '') {
 
 export function setButtonsState(enabled) {
     const actionButtons = [
-        'btnAutoDetect', 'btnAndroidADB', 'btnAndroidFastboot', 'btnMTP', 'btnMTPDisconnect', 'btnUsbSerialInfo', 'btnConnect', 'btnReadInfo', 'btnKnox', 'btnAppManager', 'btnFRP',
+        'btnAutoDetect', 'btnAndroidADB', 'btnAndroidAppManager', 'btnAndroidKnox', 'btnAndroidFRP', 'btnAndroidFastboot', 'btnAndroidFastbootReboot', 'btnAndroidHonorInfo', 'btnAndroidHonorFRP', 'btnAndroidCustomAdb', 'btnAndroidCustomFastboot', 'btnMTP', 'btnMTPDisconnect', 'btnUsbSerialInfo', 'btnConnect', 'btnReadInfo', 'btnKnox', 'btnAppManager', 'btnFRP',
         'btnReboot', 'btnDownload', 'btnFastboot', 'btnRecovery',
         'btnMTP', 'btnSendAT', 'btnSerialInfo', 'btnSerialRefresh', 'btnSerialReboot', 'btnSerialAndroidReboot', 'btnSerialDownloadAdb', 'btnSerialDownload', 'btnReadDownloadInfo', 'btnDownloadReboot',
         'btnApple', 'btnEnterRecovery', 'btnExitRecovery',

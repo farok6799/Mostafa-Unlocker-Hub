@@ -93,7 +93,13 @@ function init() {
     bindAction('btnAutoDetect', async () => { try { await connectAndDetect(); } catch (error) { logRaw(`<div class="notice notice-error"><strong>Connect failed</strong><br>${error.message}</div>`); setStatus('Connect failed', 'error'); } });
     bindAction('btnConnect', adb.connectADB);
     bindAction('btnAndroidADB', adb.connectADB);
+    bindAction('btnAndroidAppManager', async () => { if (await adb.ensureAdb()) { byId('appModal').style.display = 'flex'; await adb.refreshAppList(); } });
+    bindAction('btnAndroidKnox', adb.disableKnox);
+    bindAction('btnAndroidFRP', adb.resetFRP);
     bindAction('btnAndroidFastboot', fastboot.fastbootInfo);
+    bindAction('btnAndroidFastbootReboot', fastboot.fastbootReboot);
+    bindAction('btnAndroidHonorInfo', fastboot.honorInfo);
+    bindAction('btnAndroidHonorFRP', fastboot.honorFRP);
     bindAction('btnMTP', mtp.connectMTP);
     bindAction('btnMTPDisconnect', mtp.disconnectMTP);
     byId('mtpUploadInput')?.addEventListener('change', event => { const file = event.target.files?.[0]; if (file) mtp.uploadMTP(file).catch(error => logRaw(`<div class="notice notice-error">MTP upload failed: ${error.message}</div>`)); });
@@ -104,6 +110,10 @@ function init() {
     bindAction('btnDownload', () => adb.adbReboot('download'));
     bindAction('btnFastboot', () => adb.adbReboot('bootloader'));
     bindAction('btnRecovery', () => adb.adbReboot('recovery'));
+    bindAction('btnAndroidCustomAdb', async () => { const input = byId('androidAdbCommandInput'); const command = input?.value.trim(); if (command) { await adb.executeCustomCommand(command); input.value = ''; } });
+    bindAction('btnAndroidCustomFastboot', async () => { const input = byId('androidFastbootCommandInput'); const command = input?.value.trim(); if (command) { await fastboot.executeCustomFastbootCommand(command); input.value = ''; } });
+    bindEnter('androidAdbCommandInput', adb.executeCustomCommand);
+    bindEnter('androidFastbootCommandInput', fastboot.executeCustomFastbootCommand);
 
     const updateSerialSupport = async () => {
         const badge = byId('serialSupportBadge');
