@@ -8,6 +8,7 @@
     <meta name="theme-color" content="#07090d">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://esm.sh; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://esm.sh https://cdn.jsdelivr.net;">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="flash-style.css">
     <!-- Lucide Icons -->
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
 </head>
@@ -81,7 +82,7 @@
                 <section id="section-android" class="card android-card hidden-section">
                     <div class="card-header"><div><h3><i data-lucide="smartphone"></i> Android Modes</h3><p class="card-subtitle">ADB · Fastboot · MTP</p></div><span class="badge cyan">Unified</span></div>
                     <div class="card-body">
-                        <div class="button-grid"><button id="btnAndroidADB" class="btn-glow-cyan"><i data-lucide="terminal"></i> ADB Info</button><button id="btnAndroidAppManager" class="btn-glow-cyan"><i data-lucide="layout-grid"></i> App Manager</button><button id="btnAndroidKnox" class="btn-glow-cyan"><i data-lucide="shield-off"></i> Disable Knox</button><button id="btnAndroidFRP" class="btn-glow-cyan"><i data-lucide="unlock"></i> Reset FRP</button><button id="btnAndroidFastboot" class="btn-glow-blue"><i data-lucide="zap"></i> Fastboot Info</button><button id="btnAndroidFastbootReboot" class="btn-glow-blue"><i data-lucide="refresh-cw"></i> Fastboot Reboot</button><button id="btnAndroidHonorInfo" class="btn-glow-blue"><i data-lucide="cpu"></i> Honor Info</button><button id="btnAndroidHonorFRP" class="btn-glow-blue"><i data-lucide="unlock"></i> Honor FRP</button><button id="btnMTP" class="btn-outline-mtp"><i data-lucide="folder-open"></i> Connect MTP</button><button id="btnMTPDisconnect" class="action-btn"><i data-lucide="unplug"></i> Disconnect MTP</button></div>
+                        <div class="button-grid"><button id="btnAndroidADB" class="btn-glow-cyan"><i data-lucide="terminal"></i> ADB Info</button><button id="btnAndroidAppManager" class="btn-glow-cyan"><i data-lucide="layout-grid"></i> App Manager</button><button id="btnAndroidKnox" class="btn-glow-cyan"><i data-lucide="shield-off"></i> Disable Knox</button><button id="btnAndroidFRP" class="btn-glow-cyan"><i data-lucide="unlock"></i> Reset FRP</button><button id="btnAndroidFastboot" class="btn-glow-blue"><i data-lucide="zap"></i> Fastboot Info</button><button id="btnAndroidFastbootReboot" class="btn-glow-blue"><i data-lucide="refresh-cw"></i> Fastboot Reboot</button><button id="btnAndroidFlash" class="btn-glow-blue"><i data-lucide="upload-cloud"></i> Flash Image</button><button id="btnAndroidHonorInfo" class="btn-glow-blue"><i data-lucide="cpu"></i> Honor Info</button><button id="btnAndroidHonorFRP" class="btn-glow-blue"><i data-lucide="unlock"></i> Honor FRP</button><button id="btnMTP" class="btn-outline-mtp"><i data-lucide="folder-open"></i> Connect MTP</button><button id="btnMTPDisconnect" class="action-btn"><i data-lucide="unplug"></i> Disconnect MTP</button></div>
                         <div class="custom-cmd"><input type="text" id="androidAdbCommandInput" placeholder="Custom ADB Command..."><button id="btnAndroidCustomAdb"><i data-lucide="send"></i></button></div>
                         <div class="custom-cmd"><input type="text" id="androidFastbootCommandInput" placeholder="Custom Fastboot Command..."><button id="btnAndroidCustomFastboot"><i data-lucide="send"></i></button></div>
                         <div class="mtp-panel"><div class="mini-stat"><span>Use cases</span><strong>Browse · Download · Upload</strong></div><div id="mtpFileList" class="mtp-file-list"><div class="empty-state">MTP appears when the phone is unlocked and set to File Transfer.</div></div><label class="file-picker action-btn">Upload file<input id="mtpUploadInput" type="file" hidden></label></div>
@@ -119,6 +120,13 @@
                             <button id="btnFastbootReboot" class="btn-glow-blue"><i data-lucide="refresh-cw"></i> Reboot</button>
                             <button id="btnHonorInfo" class="btn-glow-blue"><i data-lucide="cpu"></i> Honor Info</button>
                             <button id="btnHonorFRP" class="btn-glow-blue"><i data-lucide="unlock"></i> Honor FRP</button>
+                        </div>
+                        <div class="fastboot-flash-panel">
+                            <div class="flash-title"><i data-lucide="upload-cloud"></i><strong>Fastboot Image Flash</strong><span class="badge yellow">Bootloader must be unlocked</span></div>
+                            <div class="flash-controls"><label class="file-picker action-btn">Choose image<input id="fastbootImageInput" type="file" accept=".img,.bin" hidden></label><select id="fastbootPartition" aria-label="Fastboot partition"><option value="boot">boot</option><option value="vendor_boot">vendor_boot</option><option value="dtbo">dtbo</option><option value="recovery">recovery</option><option value="vbmeta">vbmeta</option></select><button id="btnFastbootFlash" class="btn-glow-blue"><i data-lucide="upload"></i> Flash Image</button></div>
+                            <div id="fastbootImageMeta" class="notice notice-info compact-notice">اختر ملف Image مناسبًا للـpartition. لا يتم تنفيذ erase أو userdata من هذه الواجهة.</div>
+                            <label class="flash-confirm"><input id="fastbootFlashConfirm" type="checkbox"> أفهم أن التفليش قد يعطل الجهاز إذا كانت الصورة أو الـpartition غير صحيحة.</label>
+                            <div class="progress-bg"><div id="fastbootFlashProgress" class="progress-fill"></div></div>
                         </div>
                         <div class="custom-cmd">
                             <input type="text" id="customFastbootCommandInput" name="customFastbootCommand" placeholder="Custom Fastboot Command...">

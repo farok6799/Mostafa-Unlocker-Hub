@@ -1,4 +1,83 @@
-import { logRaw, logInfo, statusText, getOrRequestDevice, findInterfaceAndEndpoints, activeUsbDevice, setActiveUsbDevice } from './utils.js';
+import { logRaw, logInfo, statusText, getOrRequestDevice, findInterfaceAndEndpoints, activeUsbDevice, setActiveUsbDevice, escapeHtml } from './utils.js';
+
+const FLASHABLE_PARTITIONS = new Set(['boot', 'vendor_boot', 'dtbo', 'recovery', 'vbmeta']);
+
+async function readFastbootPacket(device, endpoint, length = 64, timeoutMs = 15000) {
+    const result = await Promise.race([
+        device.transferIn(endpoint, length),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Fastboot response timeout.')), timeoutMs))
+    ]);
+    if (!result?.data) throw new Error('Fastboot returned an empty response.');
+    return new TextDecoder().decode(result.data);
+}
+
+function setFlashProgress(value) {
+    const bar = document.getElementById('fastbootFlashProgress');
+    if (bar) bar.style.width = `${Math.max(0, Math.min(100, value))}%`;
+}
+
+async function sha256(file) {
+    const digest = await crypto.subtle.digest('SHA-256', await file.arrayBuffer());
+    return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+export async function flashFastbootImage() {
+    const file = document.getElementById('fastbootImageInput')?.files?.[0];
+    const partition = document.getElementById('fastbootPartition')?.value;
+    const confirmed = document.getElementById('fastbootFlashConfirm')?.checked;
+    const meta = document.getElementById('fastbootImageMeta');
+    if (!file) throw new Error('اختر ملف Image أولًا.');
+    if (!FLASHABLE_PARTITIONS.has(partition)) throw new Error('هذه الـpartition غير مسموحة في واجهة التفليش الآمن.');
+    if (!confirmed) throw new Error('فعّل مربع التأكيد قبل بدء التفليش.');
+    if (file.size === 0 || file.size > 0xffffffff) throw new Error('حجم ملف Image غير صالح.');
+    if (!confirm(`سيتم تفليش ${file.name} على partition ${partition}. تأكد من أن الجهاز ملكك والـbootloader مفتوح. متابعة؟`)) return;
+
+    let device = null;
+    let setup = null;
+    try {
+        statusText.innerText = 'Checking Fastboot bootloader…';
+        device = await getOrRequestDevice([{ classCode: 0xff, subclassCode: 0x42, protocolCode: 0x03 }]);
+        setup = await findInterfaceAndEndpoints(device, 'bulk');
+        if (!setup) throw new Error('Fastboot endpoints not found.');
+        const getvars = await runFastbootCommand(device, 'getvar:all', setup);
+        const joined = getvars.join('\n').toLowerCase();
+        if (/unlocked:\s*(no|false)|device-unlocked:\s*(no|false)/.test(joined)) throw new Error('Bootloader is locked; Fastboot rejected a safe flash attempt.');
+        if (meta) meta.textContent = `SHA-256 جاري الحساب… ${file.name} (${(file.size / 1048576).toFixed(2)} MB)`;
+        const hash = await sha256(file);
+        logRaw(`<span class="color-blue">Image SHA-256: ${hash}</span>`);
+
+        const command = `download:${file.size.toString(16).padStart(8, '0')}`;
+        await device.transferOut(setup.endpointOut, new TextEncoder().encode(command));
+        const dataReply = await readFastbootPacket(device, setup.endpointIn, 64, 15000);
+        if (!dataReply.startsWith('DATA')) throw new Error(`Fastboot رفض download: ${dataReply}`);
+
+        const chunkSize = 1024 * 1024;
+        for (let offset = 0; offset < file.size; offset += chunkSize) {
+            const chunk = new Uint8Array(await file.slice(offset, Math.min(offset + chunkSize, file.size)).arrayBuffer());
+            await device.transferOut(setup.endpointOut, chunk);
+            setFlashProgress(((offset + chunk.byteLength) / file.size) * 100);
+        }
+        const uploadReply = await readFastbootPacket(device, setup.endpointIn, 64, 30000);
+        if (!uploadReply.startsWith('OKAY')) throw new Error(`Fastboot upload failed: ${uploadReply}`);
+        await device.transferOut(setup.endpointOut, new TextEncoder().encode(`flash:${partition}`));
+        const flashReply = await readFastbootPacket(device, setup.endpointIn, 64, 120000);
+        if (flashReply.startsWith('FAIL')) throw new Error(flashReply.slice(4));
+        if (!flashReply.startsWith('OKAY')) throw new Error(`Unexpected flash response: ${flashReply}`);
+        logRaw(`<span class="color-green">Fastboot flash completed: ${escapeHtml(partition)}.</span>`);
+        if (meta) meta.textContent = `تم التفليش بنجاح · ${partition} · SHA-256: ${hash}`;
+        setFlashProgress(100);
+        statusText.innerText = 'Fastboot flash complete';
+    } catch (error) {
+        setFlashProgress(0);
+        logRaw(`<div class="notice notice-error"><strong>Fastboot flash failed</strong><br>${escapeHtml(error.message)}</div>`);
+        statusText.innerText = 'Fastboot flash failed';
+        throw error;
+    } finally {
+        if (device && setup?.interfaceNumber !== undefined) await device.releaseInterface(setup.interfaceNumber).catch(() => {});
+        if (device?.opened) await device.close().catch(() => {});
+        setActiveUsbDevice(null);
+    }
+}
 
 async function runFastbootCommand(device, command, cachedSetup = null) {
     const encoder = new TextEncoder();

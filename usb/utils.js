@@ -37,11 +37,11 @@ export function setStatus(text, tone = '') {
 
 export function setButtonsState(enabled) {
     const actionButtons = [
-        'btnAutoDetect', 'btnAndroidADB', 'btnAndroidAppManager', 'btnAndroidKnox', 'btnAndroidFRP', 'btnAndroidFastboot', 'btnAndroidFastbootReboot', 'btnAndroidHonorInfo', 'btnAndroidHonorFRP', 'btnAndroidCustomAdb', 'btnAndroidCustomFastboot', 'btnMTP', 'btnMTPDisconnect', 'btnUsbSerialInfo', 'btnConnect', 'btnReadInfo', 'btnKnox', 'btnAppManager', 'btnFRP',
+        'btnAutoDetect', 'btnAndroidADB', 'btnAndroidAppManager', 'btnAndroidKnox', 'btnAndroidFRP', 'btnAndroidFastboot', 'btnAndroidFastbootReboot', 'btnAndroidFlash', 'btnAndroidHonorInfo', 'btnAndroidHonorFRP', 'btnAndroidCustomAdb', 'btnAndroidCustomFastboot', 'btnMTP', 'btnMTPDisconnect', 'btnUsbSerialInfo', 'btnConnect', 'btnReadInfo', 'btnKnox', 'btnAppManager', 'btnFRP',
         'btnReboot', 'btnDownload', 'btnFastboot', 'btnRecovery',
         'btnMTP', 'btnSendAT', 'btnSerialInfo', 'btnSerialRefresh', 'btnSerialReboot', 'btnSerialAndroidReboot', 'btnSerialDownloadAdb', 'btnSerialDownload', 'btnReadDownloadInfo', 'btnDownloadReboot',
         'btnApple', 'btnEnterRecovery', 'btnExitRecovery',
-        'btnFastbootInfo', 'btnFastbootReboot', 'btnHonorInfo', 'btnHonorFRP',
+        'btnFastbootInfo', 'btnFastbootReboot', 'btnFastbootFlash', 'btnHonorInfo', 'btnHonorFRP',
         'btnADBMenu', 'btnRebootMenu', 'btnFastbootMenu',
         'btnDownloadMenu', 'btnAppleMenu', 'btnCustomAdbMenu',
         'btnExecuteCustomAdb', 'btnExecuteCustomFastboot', 'btnClear'

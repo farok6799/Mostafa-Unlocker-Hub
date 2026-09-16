@@ -98,6 +98,7 @@ function init() {
     bindAction('btnAndroidFRP', adb.resetFRP);
     bindAction('btnAndroidFastboot', fastboot.fastbootInfo);
     bindAction('btnAndroidFastbootReboot', fastboot.fastbootReboot);
+    bindAction('btnAndroidFlash', fastboot.flashFastbootImage);
     bindAction('btnAndroidHonorInfo', fastboot.honorInfo);
     bindAction('btnAndroidHonorFRP', fastboot.honorFRP);
     bindAction('btnMTP', mtp.connectMTP);
@@ -180,6 +181,7 @@ function init() {
 
     bindAction('btnFastbootInfo', fastboot.fastbootInfo);
     bindAction('btnFastbootReboot', fastboot.fastbootReboot);
+    bindAction('btnFastbootFlash', fastboot.flashFastbootImage);
     bindAction('btnHonorInfo', fastboot.honorInfo);
     bindAction('btnHonorFRP', fastboot.honorFRP);
 
