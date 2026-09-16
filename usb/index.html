@@ -27,11 +27,12 @@
             <nav class="sidebar-nav">
                 <div class="nav-group">
                     <span class="nav-label">Main</span>
-                    <a href="#" class="nav-item active" data-section="adb"><i data-lucide="smartphone"></i> ADB Ops</a>
+                    <a href="#" class="nav-item active" data-section="detect"><i data-lucide="radar"></i> Auto Detect</a>
+                    <a href="#" class="nav-item" data-section="android"><i data-lucide="smartphone"></i> Android</a>
                     <a href="#" class="nav-item" data-section="fastboot"><i data-lucide="zap"></i> Fastboot</a>
                     <a href="#" class="nav-item" data-section="download"><i data-lucide="download"></i> Samsung Download</a>
                     <a href="#" class="nav-item" data-section="modem"><i data-lucide="radio-tower"></i> Modem / Serial / AT</a>
-                    <a href="#" class="nav-item" data-section="apple"><i data-lucide="apple"></i> Apple · DFU & MTP</a>
+                    <a href="#" class="nav-item" data-section="apple"><i data-lucide="apple"></i> Apple</a>
                     <a href="#" class="nav-item" data-section="actions"><i data-lucide="power"></i> Quick Actions</a>
                     <a href="#" id="btnAppManagerSidebar" class="nav-item"><i data-lucide="box"></i> App Manager</a>
                 </div>
@@ -66,6 +67,24 @@
             </header>
 
             <div class="content-grid">
+                <!-- Unified Auto Detect -->
+                <section id="section-detect" class="card full-width detect-card">
+                    <div class="card-header"><div><h3><i data-lucide="radar"></i> Auto Detect</h3><p class="card-subtitle">USB Web Hub · one screen for the active transport</p></div><span id="detectBadge" class="badge cyan">Ready</span></div>
+                    <div class="card-body">
+                        <div class="detect-hero"><div><strong id="detectSummary">Connect a device to see available actions.</strong><span>Detection is limited to paired browser devices; the browser never scans the whole USB bus without permission.</span></div><button id="btnAutoDetect" class="btn-glow-cyan"><i data-lucide="usb"></i> Connect Device</button></div>
+                        <div id="detectedDevices" class="detected-list"><div class="empty-state">Waiting for a USB or Serial device…</div></div>
+                        <div class="notice notice-info compact-notice">The page selects the correct route automatically: Samsung Modem → Web Serial/WebUSB fallback, Samsung Download → Odin WebUSB, Android ADB/Fastboot/MTP → WebUSB, Apple Recovery/DFU → WebUSB. Apple Normal mode needs a native USBMux/Lockdown agent and is reported honestly as unavailable in a browser-only page.</div>
+                    </div>
+                </section>
+
+                <!-- Android modes -->
+                <section id="section-android" class="card android-card hidden-section">
+                    <div class="card-header"><div><h3><i data-lucide="smartphone"></i> Android Modes</h3><p class="card-subtitle">ADB · Fastboot · MTP</p></div><span class="badge cyan">Unified</span></div>
+                    <div class="card-body">
+                        <div class="button-grid"><button id="btnAndroidADB" class="btn-glow-cyan"><i data-lucide="terminal"></i> ADB Info</button><button id="btnAndroidFastboot" class="btn-glow-blue"><i data-lucide="zap"></i> Fastboot Info</button><button id="btnMTP" class="btn-outline-mtp"><i data-lucide="folder-open"></i> Connect MTP</button><button id="btnMTPDisconnect" class="action-btn"><i data-lucide="unplug"></i> Disconnect MTP</button></div>
+                        <div class="mtp-panel"><div class="mini-stat"><span>Use cases</span><strong>Browse · Download · Upload</strong></div><div id="mtpFileList" class="mtp-file-list"><div class="empty-state">MTP appears when the phone is unlocked and set to File Transfer.</div></div><label class="file-picker action-btn">Upload file<input id="mtpUploadInput" type="file" hidden></label></div>
+                    </div>
+                </section>
                 <!-- ADB Section Card -->
                 <section id="section-adb" class="card adb-card">
                     <div class="card-header">
@@ -144,6 +163,7 @@
                         <div class="button-grid">
                             <button id="btnSerialInfo" class="btn-outline-mtp"><i data-lucide="scan-search"></i> Read Modem Info</button>
                             <button id="btnSerialRefresh" class="action-btn"><i data-lucide="refresh-cw"></i> Refresh Ports</button>
+                            <button id="btnUsbSerialInfo" class="btn-outline-mtp"><i data-lucide="usb"></i> Try WebUSB OTG</button>
                             <button id="btnSerialReboot" class="action-btn"><i data-lucide="power"></i> Reboot Modem (AT)</button>
                             <button id="btnSerialAndroidReboot" class="action-btn"><i data-lucide="refresh-cw"></i> Reboot Android (ADB)</button>
                             <button id="btnSerialDownloadAdb" class="action-btn"><i data-lucide="download"></i> Reboot to Download (ADB)</button>
@@ -164,6 +184,7 @@
                     </div>
                     <div class="card-body">
                         <div class="button-list">
+                            <div class="apple-mode-grid"><span>Normal · USBMux/Lockdown</span><span>Recovery · WebUSB</span><span>DFU · WebUSB</span><span>Restore · Future engine</span></div>
                             <button id="btnApple" class="btn-outline-apple"><i data-lucide="info"></i> Apple Info</button>
                             <div class="flex-row">
                                 <button id="btnEnterRecovery" class="btn-outline-apple"><i data-lucide="log-in"></i> Enter Rec</button>

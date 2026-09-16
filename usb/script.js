@@ -3,6 +3,9 @@ import * as adb from './adb-handler.js';
 import * as samsung from './samsung-handler.js';
 import * as fastboot from './fastboot-handler.js';
 import * as apple from './apple-handler.js';
+import * as mtp from './mtp-handler.js';
+import { renderAutoDetect, connectAndDetect } from './device-manager.js';
+import { readUsbSerialInfo } from './webusb-serial.js';
 
 const byId = id => document.getElementById(id);
 
@@ -50,7 +53,8 @@ function bindEnter(inputId, action) {
 function init() {
     if (typeof lucide !== 'undefined') lucide.createIcons();
     setButtonsState(true);
-    showSection('adb');
+    showSection('detect');
+    renderAutoDetect();
 
     if (!('usb' in navigator)) {
         setStatus('WebUSB unavailable', 'error');
@@ -86,7 +90,13 @@ function init() {
         });
     });
 
+    bindAction('btnAutoDetect', async () => { try { await connectAndDetect(); } catch (error) { logRaw(`<div class="notice notice-error"><strong>Connect failed</strong><br>${error.message}</div>`); setStatus('Connect failed', 'error'); } });
     bindAction('btnConnect', adb.connectADB);
+    bindAction('btnAndroidADB', adb.connectADB);
+    bindAction('btnAndroidFastboot', fastboot.fastbootInfo);
+    bindAction('btnMTP', mtp.connectMTP);
+    bindAction('btnMTPDisconnect', mtp.disconnectMTP);
+    byId('mtpUploadInput')?.addEventListener('change', event => { const file = event.target.files?.[0]; if (file) mtp.uploadMTP(file).catch(error => logRaw(`<div class="notice notice-error">MTP upload failed: ${error.message}</div>`)); });
     bindAction('btnReadInfo', adb.readDeviceInfo);
     bindAction('btnFRP', adb.resetFRP);
     bindAction('btnKnox', adb.disableKnox);
@@ -119,6 +129,7 @@ function init() {
     };
 
     bindAction('btnSerialInfo', samsung.readSerialInfo);
+    bindAction('btnUsbSerialInfo', readUsbSerialInfo);
     bindAction('btnSerialRefresh', updateSerialSupport);
     bindAction('btnSerialReboot', samsung.rebootModem);
     bindAction('btnSerialAndroidReboot', async () => {
@@ -234,7 +245,7 @@ function init() {
             adb.resetAdbState();
             setActiveUsbDevice(null);
         });
-        setInterval(autoDetectTask, 2000);
+        setInterval(async () => { await autoDetectTask(); await renderAutoDetect(); }, 2500);
     }
 }
 
