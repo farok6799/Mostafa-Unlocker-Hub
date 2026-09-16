@@ -182,6 +182,9 @@ function init() {
     bindAction('btnFastbootInfo', fastboot.fastbootInfo);
     bindAction('btnFastbootReboot', fastboot.fastbootReboot);
     bindAction('btnFastbootFlash', fastboot.flashFastbootImage);
+    bindAction('btnFlashManifest', fastboot.flashFirmwareManifest);
+    byId('rawprogramInput')?.addEventListener('change', () => fastboot.previewFirmwareManifest().catch(error => logRaw(`<div class="notice notice-error">Manifest error: ${error.message}</div>`)));
+    byId('scatterInput')?.addEventListener('change', () => fastboot.previewFirmwareManifest().catch(error => logRaw(`<div class="notice notice-error">Manifest error: ${error.message}</div>`)));
     bindAction('btnHonorInfo', fastboot.honorInfo);
     bindAction('btnHonorFRP', fastboot.honorFRP);
 

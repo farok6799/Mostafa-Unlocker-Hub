@@ -41,7 +41,7 @@ export function setButtonsState(enabled) {
         'btnReboot', 'btnDownload', 'btnFastboot', 'btnRecovery',
         'btnMTP', 'btnSendAT', 'btnSerialInfo', 'btnSerialRefresh', 'btnSerialReboot', 'btnSerialAndroidReboot', 'btnSerialDownloadAdb', 'btnSerialDownload', 'btnReadDownloadInfo', 'btnDownloadReboot',
         'btnApple', 'btnEnterRecovery', 'btnExitRecovery',
-        'btnFastbootInfo', 'btnFastbootReboot', 'btnFastbootFlash', 'btnHonorInfo', 'btnHonorFRP',
+        'btnFastbootInfo', 'btnFastbootReboot', 'btnFastbootFlash', 'btnFlashManifest', 'btnHonorInfo', 'btnHonorFRP',
         'btnADBMenu', 'btnRebootMenu', 'btnFastbootMenu',
         'btnDownloadMenu', 'btnAppleMenu', 'btnCustomAdbMenu',
         'btnExecuteCustomAdb', 'btnExecuteCustomFastboot', 'btnClear'

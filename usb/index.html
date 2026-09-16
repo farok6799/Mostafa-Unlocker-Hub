@@ -127,6 +127,11 @@
                             <div id="fastbootImageMeta" class="notice notice-info compact-notice">اختر ملف Image مناسبًا للـpartition. لا يتم تنفيذ erase أو userdata من هذه الواجهة.</div>
                             <label class="flash-confirm"><input id="fastbootFlashConfirm" type="checkbox"> أفهم أن التفليش قد يعطل الجهاز إذا كانت الصورة أو الـpartition غير صحيحة.</label>
                             <div class="progress-bg"><div id="fastbootFlashProgress" class="progress-fill"></div></div>
+                            <div class="flash-title"><i data-lucide="file-code-2"></i><strong>Firmware manifest import</strong><span class="badge purple">rawprogram / scatter</span></div>
+                            <div class="flash-controls"><label class="file-picker action-btn">rawprogram.xml<input id="rawprogramInput" type="file" accept=".xml" hidden></label><label class="file-picker action-btn">Scatter file<input id="scatterInput" type="file" accept=".txt,.xml,.scatter" hidden></label><label class="file-picker action-btn">Images (multi-select)<input id="fastbootBundleInput" type="file" accept=".img,.bin" multiple hidden></label></div>
+                            <div id="manifestSummary" class="notice notice-info compact-notice">استيراد manifest يعرض خطة التفليش. rawprogram غالبًا خاص بـ Qualcomm EDL وScatter غالبًا خاص بـ MediaTek؛ سيتم تنفيذ إدخالات الصور المتوافقة مع Fastboot فقط.</div>
+                            <div id="manifestPlan" class="manifest-plan"></div>
+                            <button id="btnFlashManifest" class="btn-glow-blue"><i data-lucide="layers"></i> Flash compatible manifest entries</button>
                         </div>
                         <div class="custom-cmd">
                             <input type="text" id="customFastbootCommandInput" name="customFastbootCommand" placeholder="Custom Fastboot Command...">

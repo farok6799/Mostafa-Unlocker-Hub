@@ -21,6 +21,100 @@ async function sha256(file) {
     return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
+function baseName(path = '') { return String(path).split(/[\\/]/).pop().trim(); }
+
+export async function parseFirmwareManifest(file) {
+    if (!file) throw new Error('اختر rawprogram.xml أو Scatter أولًا.');
+    const text = await file.text();
+    const entries = [];
+    if (/rawprogram|program\s+SECTOR_SIZE/i.test(file.name) || /<program\b/i.test(text)) {
+        const xml = new DOMParser().parseFromString(text, 'application/xml');
+        if (xml.querySelector('parsererror')) throw new Error('rawprogram.xml غير صالح.');
+        xml.querySelectorAll('program').forEach(node => {
+            const filename = node.getAttribute('filename') || '';
+            const label = node.getAttribute('label') || '';
+            if (filename && label) entries.push({ partition: label, filename: baseName(filename), source: 'rawprogram.xml' });
+        });
+    } else {
+        let current = {};
+        for (const line of text.split(/\r?\n/)) {
+            const part = line.match(/^\s*-?\s*partition_name\s*:\s*(.+?)\s*$/i);
+            const image = line.match(/^\s*(?:file_name)\s*:\s*(.+?)\s*$/i);
+            if (part) current.partition = part[1].replace(/^['"]|['"]$/g, '');
+            if (image) current.filename = baseName(image[1].replace(/^['"]|['"]$/g, ''));
+            if (current.partition && current.filename) { entries.push({ ...current, source: 'scatter' }); current = {}; }
+        }
+    }
+    const unique = entries.filter((entry, index, all) => all.findIndex(item => item.partition === entry.partition && item.filename === entry.filename) === index);
+    if (!unique.length) throw new Error('لم يتم العثور على إدخالات partition/image في الملف.');
+    return unique;
+}
+
+function renderManifestPlan(entries) {
+    const target = document.getElementById('manifestPlan');
+    if (!target) return;
+    target.innerHTML = entries.map(entry => `<div class="manifest-row"><span>${escapeHtml(entry.partition)}</span><span>${escapeHtml(entry.filename)}</span><span class="${FLASHABLE_PARTITIONS.has(entry.partition) ? 'color-green' : 'color-red'}">${FLASHABLE_PARTITIONS.has(entry.partition) ? 'Fastboot' : 'Skip'}</span></div>`).join('');
+}
+
+async function flashImageOnDevice(device, setup, file, partition) {
+    await device.transferOut(setup.endpointOut, new TextEncoder().encode(`download:${file.size.toString(16).padStart(8, '0')}`));
+    const dataReply = await readFastbootPacket(device, setup.endpointIn, 64, 15000);
+    if (!dataReply.startsWith('DATA')) throw new Error(`Fastboot رفض download لـ ${partition}: ${dataReply}`);
+    const chunkSize = 1024 * 1024;
+    for (let offset = 0; offset < file.size; offset += chunkSize) {
+        const chunk = new Uint8Array(await file.slice(offset, Math.min(offset + chunkSize, file.size)).arrayBuffer());
+        await device.transferOut(setup.endpointOut, chunk);
+        setFlashProgress(((offset + chunk.byteLength) / file.size) * 100);
+    }
+    const uploadReply = await readFastbootPacket(device, setup.endpointIn, 64, 30000);
+    if (!uploadReply.startsWith('OKAY')) throw new Error(`Fastboot upload failed for ${partition}: ${uploadReply}`);
+    await device.transferOut(setup.endpointOut, new TextEncoder().encode(`flash:${partition}`));
+    const flashReply = await readFastbootPacket(device, setup.endpointIn, 64, 120000);
+    if (flashReply.startsWith('FAIL')) throw new Error(`${partition}: ${flashReply.slice(4)}`);
+    if (!flashReply.startsWith('OKAY')) throw new Error(`${partition}: unexpected response ${flashReply}`);
+}
+
+export async function previewFirmwareManifest() {
+    const manifest = document.getElementById('rawprogramInput')?.files?.[0] || document.getElementById('scatterInput')?.files?.[0];
+    if (!manifest) return;
+    const entries = await parseFirmwareManifest(manifest);
+    renderManifestPlan(entries);
+    const summary = document.getElementById('manifestSummary');
+    if (summary) summary.textContent = `${entries.length} entries parsed from ${manifest.name}. Fastboot-only allowlisted entries are eligible; EDL/MTK-only entries are skipped.`;
+}
+
+export async function flashFirmwareManifest() {
+    const manifest = document.getElementById('rawprogramInput')?.files?.[0] || document.getElementById('scatterInput')?.files?.[0];
+    const files = [...(document.getElementById('fastbootBundleInput')?.files || [])];
+    const confirmed = document.getElementById('fastbootFlashConfirm')?.checked;
+    if (!manifest) throw new Error('اختر rawprogram.xml أو Scatter.');
+    if (!files.length) throw new Error('اختر ملفات الصور المرتبطة بالـmanifest.');
+    if (!confirmed) throw new Error('فعّل مربع التأكيد قبل بدء التفليش.');
+    const entries = await parseFirmwareManifest(manifest);
+    const fileMap = new Map(files.map(file => [file.name.toLowerCase(), file]));
+    const plan = entries.filter(entry => FLASHABLE_PARTITIONS.has(entry.partition) && fileMap.has(entry.filename.toLowerCase()));
+    if (!plan.length) throw new Error('لا توجد إدخالات Fastboot مسموحة لها ملفات صور مطابقة.');
+    if (!confirm(`سيتم تفليش ${plan.length} partitions من ${manifest.name}. متابعة؟`)) return;
+    let device = null; let setup = null;
+    try {
+        device = await getOrRequestDevice([{ classCode: 0xff, subclassCode: 0x42, protocolCode: 0x03 }]);
+        setup = await findInterfaceAndEndpoints(device, 'bulk');
+        const getvars = await runFastbootCommand(device, 'getvar:all', setup);
+        if (/unlocked:\s*(no|false)|device-unlocked:\s*(no|false)/.test(getvars.join('\n').toLowerCase())) throw new Error('Bootloader is locked.');
+        for (let index = 0; index < plan.length; index++) {
+            const entry = plan[index];
+            logRaw(`<span class="color-blue">Manifest ${index + 1}/${plan.length}: ${escapeHtml(entry.filename)} → ${escapeHtml(entry.partition)}</span>`);
+            await flashImageOnDevice(device, setup, fileMap.get(entry.filename.toLowerCase()), entry.partition);
+        }
+        logRaw('<span class="color-green">Compatible manifest entries flashed successfully.</span>');
+        setFlashProgress(100);
+    } finally {
+        if (device && setup?.interfaceNumber !== undefined) await device.releaseInterface(setup.interfaceNumber).catch(() => {});
+        if (device?.opened) await device.close().catch(() => {});
+        setActiveUsbDevice(null);
+    }
+}
+
 export async function flashFastbootImage() {
     const file = document.getElementById('fastbootImageInput')?.files?.[0];
     const partition = document.getElementById('fastbootPartition')?.value;
@@ -46,23 +140,7 @@ export async function flashFastbootImage() {
         const hash = await sha256(file);
         logRaw(`<span class="color-blue">Image SHA-256: ${hash}</span>`);
 
-        const command = `download:${file.size.toString(16).padStart(8, '0')}`;
-        await device.transferOut(setup.endpointOut, new TextEncoder().encode(command));
-        const dataReply = await readFastbootPacket(device, setup.endpointIn, 64, 15000);
-        if (!dataReply.startsWith('DATA')) throw new Error(`Fastboot رفض download: ${dataReply}`);
-
-        const chunkSize = 1024 * 1024;
-        for (let offset = 0; offset < file.size; offset += chunkSize) {
-            const chunk = new Uint8Array(await file.slice(offset, Math.min(offset + chunkSize, file.size)).arrayBuffer());
-            await device.transferOut(setup.endpointOut, chunk);
-            setFlashProgress(((offset + chunk.byteLength) / file.size) * 100);
-        }
-        const uploadReply = await readFastbootPacket(device, setup.endpointIn, 64, 30000);
-        if (!uploadReply.startsWith('OKAY')) throw new Error(`Fastboot upload failed: ${uploadReply}`);
-        await device.transferOut(setup.endpointOut, new TextEncoder().encode(`flash:${partition}`));
-        const flashReply = await readFastbootPacket(device, setup.endpointIn, 64, 120000);
-        if (flashReply.startsWith('FAIL')) throw new Error(flashReply.slice(4));
-        if (!flashReply.startsWith('OKAY')) throw new Error(`Unexpected flash response: ${flashReply}`);
+        await flashImageOnDevice(device, setup, file, partition);
         logRaw(`<span class="color-green">Fastboot flash completed: ${escapeHtml(partition)}.</span>`);
         if (meta) meta.textContent = `تم التفليش بنجاح · ${partition} · SHA-256: ${hash}`;
         setFlashProgress(100);
