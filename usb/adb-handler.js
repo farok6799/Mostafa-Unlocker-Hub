@@ -36,28 +36,19 @@ function extractProp(text, propName) {
     return match ? match[1] : 'N/A';
 }
 
-// وظيفة لتنظيف مخرجات الأوامر المعقدة مثل IMEI
 function sanitizeValue(text) {
     if (!text || text === 'N/A') return 'N/A';
-    
-    // تنظيف عدواني: حذف كل شيء ليس رقماً (بما في ذلك النقاط والفراغات ورموز الـ Parcel)
     const onlyDigits = text.replace(/[^\d]/g, '');
-    
-    // البحث عن تسلسل مكون من 14 أو 15 رقماً داخل النص المنظف
     const imeiMatch = onlyDigits.match(/\d{14,15}/);
     if (imeiMatch) {
         const val = imeiMatch[0];
-        // التأكد أن الرقم ليس عبارة عن أصفار فقط
         if (!/^0+$/.test(val)) return val;
     }
-
-    // محاولة أخيرة: إذا كان النص يحتوي على '...' (نظام Parcel التقليدي)
     const quoted = text.match(/'([^']+)'/);
     if (quoted) {
         const val = quoted[1].replace(/[^\d]/g, '');
         if (val.length >= 14 && !/^0+$/.test(val)) return val;
     }
-
     return 'N/A';
 }
 
@@ -82,7 +73,7 @@ async function initializeAdbSession() {
         if (!Manager) throw new Error("AdbDaemonWebUsbDeviceManager is not initialized.");
 
         let device = null;
-        currentAdb = null; // تصفير الجلسة القديمة قبل البدء
+        currentAdb = null;
         const pairedDevices = await Manager.getDevices();
         if (pairedDevices.length > 0) {
             device = pairedDevices[0];
@@ -101,7 +92,7 @@ async function initializeAdbSession() {
             serial: device.serial, connection, credentialStore 
         });
         currentAdb = new Adb(transport);
-        setActiveUsbDevice(device.raw || device); // Update global session
+        setActiveUsbDevice(device.raw || device);
         await setButtonsState(true);
         return true;
     } catch (err) {
@@ -112,7 +103,7 @@ async function initializeAdbSession() {
         logRaw(`<br><span class='color-red'>ADB Connection Fail: ${errorMsg}</span>`);
         statusText.innerText = "Status: Connection Error";
         await resetAdbState();
-        await setButtonsState(true); // فك قفل الأزرار للسماح بالمحاولة مرة أخرى
+        await setButtonsState(true);
         return false;
     } finally {
         isConnecting = false;
@@ -120,7 +111,7 @@ async function initializeAdbSession() {
 }
 
 export async function ensureAdb() {
-if (currentAdb) return true;
+    if (currentAdb) return true;
     return await initializeAdbSession();
 }
 
@@ -133,8 +124,6 @@ export async function connectADB() {
         logRaw(`<span class="color-green">Serial: ${activeUsbDevice.serialNumber || 'N/A'}</span>`);
         logRaw(`<span class="color-blue">[Ready] All ADB operations are now active.</span>`);
         statusText.innerText = "Status: ADB Ready";
-
-        // تشغيل قراءة المعلومات تلقائياً فور نجاح الاتصال
         await readDeviceInfo();
     } catch (e) {
         logRaw(`<br><span class="color-red">ADB Connection Error: ${e.message}</span>`);
@@ -156,32 +145,28 @@ export async function readDeviceInfo() {
             extractProp(props, 'ro.csc.sales_code'), 
             extractProp(props, 'ril.sales_code'), 
             extractProp(props, 'ro.boot.sales_code'),
-            extractProp(props, 'ro.ril.miui.region') // For Xiaomi
+            extractProp(props, 'ro.ril.miui.region')
         ].find(v => v !== 'N/A') || 'N/A';
 
         const snPhysical = extractProp(props, 'ril.serialnumber') !== 'N/A' && !/^\d{14,15}$/.test(extractProp(props, 'ril.serialnumber')) ? extractProp(props, 'ril.serialnumber') : extractProp(props, 'ro.serialno');
         
-        // خوارزمية البحث العميق (Deep Detection) عن IMEI
         const getDeepImei = async () => {
             const foundImeis = [];
             const addUnique = (val) => {
                 if (val && val !== 'N/A' && !foundImeis.includes(val)) foundImeis.push(val);
             };
 
-            // 1. محاولة جلب IMEI عبر Slots (لأجهزة Dual SIM شاومي وسامسونج)
             for (let slot = 0; slot <= 1; slot++) {
                 const res = await execShell(currentAdb, `service call iphonesubinfo 1 i32 ${slot}`);
                 addUnique(sanitizeValue(res));
             }
 
-            // 2. المسح التقليدي للمؤشرات (لأجهزة أندرويد القديمة)
             const indices = [1, 2, 3, 4, 5, 7, 8, 11, 16];
             for (let idx of indices) {
                 if (foundImeis.length >= 2) break;
                 addUnique(sanitizeValue(await execShell(currentAdb, `service call iphonesubinfo ${idx}`)));
             }
             
-            // 3. الحل النهائي: dumpsys (لأجهزة سامسونج المقفلة تماماً)
             if (foundImeis.length < 2) {
                 const dump = await execShell(currentAdb, 'dumpsys telephony.registry | grep -E "mDeviceId|deviceId|mImei"');
                 const matches = dump.match(/\d{14,15}/g);
@@ -193,8 +178,6 @@ export async function readDeviceInfo() {
         };
 
         const foundImeis = await getDeepImei();
-        
-        // ترتيب النتائج مع فحص الـ Props كخيار أخير
         let imei1 = foundImeis[0] || [extractProp(props, 'ril.imei'), extractProp(props, 'ro.ril.oem.imei'), extractProp(props, 'persist.radio.imei')].find(v => v !== 'N/A' && !/^0+$/.test(v)) || 'N/A';
         let imei2 = foundImeis[1] || [extractProp(props, 'ril.imei2'), extractProp(props, 'ril.serialnumber2'), extractProp(props, 'persist.radio.imei2')].find(v => v !== 'N/A' && !/^0+$/.test(v)) || 'N/A';
 
@@ -204,7 +187,6 @@ export async function readDeviceInfo() {
             oneUi = `${Math.floor(parseInt(sepVer) / 10000) - 9}.${Math.floor((parseInt(sepVer) % 10000) / 100)}`;
         }
 
-        // فحص الـ FRP
         const setupWizard = extractProp(props, 'persist.sys.setupwizard.active');
         let frpStatus = (setupWizard === '1') ? 'ON / TRIGGERED' : 'OFF / NONE';
 
@@ -310,8 +292,6 @@ export async function skipSetupWizard() {
         logRaw(`<br><span class="color-purple">--- Skipping Android Setup Wizard ---</span>`);
         statusText.innerText = "Status: Skipping Setup Wizard...";
 
-        // Mark the device/user as provisioned, then stop the setup wizard.
-        // We intentionally do not disable/uninstall the Setup Wizard package.
         const settingsCommands = [
             'settings put global device_provisioned 1',
             'settings put secure user_setup_complete 1'
@@ -326,8 +306,6 @@ export async function skipSetupWizard() {
             }
         }
 
-        // Disable common Android/Samsung Setup Wizard packages for user 0.
-        // The package must exist on the device; missing packages are ignored.
         const setupPackages = [
             'com.google.android.setupwizard',
             'com.sec.android.app.SecSetupWizard',
@@ -343,13 +321,10 @@ export async function skipSetupWizard() {
             } else if (text.includes('not found') || text.includes('unknown package') || res === 'N/A') {
                 logRaw(`<span class="color-blue">[SKIP] Setup package not available: ${pkg}</span>`);
             } else {
-                // Some Android versions return a different message when the
-                // package is already disabled or protected. Keep processing.
                 logRaw(`<span class="color-blue">[INFO] ${pkg}: ${(res || 'No response').trim()}</span>`);
             }
         }
 
-        // Stop any remaining Setup Wizard activity after disabling its package.
         for (const pkg of setupPackages) {
             await execShell(currentAdb, `am force-stop ${pkg}`);
         }
@@ -365,28 +340,29 @@ export async function skipSetupWizard() {
 export async function disableKnox() {
     if (!(await ensureAdb())) return;
     await setButtonsState(false);
+    
     const knoxPackages = [
-        "com.samsung.android.sm.devicesecurity",
-        "com.samsung.klmsagent",
-        "com.samsung.android.cmfa.framework",
-        "com.android.managedprovisioning",
-        "com.sec.android.soagent",
-        "com.samsung.android.fmm",
-        "com.sec.android.emergencylauncher",
         "com.samsung.android.bbc.bbcagent",
-        // Samsung Knox Enrollment Service (KME)
-        "com.sec.enterprise.knox.cloudmdm.smdms",
-        "com.wssyncmldm",
+        "com.samsung.android.cmfa.framework",
         "com.sec.epdg",
-        "com.samsung.sec.android.application.csc"
+        "com.samsung.sec.android.application.csc",
+        "com.samsung.android.sm.devicesecurity",
+        "com.samsung.android.fmm",
+        "com.samsung.klmsagent",
+        "com.sec.android.emergencylauncher",
+        "com.sec.android.soagent",
+        "com.wssyncmldm",
+        "com.android.managedprovisioning"
     ];
     
+    const targetUninstallPkg = "com.sec.enterprise.knox.cloudmdm.smdms";
+    
     try {
-        logRaw(`<br><span class="color-purple">--- Starting Knox/MDM Disable Process ---</span>`);
+        logRaw(`<br><span class="color-purple">--- Starting Knox/MDM Process ---</span>`);
         statusText.innerText = "Status: Disabling Knox Packages...";
 
-    for (const pkg of knoxPackages) {
-        const res = await execShell(currentAdb, `pm disable-user --user 0 ${pkg}`);
+        for (const pkg of knoxPackages) {
+            const res = await execShell(currentAdb, `pm disable-user --user 0 ${pkg}`);
             if (res.toLowerCase().includes('new state: disabled')) {
                 logRaw(`<span class="color-green">[OK] Disabled: ${pkg}</span>`);
             } else {
@@ -394,18 +370,24 @@ export async function disableKnox() {
             }
         }
 
+        statusText.innerText = "Status: Uninstalling Knox MDM package...";
+        logRaw(`<span class="color-purple">[Action] Uninstalling ${targetUninstallPkg} ...</span>`);
+        
+        const uninstallRes = await execShell(currentAdb, `pm uninstall -k --user 0 ${targetUninstallPkg}`);
+        if (uninstallRes.toLowerCase().includes('success')) {
+            logRaw(`<span class="color-green">[SUCCESS] Uninstalled: ${targetUninstallPkg}</span>`);
+        } else {
+            logRaw(`<span class="color-red">[FAIL] Uninstalling ${targetUninstallPkg}: ${uninstallRes.trim() || 'No response'}</span>`);
+        }
+
         logRaw(`<span class="color-purple">--- Knox Process Finished ---</span>`);
 
-        // Automatically skip the Android/Samsung Setup Wizard after Knox processing.
         await skipSetupWizard();
 
         logRaw(`<br><span class="color-green">=== Complete Process Finished ===</span>`);
-        logRaw(`<span class="color-green">Knox Enrollment Service was included in the disable pass.</span>`);
         logRaw(`<span class="color-green">Device will reboot automatically...</span>`);
         statusText.innerText = "Status: Rebooting Device...";
 
-        // Reboot automatically after the complete Knox + Setup Wizard process.
-        // Do not wait for a response because ADB will disconnect during reboot.
         try {
             currentAdb.subprocess.spawn('reboot').catch(() => {});
         } catch (e) {
@@ -413,7 +395,7 @@ export async function disableKnox() {
         }
         currentAdb = null;
     } catch (err) {
-        logRaw(`<br><span class="color-red">Knox Disable FAIL: ${err.message}</span>`);
+        logRaw(`<br><span class="color-red">Knox Process FAIL: ${err.message}</span>`);
     } finally {
         await setButtonsState(true);
     }
@@ -424,10 +406,7 @@ export async function adbReboot(mode = "") {
     await setButtonsState(false);
     try {
         logRaw(`<span class="color-green">Sending reboot ${mode} command...</span>`);
-        // نستخدم طريقة "spawn" دون انتظار المخرجات لضمان عدم التعليق
         currentAdb.subprocess.spawn(`reboot ${mode}`).catch(() => {});
-        
-        // تصفير الحالة فوراً
         currentAdb = null;
         statusText.innerText = "Status: Device Rebooting";
     } catch (e) { logRaw(`<span class="color-red">Reboot Error: ${e.message}</span>`); }
@@ -500,7 +479,6 @@ export async function installApk(file) {
     const percentText = document.getElementById('installPercent');
     const apkInput = document.getElementById('apkInput');
     
-    // تصفير شريط التقدم
     progressBar.style.width = '0%';
     percentText.innerText = '0%';
     
@@ -520,9 +498,6 @@ export async function installApk(file) {
     });
 
     try {
-        // @yume-chan/adb exposes sync.write() as a WritableStream factory.
-        // Passing the ReadableStream as the second argument causes APK installs
-        // to fail because it is interpreted as file mode/mtime.
         const destination = sync.write(tempPath, (0o100000 | 0o644), Math.floor((file.lastModified || Date.now()) / 1000));
         await file.stream().pipeThrough(progressTransform).pipeTo(destination);
 
@@ -547,7 +522,6 @@ export async function executeCustomCommand(command) {
     try {
         logRaw(`<span class="color-blue">> adb ${command}</span>`);
         const output = await execShell(currentAdb, command);
-        // عرض النتيجة بتنسيق نظيف داخل Terminal
         logRaw(`<div class="color-white" style="background: rgba(255,255,255,0.05); padding: 5px; border-radius: 4px; font-family: monospace; white-space: pre-wrap;">${output || '(No output returned)'}</div>`);
     } catch (e) {
         logRaw(`<span class="color-red">Execution Error: ${e.message}</span>`);
