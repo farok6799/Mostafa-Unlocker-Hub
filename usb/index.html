@@ -9,6 +9,7 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://esm.sh; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://esm.sh https://cdn.jsdelivr.net;">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="flash-style.css">
+    <link rel="stylesheet" href="lowlevel-style.css">
     <!-- Lucide Icons -->
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
 </head>
@@ -31,6 +32,8 @@
                     <a href="#" class="nav-item active" data-section="detect"><i data-lucide="radar"></i> Auto Detect</a>
                     <a href="#" class="nav-item" data-section="android"><i data-lucide="smartphone"></i> Android</a>
                     <a href="#" class="nav-item" data-section="fastboot"><i data-lucide="zap"></i> Fastboot</a>
+                    <a href="#" class="nav-item" data-section="lowlevel"><i data-lucide="cpu"></i> EDL / MTK</a>
+                    <a href="#" class="nav-item" data-section="spd"><i data-lucide="microchip"></i> SPD / Unisoc</a>
                     <a href="#" class="nav-item" data-section="download"><i data-lucide="download"></i> Samsung Download</a>
                     <a href="#" class="nav-item" data-section="modem"><i data-lucide="radio-tower"></i> Modem / Serial / AT</a>
                     <a href="#" class="nav-item" data-section="apple"><i data-lucide="apple"></i> Apple</a>
@@ -160,6 +163,27 @@
                             <div class="mini-stat"><span>Scope</span><strong>Verified USB data</strong></div>
                         </div>
                         <div class="notice notice-info compact-notice">Read Info shows USB descriptor, interface, session packet size, and device-type response. CSC/AP/PIT fields remain unavailable unless the bootloader exposes a model-specific packet.</div>
+                    </div>
+                </section>
+
+                <!-- Qualcomm EDL / MediaTek BROM -->
+                <section id="section-lowlevel" class="card lowlevel-card hidden-section">
+                    <div class="card-header"><div><h3><i data-lucide="cpu"></i> Qualcomm EDL · MediaTek BROM</h3><p class="card-subtitle">WebUSB OTG capability and official programmer checks</p></div><span class="badge purple">Experimental</span></div>
+                    <div class="card-body">
+                        <div class="notice notice-warning">هذه ليست Fastboot. Qualcomm يحتاج Sahara/Firehose وMediaTek يحتاج BROM/Download Agent. لا يتم تجاوز Auth أو Secure Boot، ولا يتم تنفيذ write/erase في فحص OTG الحالي.</div>
+                        <div class="lowlevel-grid"><div class="lowlevel-box"><strong>Qualcomm EDL 9008</strong><label class="file-picker action-btn">prog_firehose*.elf<input id="edlProgrammerInput" type="file" accept=".elf,.mbn,.bin" hidden></label><button id="btnInspectEdl" class="btn-glow-blue"><i data-lucide="scan-search"></i> Detect EDL</button></div><div class="lowlevel-box"><strong>MediaTek BROM</strong><label class="file-picker action-btn">Scatter<input id="mtkScatterInput" type="file" accept=".txt,.xml,.scatter" hidden></label><label class="file-picker action-btn">Download Agent<input id="mtkDaInput" type="file" accept=".bin,.img" hidden></label><button id="btnInspectMtk" class="btn-glow-blue"><i data-lucide="scan-search"></i> Detect MTK</button></div></div>
+                        <div class="notice notice-info compact-notice">OTG يعمل فقط إذا كان Chrome على Android يعرض WebUSB، والـUSB interface غير محجوزة من تطبيق آخر، والملفات رسمية ومطابقة للموديل. الكشف يثبت الاتصال فقط ولا يضمن التفليش.</div>
+                    </div>
+                </section>
+
+                <!-- Spreadtrum / Unisoc -->
+                <section id="section-spd" class="card spd-card hidden-section">
+                    <div class="card-header"><div><h3><i data-lucide="microchip"></i> SPD / Spreadtrum / Unisoc</h3><p class="card-subtitle">Processor mode · USB descriptor · read-only info</p></div><span class="badge purple">WebUSB OTG</span></div>
+                    <div class="card-body">
+                        <div class="notice notice-warning">يدعم هذا القسم قراءة معلومات وضع المعالج فقط. لا يتم تحميل PAC أو Download Agent ولا تنفيذ write/erase. التفليش الكامل يحتاج بروتوكولًا مطابقًا لموديل SPD المحدد.</div>
+                        <div class="button-grid"><button id="btnSpdInfo" class="btn-glow-blue"><i data-lucide="scan-search"></i> Read SPD Info</button></div>
+                        <div class="download-info-grid"><div class="mini-stat"><span>Transport</span><strong>WebUSB · Android OTG</strong></div><div class="mini-stat"><span>Detection</span><strong>Spreadtrum / Unisoc VID</strong></div><div class="mini-stat"><span>Scope</span><strong>Read only</strong></div></div>
+                        <div class="notice notice-info compact-notice">يلزم Chrome أو Edge عبر HTTPS/localhost، وتوصيل الهاتف في وضع SPD/Download، وعدم حجز الواجهة من أداة أخرى.</div>
                     </div>
                 </section>
 

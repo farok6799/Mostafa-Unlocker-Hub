@@ -6,6 +6,8 @@ import * as apple from './apple-handler.js';
 import * as mtp from './mtp-handler.js';
 import { renderAutoDetect, connectAndDetect } from './device-manager.js';
 import { readUsbSerialInfo } from './webusb-serial.js';
+import { inspectEdl, inspectMtk } from './edl-mtk-handler.js';
+import { readSpdInfo } from './spd-handler.js';
 
 const byId = id => document.getElementById(id);
 
@@ -183,6 +185,9 @@ function init() {
     bindAction('btnFastbootReboot', fastboot.fastbootReboot);
     bindAction('btnFastbootFlash', fastboot.flashFastbootImage);
     bindAction('btnFlashManifest', fastboot.flashFirmwareManifest);
+    bindAction('btnInspectEdl', inspectEdl);
+    bindAction('btnInspectMtk', inspectMtk);
+    bindAction('btnSpdInfo', readSpdInfo);
     byId('rawprogramInput')?.addEventListener('change', () => fastboot.previewFirmwareManifest().catch(error => logRaw(`<div class="notice notice-error">Manifest error: ${error.message}</div>`)));
     byId('scatterInput')?.addEventListener('change', () => fastboot.previewFirmwareManifest().catch(error => logRaw(`<div class="notice notice-error">Manifest error: ${error.message}</div>`)));
     bindAction('btnHonorInfo', fastboot.honorInfo);

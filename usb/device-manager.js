@@ -2,6 +2,9 @@ import { ensureWebUsbSupport, setStatus, logRaw, escapeHtml } from './utils.js';
 
 const SAMSUNG = 0x04e8;
 const APPLE = 0x05ac;
+const QUALCOMM = 0x05c6;
+const MTK = 0x0e8d;
+const SPD_VIDS = new Set([0x1782, 0x2e04]);
 
 function serialInfo() {
     if (!('serial' in navigator)) return { supported: false, ports: [] };
@@ -21,6 +24,9 @@ function classifyUsb(device) {
     if (vid === SAMSUNG && [0x685c, 0x685d, 0x685e].includes(pid)) {
         return { family: 'Samsung', mode: 'Download / Odin', transport: 'WebUSB', actions: ['Read Info', 'Reboot'] };
     }
+    if (vid === QUALCOMM && pid === 0x9008) return { family: 'Qualcomm', mode: 'EDL 9008', transport: 'WebUSB OTG', actions: ['Sahara capability check', 'Official Firehose required'] };
+    if (vid === MTK) return { family: 'MediaTek', mode: 'BROM / Download', transport: 'WebUSB OTG', actions: ['BROM capability check', 'Official DA required'] };
+    if (SPD_VIDS.has(vid)) return { family: 'SPD / Unisoc', mode: 'Processor / Download', transport: 'WebUSB OTG', actions: ['Read Info'] };
     if (device.classCode === 0xff && device.subclassCode === 0x42) {
         return { family: 'Android', mode: 'Fastboot', transport: 'WebUSB', actions: ['Getvar', 'Reboot'] };
     }
@@ -75,7 +81,7 @@ export async function connectAndDetect() {
     if (!window.isSecureContext) throw new Error('WebUSB/Web Serial require HTTPS or localhost.');
     if (!('usb' in navigator) && !('serial' in navigator)) throw new Error('This browser exposes neither WebUSB nor Web Serial.');
     if ('usb' in navigator) {
-        const device = await navigator.usb.requestDevice({ filters: [{ vendorId: SAMSUNG }, { vendorId: APPLE }, { classCode: 0xff }, { classCode: 0x06 }] });
+        const device = await navigator.usb.requestDevice({ filters: [{ vendorId: SAMSUNG }, { vendorId: APPLE }, { vendorId: QUALCOMM }, { vendorId: MTK }, ...[...SPD_VIDS].map(vendorId => ({ vendorId })), { classCode: 0xff }, { classCode: 0x06 }] });
         logRaw(`<span class="color-green">USB permission granted for ${escapeHtml(device.productName || 'selected device')}.</span>`);
     }
     return renderAutoDetect();

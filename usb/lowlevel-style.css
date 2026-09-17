@@ -1,0 +1,1 @@
+.lowlevel-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.lowlevel-box{display:grid;gap:10px;padding:14px;border:1px solid var(--border);border-radius:12px;background:rgba(6,9,13,.4)}.lowlevel-box strong{color:var(--purple);font-size:12px}.lowlevel-box .file-picker{text-align:center}@media(max-width:760px){.lowlevel-grid{grid-template-columns:1fr}}
