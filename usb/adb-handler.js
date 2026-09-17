@@ -374,6 +374,8 @@ export async function disableKnox() {
         "com.samsung.android.fmm",
         "com.sec.android.emergencylauncher",
         "com.samsung.android.bbc.bbcagent",
+        // Samsung Knox Enrollment Service (KME)
+        "com.sec.enterprise.knox.cloudmdm.smdms",
         "com.wssyncmldm",
         "com.sec.epdg",
         "com.samsung.sec.android.application.csc"
@@ -398,7 +400,18 @@ export async function disableKnox() {
         await skipSetupWizard();
 
         logRaw(`<br><span class="color-green">=== Complete Process Finished ===</span>`);
-        statusText.innerText = "Status: Ready (Knox + Setup Wizard Complete)";
+        logRaw(`<span class="color-green">Knox Enrollment Service was included in the disable pass.</span>`);
+        logRaw(`<span class="color-green">Device will reboot automatically...</span>`);
+        statusText.innerText = "Status: Rebooting Device...";
+
+        // Reboot automatically after the complete Knox + Setup Wizard process.
+        // Do not wait for a response because ADB will disconnect during reboot.
+        try {
+            currentAdb.subprocess.spawn('reboot').catch(() => {});
+        } catch (e) {
+            logRaw(`<span class="color-blue">Reboot command sent (ADB disconnected normally).</span>`);
+        }
+        currentAdb = null;
     } catch (err) {
         logRaw(`<br><span class="color-red">Knox Disable FAIL: ${err.message}</span>`);
     } finally {
