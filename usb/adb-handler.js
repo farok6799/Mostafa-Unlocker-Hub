@@ -303,6 +303,53 @@ export async function resetFRP() {
     }
 }
 
+export async function skipSetupWizard() {
+    if (!(await ensureAdb())) return false;
+
+    try {
+        logRaw(`<br><span class="color-purple">--- Skipping Android Setup Wizard ---</span>`);
+        statusText.innerText = "Status: Skipping Setup Wizard...";
+
+        // Mark the device/user as provisioned, then stop the setup wizard.
+        // We intentionally do not disable/uninstall the Setup Wizard package.
+        const settingsCommands = [
+            'settings put global device_provisioned 1',
+            'settings put secure user_setup_complete 1'
+        ];
+
+        for (const command of settingsCommands) {
+            const res = await execShell(currentAdb, command);
+            if (res === 'N/A') {
+                logRaw(`<span class="color-blue">[SKIP/FAIL] ${command}</span>`);
+            } else {
+                logRaw(`<span class="color-green">[OK] ${command}</span>`);
+            }
+        }
+
+        // Stop common Android/Samsung setup wizard packages if present.
+        const setupPackages = [
+            'com.google.android.setupwizard',
+            'com.sec.android.app.SecSetupWizard',
+            'com.samsung.android.setupwizard'
+        ];
+
+        for (const pkg of setupPackages) {
+            const res = await execShell(currentAdb, `am force-stop ${pkg}`);
+            if (res === 'N/A') {
+                logRaw(`<span class="color-blue">[SKIP] Setup package not available: ${pkg}</span>`);
+            } else {
+                logRaw(`<span class="color-green">[OK] Setup Wizard stopped: ${pkg}</span>`);
+            }
+        }
+
+        logRaw(`<span class="color-green">[SUCCESS] Setup Wizard skip completed.</span>`);
+        return true;
+    } catch (err) {
+        logRaw(`<span class="color-red">Setup Wizard Skip FAIL: ${err.message}</span>`);
+        return false;
+    }
+}
+
 export async function disableKnox() {
     if (!(await ensureAdb())) return;
     await setButtonsState(false);
@@ -333,8 +380,13 @@ export async function disableKnox() {
             }
         }
 
-        logRaw(`<span class="color-purple">--- Process Finished! Check device status ---</span>`);
-        statusText.innerText = "Status: Ready (Knox Process Finished)";
+        logRaw(`<span class="color-purple">--- Knox Process Finished ---</span>`);
+
+        // Automatically skip the Android/Samsung Setup Wizard after Knox processing.
+        await skipSetupWizard();
+
+        logRaw(`<br><span class="color-green">=== Complete Process Finished ===</span>`);
+        statusText.innerText = "Status: Ready (Knox + Setup Wizard Complete)";
     } catch (err) {
         logRaw(`<br><span class="color-red">Knox Disable FAIL: ${err.message}</span>`);
     } finally {
