@@ -326,7 +326,8 @@ export async function skipSetupWizard() {
             }
         }
 
-        // Stop common Android/Samsung setup wizard packages if present.
+        // Disable common Android/Samsung Setup Wizard packages for user 0.
+        // The package must exist on the device; missing packages are ignored.
         const setupPackages = [
             'com.google.android.setupwizard',
             'com.sec.android.app.SecSetupWizard',
@@ -334,15 +335,26 @@ export async function skipSetupWizard() {
         ];
 
         for (const pkg of setupPackages) {
-            const res = await execShell(currentAdb, `am force-stop ${pkg}`);
-            if (res === 'N/A') {
+            const res = await execShell(currentAdb, `pm disable-user --user 0 ${pkg}`);
+            const text = (res || '').toLowerCase();
+
+            if (text.includes('new state: disabled')) {
+                logRaw(`<span class="color-green">[OK] Setup Wizard disabled: ${pkg}</span>`);
+            } else if (text.includes('not found') || text.includes('unknown package') || res === 'N/A') {
                 logRaw(`<span class="color-blue">[SKIP] Setup package not available: ${pkg}</span>`);
             } else {
-                logRaw(`<span class="color-green">[OK] Setup Wizard stopped: ${pkg}</span>`);
+                // Some Android versions return a different message when the
+                // package is already disabled or protected. Keep processing.
+                logRaw(`<span class="color-blue">[INFO] ${pkg}: ${(res || 'No response').trim()}</span>`);
             }
         }
 
-        logRaw(`<span class="color-green">[SUCCESS] Setup Wizard skip completed.</span>`);
+        // Stop any remaining Setup Wizard activity after disabling its package.
+        for (const pkg of setupPackages) {
+            await execShell(currentAdb, `am force-stop ${pkg}`);
+        }
+
+        logRaw(`<span class="color-green">[SUCCESS] Setup Wizard skipped and disabled.</span>`);
         return true;
     } catch (err) {
         logRaw(`<span class="color-red">Setup Wizard Skip FAIL: ${err.message}</span>`);
