@@ -8,6 +8,7 @@ import { renderAutoDetect, connectAndDetect } from './device-manager.js';
 import { readUsbSerialInfo } from './webusb-serial.js';
 import { inspectEdl, inspectMtk } from './edl-mtk-handler.js';
 import { readSpdInfo } from './spd-handler.js';
+import { bindSamsungFlash } from './samsung-flash.js';
 
 const byId = id => document.getElementById(id);
 
@@ -57,6 +58,7 @@ function init() {
     setButtonsState(true);
     showSection('detect');
     renderAutoDetect();
+    bindSamsungFlash();
 
     if (!('usb' in navigator)) {
         setStatus('WebUSB unavailable', 'error');
@@ -136,13 +138,30 @@ function init() {
         badge.className = `badge ${state.portCount ? 'cyan' : 'purple'}`;
         status.className = `notice ${state.portCount ? 'notice-info' : 'notice-warning'}`;
         status.textContent = state.portCount
-            ? `${state.portCount} previously paired Serial port${state.portCount === 1 ? '' : 's'} available. Press Read Modem Info to choose one.`
-            : 'No paired Serial port found. Connect the OTG cable, expose a Modem/Diagnostic port, then press Refresh Ports.';
+            ? `${state.portCount} previously paired Serial port${state.portCount === 1 ? '' : 's'} available. Pair/select the intended port, then press Read Modem Info to verify AT.`
+            : 'No paired Serial port found. Connect the OTG cable, expose a Modem/Diagnostic port, then press Pair Modem / AT Port.';
         return state;
     };
 
+    bindAction('btnSerialPair', async () => {
+        try {
+            await samsung.pairSerialPort();
+            await updateSerialSupport();
+            await renderAutoDetect();
+        } catch (error) {
+            if (error?.name !== 'NotFoundError') logRaw(`<div class="notice notice-error"><strong>AT port pairing failed</strong><br>${error.message || error}</div>`);
+            setStatus(error?.name === 'NotFoundError' ? 'AT port selection cancelled' : 'AT port pairing failed', error?.name === 'NotFoundError' ? '' : 'error');
+        }
+    });
     bindAction('btnSerialInfo', samsung.readSerialInfo);
-    bindAction('btnUsbSerialInfo', readUsbSerialInfo);
+    bindAction('btnUsbSerialInfo', async () => {
+        try {
+            await readUsbSerialInfo();
+        } catch (error) {
+            if (error?.name !== 'NotFoundError') logRaw(`<div class="notice notice-error"><strong>WebUSB AT scan failed</strong><br>${error.message || error}</div>`);
+            setStatus(error?.name === 'NotFoundError' ? 'WebUSB AT scan cancelled' : 'WebUSB AT scan failed', error?.name === 'NotFoundError' ? '' : 'error');
+        }
+    });
     bindAction('btnSerialRefresh', updateSerialSupport);
     bindAction('btnSerialReboot', samsung.rebootModem);
     bindAction('btnSerialAndroidReboot', async () => {

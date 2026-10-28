@@ -273,15 +273,15 @@ function selectedBaudRate() {
     return [9600, 115200, 230400, 921600].includes(value) ? value : 115200;
 }
 
-async function requestSerialPort() {
+async function requestSerialPort(forcePicker = false) {
     if (!('serial' in navigator)) {
         throw new Error('Web Serial is not supported in this browser. Use Chrome 148+ on Android OTG or Chrome/Edge on desktop.');
     }
 
     const paired = await navigator.serial.getPorts();
     const pairedSamsung = paired.find(port => port.getInfo?.().usbVendorId === SAMSUNG_VENDOR_ID);
-    if (pairedSamsung) return pairedSamsung;
-    if (paired.length === 1) return paired[0];
+    if (!forcePicker && pairedSamsung) return pairedSamsung;
+    if (!forcePicker && paired.length === 1) return paired[0];
 
     try {
         return await navigator.serial.requestPort({ filters: [{ usbVendorId: SAMSUNG_VENDOR_ID }] });
@@ -291,6 +291,18 @@ async function requestSerialPort() {
         if (error?.name === 'NotFoundError') return navigator.serial.requestPort({});
         throw error;
     }
+}
+
+export async function pairSerialPort() {
+    const port = await requestSerialPort(true);
+    const info = port.getInfo?.() || {};
+    const vendor = info.usbVendorId ? `0x${Number(info.usbVendorId).toString(16).toUpperCase()}` : 'not reported';
+    const product = info.usbProductId ? `0x${Number(info.usbProductId).toString(16).toUpperCase()}` : 'not reported';
+    logRaw('<div class="log-divider"></div><span class="color-purple"><strong>WEB SERIAL MODEM / AT PORT</strong></span>');
+    logRaw(`<span class="color-blue">Permission saved for USB VID ${escapeHtml(vendor)} / PID ${escapeHtml(product)}.</span>`);
+    logRaw('<div class="notice notice-info"><strong>Port paired; AT not yet verified.</strong><br>No AT command was sent while pairing. Press Read Modem Info to test the port with read-only commands.</div>');
+    setStatus('Modem/AT port paired', 'connected');
+    return info;
 }
 
 async function openSerialSession() {

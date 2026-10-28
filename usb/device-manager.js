@@ -6,10 +6,21 @@ const QUALCOMM = 0x05c6;
 const MTK = 0x0e8d;
 const SPD_VIDS = new Set([0x1782, 0x2e04]);
 
-function serialInfo() {
+async function serialInfo() {
     if (!('serial' in navigator)) return { supported: false, ports: [] };
-    const ports = navigator.serial.getPorts ? navigator.serial.getPorts() : Promise.resolve([]);
-    return Promise.resolve(ports).then(items => ({ supported: true, ports: items }));
+    const ports = await navigator.serial.getPorts();
+    return {
+        supported: true,
+        ports: ports.map(port => {
+            const info = port.getInfo?.() || {};
+            const isSamsung = Number(info.usbVendorId) === SAMSUNG;
+            return {
+                source: 'Web Serial', port, family: isSamsung ? 'Samsung' : 'USB Serial',
+                mode: isSamsung ? 'Modem / AT candidate · response not yet verified' : 'Serial port · device not identified as Samsung',
+                transport: 'Web Serial', actions: ['Pair permission saved', 'Read Info to verify AT']
+            };
+        })
+    };
 }
 
 function classifyUsb(device) {
@@ -24,6 +35,7 @@ function classifyUsb(device) {
     if (vid === SAMSUNG && [0x685c, 0x685d, 0x685e].includes(pid)) {
         return { family: 'Samsung', mode: 'Download / Odin', transport: 'WebUSB', actions: ['Read Info', 'Reboot'] };
     }
+    if (vid === SAMSUNG) return { family: 'Samsung', mode: 'USB mode not identified · AT candidate', transport: 'WebUSB / Web Serial', actions: ['Pair Modem / AT port', 'Verify with Read Info'] };
     if (vid === QUALCOMM && pid === 0x9008) return { family: 'Qualcomm', mode: 'EDL 9008', transport: 'WebUSB OTG', actions: ['Sahara capability check', 'Official Firehose required'] };
     if (vid === MTK) return { family: 'MediaTek', mode: 'BROM / Download', transport: 'WebUSB OTG', actions: ['BROM capability check', 'Official DA required'] };
     if (SPD_VIDS.has(vid)) return { family: 'SPD / Unisoc', mode: 'Processor / Download', transport: 'WebUSB OTG', actions: ['Read Info'] };
@@ -45,7 +57,7 @@ export async function detectDevices() {
         for (const device of await navigator.usb.getDevices()) result.push({ source: 'WebUSB', device, ...classifyUsb(device) });
     }
     const serial = await serialInfo();
-    serial.ports.forEach(port => result.push({ source: 'Web Serial', port, family: 'Samsung', mode: 'Modem / AT', transport: 'Web Serial', actions: ['Read Info', 'AT Console', 'Reboot Modem'] }));
+    serial.ports.forEach(item => result.push(item));
     return result;
 }
 
@@ -65,7 +77,8 @@ export async function renderAutoDetect() {
         devices.forEach(item => {
             const row = document.createElement('div');
             row.className = 'detected-device';
-            row.innerHTML = `<div><strong>${escapeHtml(item.device?.productName || item.port?.getInfo?.()?.usbProductId ? 'Samsung serial interface' : item.family)}</strong><span>${escapeHtml(item.family)} · ${escapeHtml(item.mode)} · ${escapeHtml(item.transport)}</span></div><div class="detected-actions">${item.actions.map(action => `<span>${escapeHtml(action)}</span>`).join('')}</div>`;
+            const title = item.source === 'Web Serial' ? `${item.family} serial port` : item.device?.productName || item.family;
+            row.innerHTML = `<div><strong>${escapeHtml(title)}</strong><span>${escapeHtml(item.family)} · ${escapeHtml(item.mode)} · ${escapeHtml(item.transport)}</span></div><div class="detected-actions">${item.actions.map(action => `<span>${escapeHtml(action)}</span>`).join('')}</div>`;
             list.appendChild(row);
         });
         setStatus(`${devices.length} device transport${devices.length === 1 ? '' : 's'} ready`, 'connected');

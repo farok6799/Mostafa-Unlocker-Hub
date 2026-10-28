@@ -37,6 +37,7 @@ export function setStatus(text, tone = '') {
 
 export function setButtonsState(enabled) {
     const actionButtons = [
+        'btnSerialPair', 'btnSamsungFlashConnect', 'btnSamsungFlashStart',
         'btnAutoDetect', 'btnAndroidADB', 'btnAndroidAppManager', 'btnAndroidKnox', 'btnAndroidFRP', 'btnAndroidFastboot', 'btnAndroidFastbootReboot', 'btnAndroidFlash', 'btnAndroidHonorInfo', 'btnAndroidHonorFRP', 'btnAndroidCustomAdb', 'btnAndroidCustomFastboot', 'btnMTP', 'btnMTPDisconnect', 'btnUsbSerialInfo', 'btnConnect', 'btnReadInfo', 'btnKnox', 'btnAppManager', 'btnFRP',
         'btnReboot', 'btnDownload', 'btnFastboot', 'btnRecovery',
         'btnMTP', 'btnSendAT', 'btnSerialInfo', 'btnSerialRefresh', 'btnSerialReboot', 'btnSerialAndroidReboot', 'btnSerialDownloadAdb', 'btnSerialDownload', 'btnReadDownloadInfo', 'btnDownloadReboot',

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="flash-style.css">
     <link rel="stylesheet" href="lowlevel-style.css">
+    <link rel="stylesheet" href="samsung-flash-style.css">
     <!-- Lucide Icons -->
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
 </head>
@@ -162,6 +163,31 @@
                             <div class="mini-stat"><span>Protocol</span><strong>ODIN → LOKE</strong></div>
                             <div class="mini-stat"><span>Scope</span><strong>Verified USB data</strong></div>
                         </div>
+                        <div id="samsungFirmwarePanel" class="samsung-firmware-panel">
+                            <div><strong>Official Samsung firmware flash</strong><p class="card-subtitle">WebUSB · MUT-style full package, selected images, or direct LZ4</p></div>
+                            <div class="samsung-firmware-modes" role="group" aria-label="Samsung flash mode">
+                                <button type="button" class="action-btn" data-samsung-mode="full" aria-pressed="true">Full firmware</button>
+                                <button type="button" class="action-btn" data-samsung-mode="selective" aria-pressed="false">Selected files</button>
+                                <button type="button" class="action-btn" data-samsung-mode="direct" aria-pressed="false">Direct IMG.LZ4</button>
+                            </div>
+                            <p id="samsungFlashHint" class="card-subtitle">Select the extracted official BL, AP, CP and either CSC or HOME_CSC .tar.md5 files together.</p>
+                            <div class="samsung-flash-files">
+                                <label class="file-picker action-btn"><span id="samsungFlashPickLabel">Choose BL / AP / CP / CSC firmware files</span><input id="samsungFirmwareInput" type="file" multiple accept=".tar.md5,.md5,.tar" hidden></label>
+                                <div id="samsungFlashFileSummary" class="notice notice-info compact-notice">Choose files to inspect the archive and list images.</div>
+                                <div id="samsungFlashFileList" class="samsung-flash-list"><div class="empty-state">No firmware files selected.</div></div>
+                            </div>
+                            <div class="samsung-firmware-actions">
+                                <button id="btnSamsungFlashConnect" type="button" class="btn-glow-blue"><i data-lucide="usb"></i> Connect / Read PIT</button>
+                            </div>
+                            <div id="samsungFlashDeviceInfo" class="notice notice-info compact-notice">Device not checked. Connect a Samsung phone in Download Mode first.</div>
+                            <label class="samsung-flash-confirm"><input id="samsungFlashConfirm" type="checkbox"> I own or am authorized to service this device, and I have verified that these are official Samsung firmware files for this exact model and bootloader revision. I will keep USB connected during writing.</label>
+                            <label class="samsung-flash-confirm"><input id="samsungFlashAutoReboot" type="checkbox"> Request a device reboot after every selected image has completed successfully.</label>
+                            <div class="samsung-flash-progress" role="progressbar" aria-label="Samsung firmware flash progress" aria-valuemin="0" aria-valuemax="100"><div id="samsungFlashProgressBar"></div></div>
+                            <div id="samsungFlashProgressText" class="card-subtitle">0%</div>
+                            <div id="samsungFlashStatus" class="notice notice-info compact-notice samsung-flash-status">Ready. File parsing happens locally in this browser.</div>
+                            <button id="btnSamsungFlashStart" type="button" class="btn-glow-blue"><i data-lucide="upload-cloud"></i> Start Samsung Flash</button>
+                            <div class="notice notice-warning compact-notice samsung-flash-warning">Use firmware obtained from Samsung or an authorized source. This page checks TAR structure, LZ4 frame structure and image-to-device PIT mapping, but cannot prove Samsung signature authenticity or verify the firmware publisher. The separate PIT/repartition operation and USERDATA slot are not included.</div>
+                        </div>
                         <div class="notice notice-info compact-notice">Read Info shows USB descriptor, interface, session packet size, and device-type response. CSC/AP/PIT fields remain unavailable unless the bootloader exposes a model-specific packet.</div>
                     </div>
                 </section>
@@ -200,6 +226,7 @@
                         <div id="serialSupportStatus" class="notice notice-info">Checking Web Serial support and previously paired ports…</div>
                         <label class="serial-option"><span>Serial speed</span><select id="serialBaudRate" name="serialBaudRate"><option value="115200">115200 8N1</option><option value="921600">921600 8N1</option><option value="230400">230400 8N1</option><option value="9600">9600 8N1</option></select></label>
                         <div class="button-grid">
+                            <button id="btnSerialPair" class="btn-outline-mtp"><i data-lucide="plug-zap"></i> Pair Modem / AT Port</button>
                             <button id="btnSerialInfo" class="btn-outline-mtp"><i data-lucide="scan-search"></i> Read Modem Info</button>
                             <button id="btnSerialRefresh" class="action-btn"><i data-lucide="refresh-cw"></i> Refresh Ports</button>
                             <button id="btnUsbSerialInfo" class="btn-outline-mtp"><i data-lucide="usb"></i> Try WebUSB OTG</button>
