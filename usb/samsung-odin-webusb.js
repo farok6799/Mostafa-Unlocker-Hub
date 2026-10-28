@@ -155,7 +155,7 @@ async function downloadPit(context) {
     return parsePit(pit);
 }
 
-export async function openOdinSession() {
+export async function openOdinSession(options = {}) {
     ensureWebUsbSupport();
     if (!window.isSecureContext) throw new Error('Samsung Download flashing requires HTTPS or localhost.');
     if (activeUsbDevice?.opened) throw new Error('هناك جلسة USB أخرى مفتوحة. أنهِ العملية الحالية ثم أعد المحاولة.');
@@ -182,7 +182,7 @@ export async function openOdinSession() {
         context.compressedSupported = context.protocolVersion > 2 && Boolean(word & 0x8000);
         context.packetSize = context.protocolVersion >= 2 ? DATA_PACKET_V2 : DATA_PACKET_OLD;
         if (context.protocolVersion >= 2) await request(context, RQT.INIT, PARAM.INIT_PACKETSIZE, [context.packetSize]);
-        context.pit = await downloadPit(context);
+        if (options.readPit !== false) context.pit = await downloadPit(context);
         return context;
     } catch (error) {
         await releaseUsbInterface(device, endpoints?.interfaceNumber);
@@ -334,14 +334,31 @@ export async function flashOdinPlan(context, items, options = {}) {
 export async function closeOdinSession(context, reboot = false) {
     if (!context?.device) return;
     let closeError = null;
+    let rebootSent = false;
+    let rebootResponseReceived = false;
     try {
         await request(context, RQT.CLOSE, PARAM.CLOSE_END, [], { readTimeout: 30000 });
         if (reboot) {
-            try { await request(context, RQT.CLOSE, PARAM.CLOSE_REBOOT, [], { readTimeout: 3000 }); } catch (_) { /* Device may disconnect after accepting reboot. */ }
+            await writeBytes(context.device, context.endpointOut, makeRequest(RQT.CLOSE, PARAM.CLOSE_REBOOT), 30000);
+            rebootSent = true;
+            try {
+                await receiveResponse(context.device, context.endpointIn, RQT.CLOSE, 3000);
+                rebootResponseReceived = true;
+            } catch (error) {
+                const message = String(error?.message || error).toLowerCase();
+                const disconnectedAfterWrite = error?.name === 'NetworkError'
+                    || message.includes("failed to execute 'transferin'")
+                    || message.includes('usb read timed out')
+                    || message.includes('transfer error has occurred')
+                    || message.includes('returned an empty usb packet');
+                if (!disconnectedAfterWrite) throw error;
+                context.rebootResponseMissing = true;
+            }
         }
     } catch (error) { closeError = error; }
     finally { await disposeOdinSession(context); }
     if (closeError) throw closeError;
+    return { rebootSent, rebootResponseReceived };
 }
 
 export function findPlanItems(images, pit, selectedNames = null) {

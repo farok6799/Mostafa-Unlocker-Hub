@@ -11,6 +11,7 @@ import {
     setActiveUsbDevice,
     setStatus
 } from './utils.js';
+import { closeOdinSession as closeFlashOdinSession, disposeOdinSession, openOdinSession } from './samsung-odin-webusb.js';
 
 const SAMSUNG_VENDOR_ID = 0x04e8;
 const DOWNLOAD_FILTERS = [
@@ -93,7 +94,7 @@ async function receiveResponse(device, endpoints, expectedType, timeoutMs = 1500
 }
 
 async function initialiseOdin(device, endpoints) {
-    await sendBulk(device, endpoints.endpointOut, new TextEncoder().encode('ODIN'), 15000);
+    await sendBulk(device, endpoints.endpointOut, new TextEncoder().encode('ODIN\0'), 15000);
     const handshake = await receiveBytes(device, endpoints.endpointIn, 64, 15000);
     const text = bytesToAscii(handshake);
 
@@ -168,7 +169,8 @@ function formatHex(value, width = 4) {
     return `0x${Number(value).toString(16).padStart(width, '0').toUpperCase()}`;
 }
 
-function logDownloadDevice(device, endpoints, session, deviceType) {
+function logDownloadDevice(context) {
+    const { device } = context;
     logRaw('<div class="log-divider"></div>');
     logRaw('<span class="color-purple"><strong>SAMSUNG DOWNLOAD SESSION</strong></span>');
     logRaw('<span class="color-green">ODIN → LOKE handshake completed.</span>');
@@ -178,19 +180,22 @@ function logDownloadDevice(device, endpoints, session, deviceType) {
     logInfo('Product ID', formatHex(device.productId));
     logInfo('USB Version', `${device.usbVersionMajor ?? 0}.${device.usbVersionMinor ?? 0}`);
     logInfo('Serial', device.serialNumber || 'N/A');
-    logInfo('Interface', endpoints.interfaceNumber);
-    logInfo('Bulk OUT', endpoints.endpointOut);
-    logInfo('Bulk IN', endpoints.endpointIn);
-    logInfo('Session packet size', session.deviceDefaultPacketSize || 'Device default');
-    logInfo('Device type response', deviceType ?? 'N/A');
-    logRaw('<div class="notice notice-info"><strong>Verified data only.</strong><br>CSC, AP version, storage, DID, and serial details are not fabricated here; they require additional model-specific Odin/PIT packets and will show as unavailable until implemented.</div>');
+    logInfo('Interface', context.interfaceNumber);
+    logInfo('Bulk OUT', context.endpointOut);
+    logInfo('Bulk IN', context.endpointIn);
+    logInfo('Odin protocol', context.protocolVersion || 'N/A');
+    logInfo('Packet size', context.packetSize || 'Device default');
+    logInfo('Compressed transfer', context.compressedSupported ? 'Supported' : 'Fallback decode');
+    logInfo('PIT model ID', context.pit?.cpuBlId || 'N/A');
+    logInfo('PIT entries', context.pit?.partitions?.length ?? 'N/A');
+    logRaw('<div class="notice notice-info"><strong>Verified data only.</strong><br>CSC, AP version, storage, and DID are not fabricated; they remain unavailable unless provided by verified device-specific data.</div>');
 }
 
 function logDownloadError(error) {
     const info = describeUsbError(error);
     logRaw(`<div class="notice notice-error"><strong>Download Mode read failed</strong><br>${info.title}: ${info.detail}</div>`);
-    if (/timeout|stale|LOKE|handshake/i.test(error?.message || '')) {
-        logRaw('<div class="notice notice-warning"><strong>Download session timeout:</strong><br>The page already retried with a fresh USB handle. If the next attempt fails too, unplug and reconnect the cable while keeping the phone in Download Mode.</div>');
+    if (/timeout|stale|LOKE|handshake|transferin|transferout|transfer error/i.test(error?.message || '')) {
+        logRaw('<div class="notice notice-warning"><strong>Download session USB failure:</strong><br>Keep the target in Download Mode. If Chrome reports a disconnect, reconnect the OTG cable and select the device again; do not start flashing until Connect / Read PIT succeeds.</div>');
     }
     if (/interface|claim|access|permission/i.test(error?.message || '')) {
         logRaw('<div class="notice notice-warning"><strong>Driver note:</strong><br>Close Odin, Smart Switch, Kies, and other Samsung tools. On Windows, use a WinUSB-compatible driver only when the device is in Download Mode. On Linux, a udev rule or permission adjustment may be required.</div>');
@@ -231,18 +236,18 @@ export async function readDownloadInfo() {
     setStatus('Opening Samsung Download Mode…');
 
     try {
-        context = await openDownloadSessionWithRetry();
-        const deviceType = await requestDeviceType(context.device, context.endpoints);
-        logDownloadDevice(context.device, context.endpoints, context.session, deviceType);
+        await closeActiveUsbDevice();
+        context = await openOdinSession();
+        logDownloadDevice(context);
+        const opened = context;
+        context = null;
+        await closeFlashOdinSession(opened, false);
         setStatus('Samsung Download ready', 'connected');
     } catch (error) {
         logDownloadError(error);
         setStatus('Samsung Download error', 'error');
     } finally {
-        if (context) {
-            context.endSession = (reboot = false) => endSession(context.device, context.endpoints, reboot);
-        }
-        await closeDownloadSession(context, false);
+        if (context) await disposeOdinSession(context).catch(() => {});
     }
 }
 
@@ -251,20 +256,24 @@ export async function odinReboot() {
     setStatus('Preparing Samsung reboot…');
 
     try {
-        context = await openDownloadSessionWithRetry();
+        await closeActiveUsbDevice();
+        context = await openOdinSession({ readPit: false });
         logRaw('<div class="log-divider"></div>');
         logRaw('<span class="color-blue"><strong>Samsung Download reboot</strong></span>');
-        await endSession(context.device, context.endpoints, true);
-        logRaw('<span class="color-green">Reboot request accepted by the Samsung Download session.</span>');
+        const opened = context;
+        context = null;
+        const reboot = await closeFlashOdinSession(opened, true);
+        if (reboot?.rebootResponseReceived) {
+            logRaw('<span class="color-green">Odin reboot request acknowledged. The USB device may disconnect as the phone restarts.</span>');
+        } else if (reboot?.rebootSent) {
+            logRaw('<span class="color-yellow">Odin reboot command was written, but the phone disconnected before its response; restart could not be independently confirmed.</span>');
+        }
         setStatus('Samsung reboot sent', 'connected');
     } catch (error) {
         logDownloadError(error);
         setStatus('Samsung reboot error', 'error');
     } finally {
-        if (context) {
-            context.endSession = () => Promise.resolve();
-        }
-        await closeDownloadSession(context, false);
+        if (context) await disposeOdinSession(context).catch(() => {});
     }
 }
 
